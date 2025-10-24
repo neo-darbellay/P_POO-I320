@@ -1,5 +1,6 @@
 using ShootMeUp.Model;
 using System.Drawing;
+using System.Runtime.InteropServices;
 
 namespace ShootMeUp
 {
@@ -19,6 +20,21 @@ namespace ShootMeUp
         public static readonly int HEIGHT = 608;
 
         /// <summary>
+        /// The game's speed multiplier (movement, 
+        /// </summary>
+        public static readonly int GAMESPEED = 3;
+
+        /// <summary>
+        /// Any character's height and length
+        /// </summary>
+        public static readonly int CHARACTER_SIZE = 32;
+
+        /// <summary>
+        /// The player's max hp
+        /// </summary>
+        public static readonly int PLAYER_MAXHP = 5;
+
+        /// <summary>
         /// The player
         /// </summary>
         private Character _player;
@@ -29,24 +45,19 @@ namespace ShootMeUp
         private List<Keys> _lst_keysHeldDown;
 
         /// <summary>
-        /// The list of projectiles currently in the game
-        /// </summary>
-        private List<Projectile> _lst_projectiles;
-
-        /// <summary>
         /// A character handler to store every character
         /// </summary>
         private CharacterHandler _characterHandler;
-        
+
         /// <summary>
         /// A collision handler to create obstacles
         /// </summary>
         private CollisionHandler _collisionHandler;
 
         /// <summary>
-        /// The game's speed multiplier (movement, 
+        /// A projectile handler to store every projectile
         /// </summary>
-        public static readonly int GAMESPEED = 2;
+        private ProjectileHandler _projectileHandler;
 
         /// <summary>
         /// The player's score
@@ -72,29 +83,29 @@ namespace ShootMeUp
             InitializeComponent();
             ClientSize = new Size(WIDTH, HEIGHT);
 
-
             // Gets a reference to the current BufferedGraphicsContext
             currentContext = BufferedGraphicsManager.Current;
 
             // Creates a BufferedGraphics instance associated with this form, and with
             // dimensions the same size as the drawing surface of the form.
             playspace = currentContext.Allocate(this.CreateGraphics(), this.DisplayRectangle);
-            _player = new Character(ShootMeUp.WIDTH / 2 - 16, ShootMeUp.HEIGHT / 2 - 16, 32, 32, "player", 3);
+            _player = new Character(ShootMeUp.WIDTH / 2 - 16, ShootMeUp.HEIGHT / 2 - 16, CHARACTER_SIZE, CHARACTER_SIZE, "player", PLAYER_MAXHP, 1f, GAMESPEED);
 
             // Create a new list of keys held down
             _lst_keysHeldDown = new List<Keys>();
 
-            // Create a new list of projectiles
-            _lst_projectiles = new List<Projectile>();
-
-            // Create a new CharacterHandler and COllisionHandler
+            // Create a new CharacterHandler, CollisionHandler and ProjectileHandler
             _characterHandler = new CharacterHandler();
             _collisionHandler = new CollisionHandler();
+            _projectileHandler = new ProjectileHandler();
 
             // Reset the game
             _characterHandler.RemoveAllCharacters();
             _collisionHandler.RemoveAllObstacles();
             Score = 0;
+
+            // Add the player to the character handler
+            _characterHandler.AddCharacter(_player);
 
             // Define the play area size in increments of 32
             int intBorderSize = 16;
@@ -117,11 +128,17 @@ namespace ShootMeUp
             }
 
 
+            ////////////////// TESTING //////////////////
+
+            Enemy TESTENEMY = new Enemy(ShootMeUp.WIDTH - 256, ShootMeUp.HEIGHT - 256, CHARACTER_SIZE, CHARACTER_SIZE, "zombie", 3, 0.75f, GAMESPEED);
+            Enemy TESTENEMY2 = new Enemy(ShootMeUp.WIDTH - 256, ShootMeUp.HEIGHT - 256, CHARACTER_SIZE, CHARACTER_SIZE, "skeleton", 3, 0.75f, GAMESPEED, true, "arrow");
+            _characterHandler.AddCharacter(TESTENEMY);
+            _characterHandler.AddCharacter(TESTENEMY2);
 
             // Create two new temporary obstacles
-            Obstacle TEST1 = new Obstacle(150, 100, 32, 32, 0, "default");
-            Obstacle TEST2 = new Obstacle(150, 250, 32, 32, 5, "default");
-            Obstacle TEST3 = new Obstacle(150, 400, 32, 32, 3, "default");
+            Obstacle TEST1 = new Obstacle(150, 100, CHARACTER_SIZE, CHARACTER_SIZE, 0, "default");
+            Obstacle TEST2 = new Obstacle(150, 250, CHARACTER_SIZE, CHARACTER_SIZE, 5, "default");
+            Obstacle TEST3 = new Obstacle(150, 400, CHARACTER_SIZE, CHARACTER_SIZE, 3, "default");
 
             _collisionHandler.AddObstacle(TEST1);
             _collisionHandler.AddObstacle(TEST2);
@@ -136,9 +153,7 @@ namespace ShootMeUp
         {
             playspace.Graphics.Clear(Color.FromArgb(217, 217, 217));
 
-            playspace.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(250, 231, 172)), new Rectangle(64, 64, 480, 480));
-
-            _player.Render(playspace);
+            playspace.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(250, 231, 172)), new Rectangle(32, 32, 544, 544));
 
             // Loop through all of the obstacles and render them
             foreach (Obstacle obstacle in _collisionHandler.Obstacles)
@@ -146,11 +161,25 @@ namespace ShootMeUp
                 obstacle.Render(playspace);
             }
 
-            // Render the projectiles
-            foreach (Projectile projectile in _lst_projectiles)
+            // Render all characters
+            foreach (Character character in _characterHandler.Characters)
+            {
+                if (character.Type == "player")
+                {
+                    continue;    
+                }
+
+                character.Render(playspace);
+            }
+
+            // Render the projectiles if they are active
+            foreach (Projectile projectile in _projectileHandler.Projectiles)
             {
                 projectile.Render(playspace);
             }
+
+            // Render the player
+            _player.Render(playspace);
 
             playspace.Render();
         }
@@ -158,6 +187,12 @@ namespace ShootMeUp
         // Calcul du nouvel état après que 'interval' millisecondes se sont écoulées
         private void Update(int interval)
         {
+            // Remove any inactive projectiles/characters/obstacles
+            _projectileHandler.Projectiles.RemoveAll(projectile => !projectile.Active);
+            _characterHandler.Characters.RemoveAll(character => character.Lives <= 0);
+            _collisionHandler.Obstacles.RemoveAll(obstacle => obstacle.Health <= 0);
+
+
             // Create movement-related boolean variables
             bool blnLeftHeld = _lst_keysHeldDown.Contains(Keys.A) || _lst_keysHeldDown.Contains(Keys.Left);
             bool blnRightHeld = _lst_keysHeldDown.Contains(Keys.D) || _lst_keysHeldDown.Contains(Keys.Right);
@@ -200,10 +235,43 @@ namespace ShootMeUp
             _player.Update();
 
             // Update the projectiles
-            foreach (Projectile projectile in _lst_projectiles)
+            foreach (Projectile projectile in _projectileHandler.Projectiles)
             {
                 projectile.Update();
             }
+
+            // Update the enemies
+            foreach (Character enemy in _characterHandler.Characters)
+            {
+                if (enemy.Type != "player")
+                {
+                    MoveEnemy(enemy);
+                    enemy.Update();
+                }
+            }
+        }
+
+        private void MoveEnemy(Character enemy)
+        {
+            // Calculate direction to target
+            float deltaX = _player.FloatX - enemy.FloatX;
+            float deltaY = _player.FloatY - enemy.FloatY;
+
+            // Normalize direction
+            float length = (float)Math.Sqrt(deltaX * deltaX + deltaY * deltaY);
+
+            // Divide the delta positions by the length if it isn't equal to 0
+            if (length != 0)
+            {
+                deltaX /= length;
+                deltaY /= length;
+            }
+
+            // Multiply the movement variables to match the game speed
+            deltaX *= GAMESPEED;
+            deltaY *= GAMESPEED;
+
+            enemy.Move(deltaX, deltaY);
         }
 
         // Méthode appelée à chaque frame
@@ -215,14 +283,8 @@ namespace ShootMeUp
 
         private void ShootMeUp_KeyDown(object sender, KeyEventArgs e)
         {
-            // If the given key is f (shoot), trigger the player's shoot method with an arrow
-            if (e.KeyCode == Keys.F)
-            {
-                
-            }
-
             // Add the key to the list if it's not already in there
-            else if (!_lst_keysHeldDown.Contains(e.KeyCode))
+            if (!_lst_keysHeldDown.Contains(e.KeyCode))
             {
                 _lst_keysHeldDown.Add(e.KeyCode);
             }
@@ -253,11 +315,11 @@ namespace ShootMeUp
                 strType = "fireball";
 
             // Shoot an arrow using the player's shoot method and add it to the projetile list
-            Projectile? possibleProjectile = _player.Shoot(this.PointToClient(Cursor.Position), strType);
+            Projectile? possibleProjectile = _player.Shoot(this.PointToClient(Cursor.Position), strType, GAMESPEED);
 
             if (possibleProjectile != null)
             {
-                _lst_projectiles.Add(possibleProjectile);
+                _projectileHandler.Projectiles.Add(possibleProjectile);
             }
         }
     }

@@ -1,0 +1,221 @@
+﻿using ShootMeUp.Helpers;
+using ShootMeUp.Properties;
+using System.Numerics;
+
+namespace ShootMeUp.Model
+{
+    /// <summary>
+    /// The enemy class, with more attributes than the regular character
+    /// </summary>
+    public class Enemy : Character
+    {
+        /// <summary>
+        /// A reference to the GAMESPEED readonly variable
+        /// </summary>
+        private int _GAMESPEED;
+
+        /// <summary>
+        /// Whether or not the enemy can shoot
+        /// </summary>
+        private bool _blnShoots;
+
+        /// <summary>
+        /// The enemy's projectile type
+        /// </summary>
+        private string _strProjectileType;
+
+        /// <summary>
+        /// The time until the enemy's next update
+        /// </summary>
+        private DateTime _nextUpdateTime = DateTime.MinValue;
+
+        /// <summary>
+        /// How long the cooldown lasts after damaging a player
+        /// </summary>
+        private readonly TimeSpan DamageCooldown = TimeSpan.FromSeconds(5);
+
+        /// <summary>
+        /// A player handler to check for collisions
+        /// </summary>
+        public CharacterHandler _characterHandler;
+
+        /// <summary>
+        /// A projectile handler to store every projectile
+        /// </summary>
+        private ProjectileHandler _projectileHandler;
+
+        /// <summary>
+        /// The shooting enemy's constructor
+        /// </summary>
+        /// <param name="x">Its starting X position</param>
+        /// <param name="y">Its starting Y position</param>
+        /// <param name="length">The length of the character</param>
+        /// <param name="height">The height of the character</param>
+        /// <param name="strType">The character's type (player, zombie, skeleton, ...)</param>
+        /// <param name="intHealth">The character's HP / lives</param>
+        /// <param name="fltBaseSpeed">The base character speed</param>
+        /// <param name="GAMESPEED">The game's speed</param>
+        public Enemy(int x, int y, int length, int height, string strType, int intHealth, float fltBaseSpeed, int GAMESPEED) : base(x, y, length, height, strType, intHealth, fltBaseSpeed, GAMESPEED)
+        {
+            _GAMESPEED = GAMESPEED;
+
+            _blnShoots = false;
+            _strProjectileType = "";
+
+            _characterHandler = new CharacterHandler();
+            _projectileHandler = new ProjectileHandler();
+            DamageCooldown = TimeSpan.FromSeconds(DamageCooldown.TotalSeconds / GAMESPEED);
+        }
+
+        /// <summary>
+        /// The shooting enemy's constructor
+        /// </summary>
+        /// <param name="x">Its starting X position</param>
+        /// <param name="y">Its starting Y position</param>
+        /// <param name="length">The length of the character</param>
+        /// <param name="height">The height of the character</param>
+        /// <param name="strType">The character's type (player, zombie, skeleton, ...)</param>
+        /// <param name="intHealth">The character's HP / lives</param>
+        /// <param name="fltBaseSpeed">The base character speed</param>
+        /// <param name="GAMESPEED">The game's speed</param>
+        /// <param name="blnShoots">Whether or not the enemy shoots</param>
+        /// <param name="strProjectileType">The projectile's type</param>
+        public Enemy(int x, int y, int length, int height, string strType, int intHealth, float fltBaseSpeed, int GAMESPEED, bool blnShoots, string strProjectileType) : base(x, y, length, height, strType, intHealth, -fltBaseSpeed, GAMESPEED)
+        {
+            _GAMESPEED = GAMESPEED;
+
+            _blnShoots = blnShoots;
+            _strProjectileType = strProjectileType;
+
+            _characterHandler = new CharacterHandler();
+            _projectileHandler = new ProjectileHandler();
+            DamageCooldown = TimeSpan.FromSeconds(DamageCooldown.TotalSeconds / GAMESPEED);
+
+            ArrowCooldown = TimeSpan.FromSeconds(2);
+            FireballCooldown = TimeSpan.FromSeconds(5);
+        }
+
+        /// <summary>
+        /// Update the enemy's position
+        /// </summary>
+        override public void Update()
+        {
+            // Skip the update if the enemy is on damage cooldown
+            if (DateTime.Now < _nextUpdateTime && !_blnShoots)
+                return;
+
+            // Add the base class' update
+            base.Update();
+
+            // Only deal contact damage if the enemy isn't a shooter
+            if (!_blnShoots)
+            {
+                // Get the current CFrame
+                CFrame currentCFrame = (CFrame)this;
+
+                // Get the character or obstacle in front of the enemy
+                Character? characterHit = _characterHandler.GetCollidingCharacter(currentCFrame, _fltXSpeed, _fltYSpeed, this, "player");
+                Obstacle? obstacleHit = _colCollisionHandler.GetCollidingObject(currentCFrame, _fltXSpeed, _fltYSpeed);
+
+                // Set the cooldown to the next update if there's anything in front of the enemy
+                if (characterHit != null || (obstacleHit != null && !obstacleHit.Invincible))
+                {
+                    // Set the cooldown to the next update
+                    _nextUpdateTime = DateTime.Now + DamageCooldown;
+                }
+
+                // Deal damage to the player or the obstacle in front of the enemy
+                if (characterHit != null)
+                {
+                    // Damage the player
+                    DamagePlayer(characterHit);
+
+                }
+                else if (obstacleHit != null && !obstacleHit.Invincible)
+                {
+                    DamageObstacle(obstacleHit);
+
+                    // Set the cooldown to the next update
+                    _nextUpdateTime = DateTime.Now + DamageCooldown;
+                }
+            }
+            else
+            {
+                // Skip the update if the enemy is on damage cooldown
+                if ((_strProjectileType == "arrow" && DateTime.Now - _lastArrowShotTime < ArrowCooldown) || (_strProjectileType == "fireball" && DateTime.Now - _lastFireballShotTime < FireballCooldown))
+                    return;
+
+                // Get the player
+                Character? player = _characterHandler.Characters.Find(character => character.Type == "player");
+
+                // Stop trying to shoot if the player doesn't exist
+                if (player == null)
+                    return;
+
+                // Shoot an arrow using the enemy's shoot method and add it to the projetile list
+                Projectile? possibleProjectile = Shoot(new Point(player.X, player.Y), _strProjectileType, _GAMESPEED);
+                //
+                if (possibleProjectile != null)
+                {
+                    _projectileHandler.Projectiles.Add(possibleProjectile);
+
+                    // Record the shot time
+                    if (_strProjectileType == "arrow")
+                        _lastArrowShotTime = DateTime.Now;
+                    else if (_strProjectileType == "fireball")
+                        _lastFireballShotTime = DateTime.Now;
+                }
+            }
+        }
+        override public Projectile? Shoot(Point clientPos, string strType, int GAMESPEED)
+        {
+            // Store the current time
+            DateTime now = DateTime.Now;
+
+            // Shoot an arrow from the player's position to the cursor's position if they are alive
+            if (Lives > 0)
+            {
+                // Create variables used for the projectile's generation
+                float fltProjectileX = FloatX;
+                float fltProjectileY = FloatY;
+
+                int intTargetX = clientPos.X;
+                int intTargetY = clientPos.Y;
+
+                int intProjectileLength = length;
+                int intProjectileHeight = height;
+
+                // Get the enemy's center
+                float fltEnemyCenterX = FloatX + (length / 2f);
+                float fltEnemyCenterY = FloatY + (height / 2f);
+
+                // The projectile should start centered on the enemy
+                fltProjectileX = fltEnemyCenterX - (intProjectileLength / 2f);
+                fltProjectileY = fltEnemyCenterY - (intProjectileHeight / 2f);
+
+                // Send the corresponding projectile if the enemy is allowed to
+                return new Projectile(strType, fltProjectileX, fltProjectileY, intProjectileLength, intProjectileHeight, this, intTargetX, intTargetY, GAMESPEED);
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Damages the player
+        /// </summary>
+        /// <param name="player">The player</param>
+        public void DamagePlayer(Character player)
+        {
+            player.Lives -= 1;
+        }
+
+        /// <summary>
+        /// Damage an obstacle
+        /// </summary>
+        /// <param name="obstacle">The obstacle</param>
+        public void DamageObstacle(Obstacle obstacle)
+        {
+            obstacle.Health -= 1;
+        }
+    }
+}

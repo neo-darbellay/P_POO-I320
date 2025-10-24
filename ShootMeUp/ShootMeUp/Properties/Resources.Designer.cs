@@ -133,6 +133,16 @@ namespace ShootMeUp.Properties {
         /// <summary>
         ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap SkeletonToken {
+            get {
+                object obj = ResourceManager.GetObject("SkeletonToken", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap ZombieToken {
             get {
                 object obj = ResourceManager.GetObject("ZombieToken", resourceCulture);

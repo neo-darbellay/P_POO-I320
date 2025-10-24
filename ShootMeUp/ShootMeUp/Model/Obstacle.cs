@@ -42,6 +42,14 @@ namespace ShootMeUp.Model
             set { _intHealth = value; }
         }
 
+        /// <summary>
+        /// Whether the obstacle is invincible or not
+        /// </summary>
+        public bool Invincible
+        {
+            get { return _blnInvincible; }
+        }
+
 
         public Obstacle(int x, int y, int intLength, int intHeight, int intHealth, string strType) : base(x, y, intLength, intHeight)
         {
@@ -66,22 +74,22 @@ namespace ShootMeUp.Model
             {
                 if (_blnInvincible)
                 {
-                    drawingSpace.Graphics.DrawImage(Resources.ObstacleUnbreakable, X, Y, length, height);
+                    drawingSpace.Graphics.DrawImage(Resources.ObstacleUnbreakable, FloatX, FloatY, length, height);
                 }
                 else if (_intMaxHealth >= 5)
                 {
-                    drawingSpace.Graphics.DrawImage(Resources.ObstacleStrong, X, Y, length, height);
+                    drawingSpace.Graphics.DrawImage(Resources.ObstacleStrong, FloatX, FloatY, length, height);
                 }
                 else
                 {
-                    drawingSpace.Graphics.DrawImage(Resources.ObstacleWeak, X, Y, length, height);
+                    drawingSpace.Graphics.DrawImage(Resources.ObstacleWeak, FloatX, FloatY, length, height);
                 }
 
-                drawingSpace.Graphics.DrawString($"{this}", TextHelpers.drawFont, TextHelpers.writingBrush, X, Y - 25);
+                drawingSpace.Graphics.DrawString($"{this}", TextHelpers.drawFont, TextHelpers.writingBrush, FloatX, FloatY - 25);
             }
             else if (_strType == "border")
             {
-                drawingSpace.Graphics.DrawImage(Resources.ObstacleBorder, X, Y, length, height);
+                drawingSpace.Graphics.DrawImage(Resources.ObstacleBorder, FloatX, FloatY, length, height);
                 _intHealth = int.MaxValue;
             }
 
@@ -91,7 +99,7 @@ namespace ShootMeUp.Model
         {
             if (_blnInvincible)
             {
-                return "Invincible";
+                return "";
             }
 
             return $"{((int)((double)_intHealth)).ToString()}HP";

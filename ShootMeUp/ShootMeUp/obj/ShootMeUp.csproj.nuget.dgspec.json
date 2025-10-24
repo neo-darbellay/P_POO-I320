@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "E:\\01Modules\\02Deuxieme_Annee\\Trimestre_1\\I320\\P_POO\\ShootMeUp\\ShootMeUp\\ShootMeUp.csproj": {}
+    "E:\\01Modules\\02Deuxieme_Annee\\Trimestre_1\\I320\\P_POO\\GitHub\\Vacances\\P_POO-I320\\ShootMeUp\\ShootMeUp\\ShootMeUp.csproj": {}
   },
   "projects": {
-    "E:\\01Modules\\02Deuxieme_Annee\\Trimestre_1\\I320\\P_POO\\ShootMeUp\\ShootMeUp\\ShootMeUp.csproj": {
+    "E:\\01Modules\\02Deuxieme_Annee\\Trimestre_1\\I320\\P_POO\\GitHub\\Vacances\\P_POO-I320\\ShootMeUp\\ShootMeUp\\ShootMeUp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\01Modules\\02Deuxieme_Annee\\Trimestre_1\\I320\\P_POO\\ShootMeUp\\ShootMeUp\\ShootMeUp.csproj",
+        "projectUniqueName": "E:\\01Modules\\02Deuxieme_Annee\\Trimestre_1\\I320\\P_POO\\GitHub\\Vacances\\P_POO-I320\\ShootMeUp\\ShootMeUp\\ShootMeUp.csproj",
         "projectName": "ShootMeUp",
-        "projectPath": "E:\\01Modules\\02Deuxieme_Annee\\Trimestre_1\\I320\\P_POO\\ShootMeUp\\ShootMeUp\\ShootMeUp.csproj",
-        "packagesPath": "C:\\Users\\pb62kjx\\.nuget\\packages\\",
-        "outputPath": "E:\\01Modules\\02Deuxieme_Annee\\Trimestre_1\\I320\\P_POO\\ShootMeUp\\ShootMeUp\\obj\\",
+        "projectPath": "E:\\01Modules\\02Deuxieme_Annee\\Trimestre_1\\I320\\P_POO\\GitHub\\Vacances\\P_POO-I320\\ShootMeUp\\ShootMeUp\\ShootMeUp.csproj",
+        "packagesPath": "C:\\Users\\neoda\\.nuget\\packages\\",
+        "outputPath": "E:\\01Modules\\02Deuxieme_Annee\\Trimestre_1\\I320\\P_POO\\GitHub\\Vacances\\P_POO-I320\\ShootMeUp\\ShootMeUp\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\pb62kjx\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\neoda\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -60,6 +60,24 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[6.0.36, 6.0.36]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Host.win-x64",
+              "version": "[6.0.36, 6.0.36]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[6.0.36, 6.0.36]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[6.0.36, 6.0.36]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
@@ -68,7 +86,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.304\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.306\\RuntimeIdentifierGraph.json"
         }
       }
     }

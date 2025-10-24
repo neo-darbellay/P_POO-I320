@@ -1,46 +1,58 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "E:\\01Modules\\02Deuxieme_Annee\\Trimestre_1\\I320\\P_POO\\ShootMeUp\\",
+  "WorkspaceRootPath": "E:\\01Modules\\02Deuxieme_Annee\\Trimestre_1\\I320\\P_POO\\GitHub\\Vacances\\P_POO-I320\\ShootMeUp\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{2EEE1A5F-56B1-463B-A464-11E112253F45}|ShootMeUp\\ShootMeUp.csproj|e:\\01modules\\02deuxieme_annee\\trimestre_1\\i320\\p_poo\\shootmeup\\shootmeup\\model\\character.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{2EEE1A5F-56B1-463B-A464-11E112253F45}|ShootMeUp\\ShootMeUp.csproj|e:\\01modules\\02deuxieme_annee\\trimestre_1\\i320\\p_poo\\github\\vacances\\p_poo-i320\\shootmeup\\shootmeup\\model\\character.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2EEE1A5F-56B1-463B-A464-11E112253F45}|ShootMeUp\\ShootMeUp.csproj|solutionrelative:shootmeup\\model\\character.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2EEE1A5F-56B1-463B-A464-11E112253F45}|ShootMeUp\\ShootMeUp.csproj|e:\\01modules\\02deuxieme_annee\\trimestre_1\\i320\\p_poo\\shootmeup\\shootmeup\\model\\collisionhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2EEE1A5F-56B1-463B-A464-11E112253F45}|ShootMeUp\\ShootMeUp.csproj|solutionrelative:shootmeup\\model\\collisionhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{2EEE1A5F-56B1-463B-A464-11E112253F45}|ShootMeUp\\ShootMeUp.csproj|e:\\01modules\\02deuxieme_annee\\trimestre_1\\i320\\p_poo\\github\\vacances\\p_poo-i320\\shootmeup\\shootmeup\\model\\enemy.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2EEE1A5F-56B1-463B-A464-11E112253F45}|ShootMeUp\\ShootMeUp.csproj|solutionrelative:shootmeup\\model\\enemy.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2EEE1A5F-56B1-463B-A464-11E112253F45}|ShootMeUp\\ShootMeUp.csproj|e:\\01modules\\02deuxieme_annee\\trimestre_1\\i320\\p_poo\\shootmeup\\shootmeup\\model\\characterhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2EEE1A5F-56B1-463B-A464-11E112253F45}|ShootMeUp\\ShootMeUp.csproj|solutionrelative:shootmeup\\model\\characterhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2EEE1A5F-56B1-463B-A464-11E112253F45}|ShootMeUp\\ShootMeUp.csproj|E:\\01Modules\\02Deuxieme_Annee\\Trimestre_1\\I320\\P_POO\\ShootMeUp\\shootmeup\\view\\shootmeup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{2EEE1A5F-56B1-463B-A464-11E112253F45}|ShootMeUp\\ShootMeUp.csproj|solutionrelative:shootmeup\\view\\shootmeup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2EEE1A5F-56B1-463B-A464-11E112253F45}|ShootMeUp\\ShootMeUp.csproj|e:\\01modules\\02deuxieme_annee\\trimestre_1\\i320\\p_poo\\shootmeup\\shootmeup\\model\\projectile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2EEE1A5F-56B1-463B-A464-11E112253F45}|ShootMeUp\\ShootMeUp.csproj|solutionrelative:shootmeup\\model\\projectile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2EEE1A5F-56B1-463B-A464-11E112253F45}|ShootMeUp\\ShootMeUp.csproj|e:\\01modules\\02deuxieme_annee\\trimestre_1\\i320\\p_poo\\shootmeup\\shootmeup\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2EEE1A5F-56B1-463B-A464-11E112253F45}|ShootMeUp\\ShootMeUp.csproj|solutionrelative:shootmeup\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2EEE1A5F-56B1-463B-A464-11E112253F45}|ShootMeUp\\ShootMeUp.csproj|e:\\01modules\\02deuxieme_annee\\trimestre_1\\i320\\p_poo\\shootmeup\\shootmeup\\view\\shootmeup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{2EEE1A5F-56B1-463B-A464-11E112253F45}|ShootMeUp\\ShootMeUp.csproj|e:\\01modules\\02deuxieme_annee\\trimestre_1\\i320\\p_poo\\github\\vacances\\p_poo-i320\\shootmeup\\shootmeup\\view\\shootmeup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2EEE1A5F-56B1-463B-A464-11E112253F45}|ShootMeUp\\ShootMeUp.csproj|solutionrelative:shootmeup\\view\\shootmeup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2EEE1A5F-56B1-463B-A464-11E112253F45}|ShootMeUp\\ShootMeUp.csproj|e:\\01modules\\02deuxieme_annee\\trimestre_1\\i320\\p_poo\\shootmeup\\shootmeup\\properties\\resources.resx||{81828910-B8B3-4D2B-99A3-067027C180C1}",
-      "RelativeMoniker": "D:0:0:{2EEE1A5F-56B1-463B-A464-11E112253F45}|ShootMeUp\\ShootMeUp.csproj|solutionrelative:shootmeup\\properties\\resources.resx||{81828910-B8B3-4D2B-99A3-067027C180C1}"
+      "AbsoluteMoniker": "D:0:0:{2EEE1A5F-56B1-463B-A464-11E112253F45}|ShootMeUp\\ShootMeUp.csproj|e:\\01modules\\02deuxieme_annee\\trimestre_1\\i320\\p_poo\\github\\vacances\\p_poo-i320\\shootmeup\\shootmeup\\model\\collisionhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2EEE1A5F-56B1-463B-A464-11E112253F45}|ShootMeUp\\ShootMeUp.csproj|solutionrelative:shootmeup\\model\\collisionhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2EEE1A5F-56B1-463B-A464-11E112253F45}|ShootMeUp\\ShootMeUp.csproj|e:\\01modules\\02deuxieme_annee\\trimestre_1\\i320\\p_poo\\shootmeup\\shootmeup\\model\\obstacle.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{2EEE1A5F-56B1-463B-A464-11E112253F45}|ShootMeUp\\ShootMeUp.csproj|E:\\01Modules\\02Deuxieme_Annee\\Trimestre_1\\I320\\P_POO\\GitHub\\Vacances\\P_POO-I320\\ShootMeUp\\shootmeup\\view\\shootmeup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{2EEE1A5F-56B1-463B-A464-11E112253F45}|ShootMeUp\\ShootMeUp.csproj|solutionrelative:shootmeup\\view\\shootmeup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2EEE1A5F-56B1-463B-A464-11E112253F45}|ShootMeUp\\ShootMeUp.csproj|e:\\01modules\\02deuxieme_annee\\trimestre_1\\i320\\p_poo\\github\\vacances\\p_poo-i320\\shootmeup\\shootmeup\\model\\projectile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2EEE1A5F-56B1-463B-A464-11E112253F45}|ShootMeUp\\ShootMeUp.csproj|solutionrelative:shootmeup\\model\\projectile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2EEE1A5F-56B1-463B-A464-11E112253F45}|ShootMeUp\\ShootMeUp.csproj|e:\\01modules\\02deuxieme_annee\\trimestre_1\\i320\\p_poo\\github\\vacances\\p_poo-i320\\shootmeup\\shootmeup\\model\\projectilehandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2EEE1A5F-56B1-463B-A464-11E112253F45}|ShootMeUp\\ShootMeUp.csproj|solutionrelative:shootmeup\\model\\projectilehandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2EEE1A5F-56B1-463B-A464-11E112253F45}|ShootMeUp\\ShootMeUp.csproj|e:\\01modules\\02deuxieme_annee\\trimestre_1\\i320\\p_poo\\github\\vacances\\p_poo-i320\\shootmeup\\shootmeup\\model\\obstacle.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2EEE1A5F-56B1-463B-A464-11E112253F45}|ShootMeUp\\ShootMeUp.csproj|solutionrelative:shootmeup\\model\\obstacle.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2EEE1A5F-56B1-463B-A464-11E112253F45}|ShootMeUp\\ShootMeUp.csproj|e:\\01modules\\02deuxieme_annee\\trimestre_1\\i320\\p_poo\\shootmeup\\shootmeup\\model\\cframe.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{2EEE1A5F-56B1-463B-A464-11E112253F45}|ShootMeUp\\ShootMeUp.csproj|e:\\01modules\\02deuxieme_annee\\trimestre_1\\i320\\p_poo\\github\\vacances\\p_poo-i320\\shootmeup\\shootmeup\\model\\handler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2EEE1A5F-56B1-463B-A464-11E112253F45}|ShootMeUp\\ShootMeUp.csproj|solutionrelative:shootmeup\\model\\handler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2EEE1A5F-56B1-463B-A464-11E112253F45}|ShootMeUp\\ShootMeUp.csproj|e:\\01modules\\02deuxieme_annee\\trimestre_1\\i320\\p_poo\\github\\vacances\\p_poo-i320\\shootmeup\\shootmeup\\model\\characterhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2EEE1A5F-56B1-463B-A464-11E112253F45}|ShootMeUp\\ShootMeUp.csproj|solutionrelative:shootmeup\\model\\characterhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2EEE1A5F-56B1-463B-A464-11E112253F45}|ShootMeUp\\ShootMeUp.csproj|e:\\01modules\\02deuxieme_annee\\trimestre_1\\i320\\p_poo\\github\\vacances\\p_poo-i320\\shootmeup\\shootmeup\\model\\cframe.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2EEE1A5F-56B1-463B-A464-11E112253F45}|ShootMeUp\\ShootMeUp.csproj|solutionrelative:shootmeup\\model\\cframe.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2EEE1A5F-56B1-463B-A464-11E112253F45}|ShootMeUp\\ShootMeUp.csproj|e:\\01modules\\02deuxieme_annee\\trimestre_1\\i320\\p_poo\\github\\vacances\\p_poo-i320\\shootmeup\\shootmeup\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2EEE1A5F-56B1-463B-A464-11E112253F45}|ShootMeUp\\ShootMeUp.csproj|solutionrelative:shootmeup\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2EEE1A5F-56B1-463B-A464-11E112253F45}|ShootMeUp\\ShootMeUp.csproj|e:\\01modules\\02deuxieme_annee\\trimestre_1\\i320\\p_poo\\github\\vacances\\p_poo-i320\\shootmeup\\shootmeup\\properties\\resources.resx||{81828910-B8B3-4D2B-99A3-067027C180C1}",
+      "RelativeMoniker": "D:0:0:{2EEE1A5F-56B1-463B-A464-11E112253F45}|ShootMeUp\\ShootMeUp.csproj|solutionrelative:shootmeup\\properties\\resources.resx||{81828910-B8B3-4D2B-99A3-067027C180C1}"
     }
   ],
   "DocumentGroupContainers": [
@@ -50,45 +62,80 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 2,
           "Children": [
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{6324226f-61b6-4f28-92ee-18d4b5fe1e48}"
-            },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "CharacterHandler.cs",
-              "DocumentMoniker": "E:\\01Modules\\02Deuxieme_Annee\\Trimestre_1\\I320\\P_POO\\ShootMeUp\\ShootMeUp\\Model\\CharacterHandler.cs",
-              "RelativeDocumentMoniker": "ShootMeUp\\Model\\CharacterHandler.cs",
-              "ToolTip": "E:\\01Modules\\02Deuxieme_Annee\\Trimestre_1\\I320\\P_POO\\ShootMeUp\\ShootMeUp\\Model\\CharacterHandler.cs",
-              "RelativeToolTip": "ShootMeUp\\Model\\CharacterHandler.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAADAAAAAqAAAAAAAAAA==",
+              "Title": "ShootMeUp.cs",
+              "DocumentMoniker": "E:\\01Modules\\02Deuxieme_Annee\\Trimestre_1\\I320\\P_POO\\GitHub\\Vacances\\P_POO-I320\\ShootMeUp\\ShootMeUp\\View\\ShootMeUp.cs",
+              "RelativeDocumentMoniker": "ShootMeUp\\View\\ShootMeUp.cs",
+              "ToolTip": "E:\\01Modules\\02Deuxieme_Annee\\Trimestre_1\\I320\\P_POO\\GitHub\\Vacances\\P_POO-I320\\ShootMeUp\\ShootMeUp\\View\\ShootMeUp.cs",
+              "RelativeToolTip": "ShootMeUp\\View\\ShootMeUp.cs",
+              "ViewState": "AgIAAEkAAAAAAAAAAAAkwFMAAAAxAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-07T14:15:39.196Z",
+              "WhenOpened": "2025-10-24T19:46:57.339Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "CollisionHandler.cs",
-              "DocumentMoniker": "E:\\01Modules\\02Deuxieme_Annee\\Trimestre_1\\I320\\P_POO\\ShootMeUp\\ShootMeUp\\Model\\CollisionHandler.cs",
-              "RelativeDocumentMoniker": "ShootMeUp\\Model\\CollisionHandler.cs",
-              "ToolTip": "E:\\01Modules\\02Deuxieme_Annee\\Trimestre_1\\I320\\P_POO\\ShootMeUp\\ShootMeUp\\Model\\CollisionHandler.cs",
-              "RelativeToolTip": "ShootMeUp\\Model\\CollisionHandler.cs",
-              "ViewState": "AgIAAEIAAAAAAAAAAAAqwFsAAAAPAAAAAAAAAA==",
+              "Title": "Enemy.cs",
+              "DocumentMoniker": "E:\\01Modules\\02Deuxieme_Annee\\Trimestre_1\\I320\\P_POO\\GitHub\\Vacances\\P_POO-I320\\ShootMeUp\\ShootMeUp\\Model\\Enemy.cs",
+              "RelativeDocumentMoniker": "ShootMeUp\\Model\\Enemy.cs",
+              "ToolTip": "E:\\01Modules\\02Deuxieme_Annee\\Trimestre_1\\I320\\P_POO\\GitHub\\Vacances\\P_POO-I320\\ShootMeUp\\ShootMeUp\\Model\\Enemy.cs",
+              "RelativeToolTip": "ShootMeUp\\Model\\Enemy.cs",
+              "ViewState": "AgIAALEAAAAAAAAAAADwv70AAAA/AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-30T13:51:01.065Z",
+              "WhenOpened": "2025-10-24T19:27:23.609Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Character.cs",
+              "DocumentMoniker": "E:\\01Modules\\02Deuxieme_Annee\\Trimestre_1\\I320\\P_POO\\GitHub\\Vacances\\P_POO-I320\\ShootMeUp\\ShootMeUp\\Model\\Character.cs",
+              "RelativeDocumentMoniker": "ShootMeUp\\Model\\Character.cs",
+              "ToolTip": "E:\\01Modules\\02Deuxieme_Annee\\Trimestre_1\\I320\\P_POO\\GitHub\\Vacances\\P_POO-I320\\ShootMeUp\\ShootMeUp\\Model\\Character.cs",
+              "RelativeToolTip": "ShootMeUp\\Model\\Character.cs",
+              "ViewState": "AgIAAJEAAAAAAAAAAAAwwKAAAABDAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-24T19:27:21.792Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Projectile.cs",
+              "DocumentMoniker": "E:\\01Modules\\02Deuxieme_Annee\\Trimestre_1\\I320\\P_POO\\GitHub\\Vacances\\P_POO-I320\\ShootMeUp\\ShootMeUp\\Model\\Projectile.cs",
+              "RelativeDocumentMoniker": "ShootMeUp\\Model\\Projectile.cs",
+              "ToolTip": "E:\\01Modules\\02Deuxieme_Annee\\Trimestre_1\\I320\\P_POO\\GitHub\\Vacances\\P_POO-I320\\ShootMeUp\\ShootMeUp\\Model\\Projectile.cs",
+              "RelativeToolTip": "ShootMeUp\\Model\\Projectile.cs",
+              "ViewState": "AgIAAEwAAAAAAAAAAAAkwGMAAAAlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-07T11:50:08.783Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 7,
+              "Title": "Obstacle.cs",
+              "DocumentMoniker": "E:\\01Modules\\02Deuxieme_Annee\\Trimestre_1\\I320\\P_POO\\GitHub\\Vacances\\P_POO-I320\\ShootMeUp\\ShootMeUp\\Model\\Obstacle.cs",
+              "RelativeDocumentMoniker": "ShootMeUp\\Model\\Obstacle.cs",
+              "ToolTip": "E:\\01Modules\\02Deuxieme_Annee\\Trimestre_1\\I320\\P_POO\\GitHub\\Vacances\\P_POO-I320\\ShootMeUp\\ShootMeUp\\Model\\Obstacle.cs",
+              "RelativeToolTip": "ShootMeUp\\Model\\Obstacle.cs",
+              "ViewState": "AgIAACAAAAAAAAAAAAAAwDEAAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-30T13:41:26.545Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
               "Title": "Resources.resx",
-              "DocumentMoniker": "E:\\01Modules\\02Deuxieme_Annee\\Trimestre_1\\I320\\P_POO\\ShootMeUp\\ShootMeUp\\Properties\\Resources.resx",
+              "DocumentMoniker": "E:\\01Modules\\02Deuxieme_Annee\\Trimestre_1\\I320\\P_POO\\GitHub\\Vacances\\P_POO-I320\\ShootMeUp\\ShootMeUp\\Properties\\Resources.resx",
               "RelativeDocumentMoniker": "ShootMeUp\\Properties\\Resources.resx",
-              "ToolTip": "E:\\01Modules\\02Deuxieme_Annee\\Trimestre_1\\I320\\P_POO\\ShootMeUp\\ShootMeUp\\Properties\\Resources.resx",
+              "ToolTip": "E:\\01Modules\\02Deuxieme_Annee\\Trimestre_1\\I320\\P_POO\\GitHub\\Vacances\\P_POO-I320\\ShootMeUp\\ShootMeUp\\Properties\\Resources.resx",
               "RelativeToolTip": "ShootMeUp\\Properties\\Resources.resx",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001005|",
               "WhenOpened": "2025-10-06T08:55:52.673Z",
@@ -96,62 +143,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "Obstacle.cs",
-              "DocumentMoniker": "E:\\01Modules\\02Deuxieme_Annee\\Trimestre_1\\I320\\P_POO\\ShootMeUp\\ShootMeUp\\Model\\Obstacle.cs",
-              "RelativeDocumentMoniker": "ShootMeUp\\Model\\Obstacle.cs",
-              "ToolTip": "E:\\01Modules\\02Deuxieme_Annee\\Trimestre_1\\I320\\P_POO\\ShootMeUp\\ShootMeUp\\Model\\Obstacle.cs",
-              "RelativeToolTip": "ShootMeUp\\Model\\Obstacle.cs",
-              "ViewState": "AgIAAD8AAAAAAAAAAAAowEYAAAApAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-30T13:41:26.545Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Character.cs",
-              "DocumentMoniker": "E:\\01Modules\\02Deuxieme_Annee\\Trimestre_1\\I320\\P_POO\\ShootMeUp\\ShootMeUp\\Model\\Character.cs",
-              "RelativeDocumentMoniker": "ShootMeUp\\Model\\Character.cs",
-              "ToolTip": "E:\\01Modules\\02Deuxieme_Annee\\Trimestre_1\\I320\\P_POO\\ShootMeUp\\ShootMeUp\\Model\\Character.cs",
-              "RelativeToolTip": "ShootMeUp\\Model\\Character.cs",
-              "ViewState": "AgIAAG8AAAAAAAAAAAAmwIkAAAAxAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-30T12:33:50.655Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "Projectile.cs",
-              "DocumentMoniker": "E:\\01Modules\\02Deuxieme_Annee\\Trimestre_1\\I320\\P_POO\\ShootMeUp\\ShootMeUp\\Model\\Projectile.cs",
-              "RelativeDocumentMoniker": "ShootMeUp\\Model\\Projectile.cs",
-              "ToolTip": "E:\\01Modules\\02Deuxieme_Annee\\Trimestre_1\\I320\\P_POO\\ShootMeUp\\ShootMeUp\\Model\\Projectile.cs",
-              "RelativeToolTip": "ShootMeUp\\Model\\Projectile.cs",
-              "ViewState": "AgIAACkAAAAAAAAAAAAQwDkAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-07T11:50:08.783Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "ShootMeUp.cs",
-              "DocumentMoniker": "E:\\01Modules\\02Deuxieme_Annee\\Trimestre_1\\I320\\P_POO\\ShootMeUp\\ShootMeUp\\View\\ShootMeUp.cs",
-              "RelativeDocumentMoniker": "ShootMeUp\\View\\ShootMeUp.cs",
-              "ToolTip": "E:\\01Modules\\02Deuxieme_Annee\\Trimestre_1\\I320\\P_POO\\ShootMeUp\\ShootMeUp\\View\\ShootMeUp.cs",
-              "RelativeToolTip": "ShootMeUp\\View\\ShootMeUp.cs",
-              "ViewState": "AgIAADcAAAAAAAAAAAAQwFEAAABtAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-30T12:35:06.366Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
               "Title": "ShootMeUp.cs [Conception]",
-              "DocumentMoniker": "E:\\01Modules\\02Deuxieme_Annee\\Trimestre_1\\I320\\P_POO\\ShootMeUp\\ShootMeUp\\View\\ShootMeUp.cs",
+              "DocumentMoniker": "E:\\01Modules\\02Deuxieme_Annee\\Trimestre_1\\I320\\P_POO\\GitHub\\Vacances\\P_POO-I320\\ShootMeUp\\ShootMeUp\\View\\ShootMeUp.cs",
               "RelativeDocumentMoniker": "ShootMeUp\\View\\ShootMeUp.cs",
-              "ToolTip": "E:\\01Modules\\02Deuxieme_Annee\\Trimestre_1\\I320\\P_POO\\ShootMeUp\\ShootMeUp\\View\\ShootMeUp.cs [Conception]",
+              "ToolTip": "E:\\01Modules\\02Deuxieme_Annee\\Trimestre_1\\I320\\P_POO\\GitHub\\Vacances\\P_POO-I320\\ShootMeUp\\ShootMeUp\\View\\ShootMeUp.cs [Conception]",
               "RelativeToolTip": "ShootMeUp\\View\\ShootMeUp.cs [Conception]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-09-30T12:33:54.271Z",
@@ -159,28 +155,81 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "Program.cs",
-              "DocumentMoniker": "E:\\01Modules\\02Deuxieme_Annee\\Trimestre_1\\I320\\P_POO\\ShootMeUp\\ShootMeUp\\Program.cs",
-              "RelativeDocumentMoniker": "ShootMeUp\\Program.cs",
-              "ToolTip": "E:\\01Modules\\02Deuxieme_Annee\\Trimestre_1\\I320\\P_POO\\ShootMeUp\\ShootMeUp\\Program.cs",
-              "RelativeToolTip": "ShootMeUp\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAqAAAAAAAAAA==",
+              "DocumentIndex": 10,
+              "Title": "CFrame.cs",
+              "DocumentMoniker": "E:\\01Modules\\02Deuxieme_Annee\\Trimestre_1\\I320\\P_POO\\GitHub\\Vacances\\P_POO-I320\\ShootMeUp\\ShootMeUp\\Model\\CFrame.cs",
+              "RelativeDocumentMoniker": "ShootMeUp\\Model\\CFrame.cs",
+              "ToolTip": "E:\\01Modules\\02Deuxieme_Annee\\Trimestre_1\\I320\\P_POO\\GitHub\\Vacances\\P_POO-I320\\ShootMeUp\\ShootMeUp\\Model\\CFrame.cs",
+              "RelativeToolTip": "ShootMeUp\\Model\\CFrame.cs",
+              "ViewState": "AgIAAB8AAAAAAAAAAAAQwDAAAAAVAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-30T12:33:58.145Z",
+              "WhenOpened": "2025-09-30T14:20:38.335Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 9,
-              "Title": "CFrame.cs",
-              "DocumentMoniker": "E:\\01Modules\\02Deuxieme_Annee\\Trimestre_1\\I320\\P_POO\\ShootMeUp\\ShootMeUp\\Model\\CFrame.cs",
-              "RelativeDocumentMoniker": "ShootMeUp\\Model\\CFrame.cs",
-              "ToolTip": "E:\\01Modules\\02Deuxieme_Annee\\Trimestre_1\\I320\\P_POO\\ShootMeUp\\ShootMeUp\\Model\\CFrame.cs",
-              "RelativeToolTip": "ShootMeUp\\Model\\CFrame.cs",
-              "ViewState": "AgIAADgAAAAAAAAAAAAcwFQAAAAAAAAAAAAAAA==",
+              "Title": "CharacterHandler.cs",
+              "DocumentMoniker": "E:\\01Modules\\02Deuxieme_Annee\\Trimestre_1\\I320\\P_POO\\GitHub\\Vacances\\P_POO-I320\\ShootMeUp\\ShootMeUp\\Model\\CharacterHandler.cs",
+              "RelativeDocumentMoniker": "ShootMeUp\\Model\\CharacterHandler.cs",
+              "ToolTip": "E:\\01Modules\\02Deuxieme_Annee\\Trimestre_1\\I320\\P_POO\\GitHub\\Vacances\\P_POO-I320\\ShootMeUp\\ShootMeUp\\Model\\CharacterHandler.cs",
+              "RelativeToolTip": "ShootMeUp\\Model\\CharacterHandler.cs",
+              "ViewState": "AgIAAGcAAAAAAAAAAAAmwHQAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-30T14:20:38.335Z"
+              "WhenOpened": "2025-10-07T14:15:39.196Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "ProjectileHandler.cs",
+              "DocumentMoniker": "E:\\01Modules\\02Deuxieme_Annee\\Trimestre_1\\I320\\P_POO\\GitHub\\Vacances\\P_POO-I320\\ShootMeUp\\ShootMeUp\\Model\\ProjectileHandler.cs",
+              "RelativeDocumentMoniker": "ShootMeUp\\Model\\ProjectileHandler.cs",
+              "ToolTip": "E:\\01Modules\\02Deuxieme_Annee\\Trimestre_1\\I320\\P_POO\\GitHub\\Vacances\\P_POO-I320\\ShootMeUp\\ShootMeUp\\Model\\ProjectileHandler.cs",
+              "RelativeToolTip": "ShootMeUp\\Model\\ProjectileHandler.cs",
+              "ViewState": "AgIAABsAAAAAAAAAAAAYwCgAAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-24T18:49:51.397Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "CollisionHandler.cs",
+              "DocumentMoniker": "E:\\01Modules\\02Deuxieme_Annee\\Trimestre_1\\I320\\P_POO\\GitHub\\Vacances\\P_POO-I320\\ShootMeUp\\ShootMeUp\\Model\\CollisionHandler.cs",
+              "RelativeDocumentMoniker": "ShootMeUp\\Model\\CollisionHandler.cs",
+              "ToolTip": "E:\\01Modules\\02Deuxieme_Annee\\Trimestre_1\\I320\\P_POO\\GitHub\\Vacances\\P_POO-I320\\ShootMeUp\\ShootMeUp\\Model\\CollisionHandler.cs",
+              "RelativeToolTip": "ShootMeUp\\Model\\CollisionHandler.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAsAAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-30T13:51:01.065Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Handler.cs",
+              "DocumentMoniker": "E:\\01Modules\\02Deuxieme_Annee\\Trimestre_1\\I320\\P_POO\\GitHub\\Vacances\\P_POO-I320\\ShootMeUp\\ShootMeUp\\Model\\Handler.cs",
+              "RelativeDocumentMoniker": "ShootMeUp\\Model\\Handler.cs",
+              "ToolTip": "E:\\01Modules\\02Deuxieme_Annee\\Trimestre_1\\I320\\P_POO\\GitHub\\Vacances\\P_POO-I320\\ShootMeUp\\ShootMeUp\\Model\\Handler.cs",
+              "RelativeToolTip": "ShootMeUp\\Model\\Handler.cs",
+              "ViewState": "AgIAAAcAAAAAAAAAAAAqwBgAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-24T18:54:35.925Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "Program.cs",
+              "DocumentMoniker": "E:\\01Modules\\02Deuxieme_Annee\\Trimestre_1\\I320\\P_POO\\GitHub\\Vacances\\P_POO-I320\\ShootMeUp\\ShootMeUp\\Program.cs",
+              "RelativeDocumentMoniker": "ShootMeUp\\Program.cs",
+              "ToolTip": "E:\\01Modules\\02Deuxieme_Annee\\Trimestre_1\\I320\\P_POO\\GitHub\\Vacances\\P_POO-I320\\ShootMeUp\\ShootMeUp\\Program.cs",
+              "RelativeToolTip": "ShootMeUp\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-30T12:33:58.145Z",
+              "EditorCaption": ""
             }
           ]
         }

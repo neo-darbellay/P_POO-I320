@@ -9,7 +9,7 @@ namespace ShootMeUp.Model
     /// <summary>
     /// This class is used to run checks to see if two objects would collide in a 2d environment
     /// </summary>
-    public class CollisionHandler
+    public class CollisionHandler : Handler
     {
         /// <summary>
         /// The list of all the obstacles
@@ -24,7 +24,7 @@ namespace ShootMeUp.Model
         /// <summary>
         /// Create a new CollisionHandler
         /// </summary>
-        public CollisionHandler() { }
+        public CollisionHandler() : base() { }
 
         /// <summary>
         /// Add a new obstacle to the list
@@ -57,16 +57,16 @@ namespace ShootMeUp.Model
         /// Checks if the given coordinate frame of an object would colide with an obstacle's
         /// </summary>
         /// <param name="Coordinates">The coordinate frame of an object</param>
-        /// <param name="intXMovement">The movement that will happen in the X axis</param>
-        /// <param name="intYMovement">The movement that will happen in the Y axis</param>
+        /// <param name="fltXMovement">The movement that will happen in the X axis</param>
+        /// <param name="fltYMovement">The movement that will happen in the Y axis</param>
         /// <returns>A bool table, where index 0 is the X axis, and index 1 is the Y axis. </returns>
-        public bool[] CheckForCollisions(CFrame Coordinates, int intXMovement, int intYMovement)
+        public bool[] CheckForCollisions(CFrame Coordinates, float fltXMovement, float fltYMovement)
         {
             bool[] blnColliding = new bool[2] { false, false };
 
             // Create hypothetical CFrames to simulate movement along each axis independently
-            CFrame cfrX = new CFrame(Coordinates.X + intXMovement, Coordinates.Y, Coordinates.length, Coordinates.height);
-            CFrame cfrY = new CFrame(Coordinates.X, Coordinates.Y + intYMovement, Coordinates.length, Coordinates.height);
+            CFrame cfrX = new CFrame(Coordinates.FloatX + fltXMovement, Coordinates.FloatY, Coordinates.length, Coordinates.height);
+            CFrame cfrY = new CFrame(Coordinates.FloatX, Coordinates.FloatY + fltYMovement, Coordinates.length, Coordinates.height);
 
             foreach (Obstacle obstacle in _lst_Obstacles)
             {
@@ -88,12 +88,33 @@ namespace ShootMeUp.Model
             return blnColliding;
         }
 
-        // Helper method to check if two CFrames overlap
-        private bool IsOverlapping(CFrame a, CFrame b)
+        /// <summary>
+        /// Return the colliding obstacle if there are any
+        /// </summary>
+        /// <param name="Coordinates">The coordinate frame of an object</param>
+        /// <param name="fltXMovement">The movement that will happen in the X axis</param>
+        /// <param name="fltYMovement">The movement that will happen in the Y axis</param>
+        /// <returns>The colliding obstacle, if any</returns>
+        public Obstacle? GetCollidingObject(CFrame Coordinates, float fltXMovement, float fltYMovement)
         {
-            bool overlapX = a.X < b.X + b.length && a.X + a.length > b.X;
-            bool overlapY = a.Y < b.Y + b.height && a.Y + a.height > b.Y;
-            return overlapX && overlapY;
+            // Create hypothetical CFrames to simulate movement along each axis independently
+            CFrame cfrX = new CFrame(Coordinates.FloatX + fltXMovement, Coordinates.FloatY, Coordinates.length, Coordinates.height);
+            CFrame cfrY = new CFrame(Coordinates.FloatX, Coordinates.FloatY + fltYMovement, Coordinates.length, Coordinates.height);
+
+            foreach (Obstacle obstacle in _lst_Obstacles)
+            {
+                if (IsOverlapping(cfrX, obstacle))
+                {
+                    return obstacle;
+                }
+
+                if (IsOverlapping(cfrY, obstacle))
+                {
+                    return obstacle;
+                }
+            }
+
+            return null;
         }
     }
 }

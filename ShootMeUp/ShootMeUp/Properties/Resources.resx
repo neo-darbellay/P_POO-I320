@@ -139,6 +139,9 @@
   <data name="ProjectileFireball" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ProjectileFireball.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="SkeletonToken" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SkeletonToken.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="ZombieToken" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ZombieToken.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>

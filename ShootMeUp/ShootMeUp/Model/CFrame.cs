@@ -14,38 +14,51 @@ namespace ShootMeUp.Model
         private int _intX;
         private int _intY;
 
-        private bool _blnFloatPosition;
-
         private float _fltX;
         private float _fltY;
 
         private int _intLength;
         private int _intHeight;
 
-        public int X
-        {
-            get { return _intX; }
-            set { _intX = value; }
-        }
-
-        public int Y
-        {
-            get { return _intY; }
-            set { _intY = value; }
-        }
-
         public float FloatX
         {
             get { return _fltX; }
-            set { _fltX = value; }
+            set
+            {
+                _fltX = value;
+                _intX = (int)value;
+            }
         }
 
         public float FloatY
         {
             get { return _fltY; }
-            set { _fltY = value; }
+            set
+            {
+                _fltY = value;
+                _intY = (int)value;
+            }
         }
 
+        public int X
+        {
+            get { return _intX; }
+            set
+            {
+                _intX = value;
+                _fltX = value;
+            }
+        }
+
+        public int Y
+        {
+            get { return _intY; }
+            set
+            {
+                _intY = value;
+                _fltY = value;
+            }
+        }
 
         public int length
         {
@@ -61,27 +74,17 @@ namespace ShootMeUp.Model
 
         public CFrame(int X, int Y, int intLength, int intHeight)
         {
-            _intX = X;
-            _intY = Y;
-
-            _blnFloatPosition = false;
-
-            _fltX = 0;
-            _fltY = 0;
+            this.X = X;
+            this.Y = Y;
 
             _intLength = intLength;
             _intHeight = intHeight;
         }
 
-        public CFrame(float X, float Y, int intLength, int intHeight, bool blnFloatPosition)
+        public CFrame(float X, float Y, int intLength, int intHeight)
         {
-            _intX = (int)X;
-            _intY = (int)Y;
-
-            _blnFloatPosition = true;
-
-            _fltX = X;
-            _fltY = Y;
+            FloatX = X;
+            FloatY = Y;
 
             _intLength = intLength;
             _intHeight = intHeight;
@@ -89,10 +92,7 @@ namespace ShootMeUp.Model
 
         public override string ToString()
         {
-            if (_blnFloatPosition)
-                return $"{{{FloatX},{FloatY}}},{{{length},{height}}}";
-            else
-                return $"{{{X},{Y}}},{{{length},{height}}}";
+            return $"{{{FloatX},{FloatY}}},{{{length},{height}}}";
         }
     }
 }

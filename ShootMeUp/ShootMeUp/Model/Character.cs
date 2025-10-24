@@ -17,12 +17,12 @@ namespace ShootMeUp.Model
         /// <summary>
         /// The character's speed in the X direction
         /// </summary>
-        private int _intSpeedX;
+        protected float _fltXSpeed;
 
         /// <summary>
         /// The character's speed in the Y direction
         /// </summary>
-        private int _intSpeedY;
+        protected float _fltYSpeed;
 
         /// <summary>
         /// The character's type (player, ...)
@@ -30,9 +30,14 @@ namespace ShootMeUp.Model
         private string _strType;
 
         /// <summary>
+        /// The character's base speed
+        /// </summary>
+        protected float _fltBaseSpeed;
+
+        /// <summary>
         /// A collision handler to check for collisions
         /// </summary>
-        private CollisionHandler _colCollisionHandler;        
+        protected CollisionHandler _colCollisionHandler;        
         
         /// <summary>
         /// The character's remaining lives
@@ -43,12 +48,28 @@ namespace ShootMeUp.Model
             set { _intHealth = value; }
         }
 
-        // VARIABLES USED FOR PROJECTILE COOLDOWN
-        private DateTime _lastArrowShotTime = DateTime.MinValue;
-        private DateTime _lastFireballShotTime = DateTime.MinValue;
+        // <summary>
+        /// The character's type (player, ...)
+        /// </summary>
+        public string Type 
+        {
+            get { return _strType; }
+        }
 
-        private readonly TimeSpan ArrowCooldown = TimeSpan.FromSeconds(0.5);
-        private readonly TimeSpan FireballCooldown = TimeSpan.FromSeconds(3);
+        /// <summary>
+        /// The character's base speed
+        /// </summary>
+        public float BaseSpeed
+        {
+            get { return _fltBaseSpeed; }
+        }
+
+        // Variables used for projectile cooldown
+        protected DateTime _lastArrowShotTime = DateTime.MinValue;
+        protected DateTime _lastFireballShotTime = DateTime.MinValue;
+
+        protected TimeSpan ArrowCooldown = TimeSpan.FromSeconds(0.5);
+        protected TimeSpan FireballCooldown = TimeSpan.FromSeconds(3);
 
 
         /// <summary>
@@ -58,22 +79,25 @@ namespace ShootMeUp.Model
         /// <param name="y">Its starting Y position</param>
         /// <param name="length">The length of the character</param>
         /// <param name="height">The height of the character</param>
-        /// <param name="strType">The character's type (player, zombie, ...)</param>
+        /// <param name="strType">The character's type (player, zombie, skeleton, ...)</param>
         /// <param name="intHealth">The character's HP / lives</param>
-        public Character(int x, int y, int length, int height, string strType, int intHealth) : base(x, y, length, height)
+        /// <param name="fltBaseSpeed">The base character speed</param>
+        /// <param name="GAMESPEED">The game's speed</param>
+        public Character(int x, int y, int length, int height, string strType, int intHealth, float fltBaseSpeed, int GAMESPEED) : base(x, y, length, height)
         {
             _intHealth = intHealth;
             _colCollisionHandler = new CollisionHandler();
             _strType = strType;
-        }
+            _fltBaseSpeed = fltBaseSpeed;
 
-        // Cette méthode calcule le nouvel état dans lequel le drone se trouve après
-        // que 'interval' millisecondes se sont écoulées
+            ArrowCooldown = TimeSpan.FromSeconds(ArrowCooldown.TotalSeconds / GAMESPEED);
+            FireballCooldown = TimeSpan.FromSeconds(FireballCooldown.TotalSeconds / GAMESPEED);
+        }
 
         /// <summary>
         /// Update the character's position
         /// </summary>
-        public void Update()
+        virtual public void Update()
         {
             // Variable used for multiplying the speed of the movement
             double dblMultiplicator = 1;
@@ -83,39 +107,38 @@ namespace ShootMeUp.Model
             CFrame currentCFrame = (CFrame)this;
 
             // Check to see if the character is gonna clip in anything
-            bool[] tab_blnColliding = _colCollisionHandler.CheckForCollisions(currentCFrame, _intSpeedX, _intSpeedY);
+            bool[] tab_blnColliding = _colCollisionHandler.CheckForCollisions(currentCFrame, _fltXSpeed, _fltYSpeed);
             
 
             // Change the multiplicator for double-axis movement
-            if (_intSpeedX != 0 && _intSpeedY != 0)
+            if (_fltXSpeed != 0 && _fltYSpeed != 0)
             {
                 dblMultiplicator = 0.7;           
             }
 
             // Use the speed variables to change the character's position if the requirements are met.
             if (!tab_blnColliding[0])
-            {
-                X += (int)(_intSpeedX * dblMultiplicator);
-            }
+                FloatX += (float)(_fltXSpeed * dblMultiplicator);
             
             if (!tab_blnColliding[1])
-            {
-                Y += (int)(_intSpeedY * dblMultiplicator);
-            }
+                FloatY += (float)(_fltYSpeed * dblMultiplicator);
         }
 
         /// <summary>
-        /// Move the character on both axis
+        /// Move the character on both axis if they're alive
         /// </summary>
         /// <param name="x">The movement on the x axis</param>
         /// <param name="y">The movement on the y axis</param>
-        public void Move(int x, int y)
+        public void Move(float x, float y)
         {
-            _intSpeedX = x;
-            _intSpeedY = y;
+            if (Lives > 0)
+            {
+                _fltXSpeed = x * BaseSpeed;
+                _fltYSpeed = y * BaseSpeed;
+            }
         }
 
-        public Projectile? Shoot(Point clientPos, string strType)
+        virtual public Projectile? Shoot(Point clientPos, string strType, int GAMESPEED)
         {
             // Store the current time
             DateTime now = DateTime.Now;
@@ -124,8 +147,8 @@ namespace ShootMeUp.Model
             if (Lives > 0)
             {
                 // Create variables used for the projectile's generation
-                int intProjectileX = X;
-                int intProjectileY = Y;
+                float fltProjectileX = FloatX;
+                float fltProjectileY = FloatY;
 
                 int intTargetX = clientPos.X;
                 int intTargetY = clientPos.Y;
@@ -133,67 +156,63 @@ namespace ShootMeUp.Model
                 int intProjectileLength = length;
                 int intProjectileHeight = height;
 
-                if (strType == "arrow")
-                {
-                    intProjectileX += (length / 8);
-                    intProjectileY += (height / 8);
-                }
+                // Get the character's center
+                float fltCharacterCenterX = FloatX + (length / 2f);
+                float fltCharacterCenterY = FloatY + (height / 2f);
 
-                else if (strType == "fireball")
-                {
-                    intProjectileX += (length / 8);
-                    intProjectileY += (height / 8);
-                }
+                // The projectile should start centered on the character
+                fltProjectileX = fltCharacterCenterX - (intProjectileLength / 2f);
+                fltProjectileY = fltCharacterCenterY - (intProjectileHeight / 2f);
 
+                // Send the corresponding projectile if the character is allowed to
                 if (strType == "arrow" && now - _lastArrowShotTime >= ArrowCooldown)
                 {
                     _lastArrowShotTime = now;
 
-                    return new Projectile(strType, intProjectileX, intProjectileY, intProjectileLength, intProjectileHeight, this, intTargetX, intTargetY);
+                    return new Projectile(strType, fltProjectileX, fltProjectileY, intProjectileLength, intProjectileHeight, this, intTargetX, intTargetY, GAMESPEED);
                 }
                 else if (strType == "fireball" && now - _lastFireballShotTime >= FireballCooldown)
                 {
                     _lastFireballShotTime = now;
 
-                    return new Projectile(strType, intProjectileX, intProjectileY, intProjectileLength, intProjectileHeight, this, intTargetX, intTargetY);
+                    return new Projectile(strType, fltProjectileX, fltProjectileY, intProjectileLength, intProjectileHeight, this, intTargetX, intTargetY, GAMESPEED);
                 }
-
             }
 
             return null;
         }
 
-        /// //////////////////////////////////////////////////////////////////////////////
-        //  
-        //  Ce qui suit appartient à la vue, pas au modèle.
-        //  Il aurait été préférable de séparer la déclaration de la classe Drone en deux,
-        //  Nous regroupons tout ici pour simplifier
-        //  
-        /// //////////////////////////////////////////////////////////////////////////////
-
-        private Pen droneBrush = new Pen(new SolidBrush(Color.Purple), 3);
-
-        // De manière graphique
         public void Render(BufferedGraphics drawingSpace)
         {
-            if (_strType == "player")
-                drawingSpace.Graphics.DrawImage(Resources.PlayerToken, X, Y, length, height);
-            else if (_strType == "zombie")
-                drawingSpace.Graphics.DrawImage(Resources.ZombieToken, X, Y, length, height);
-            
-            
-            
-
-            for (int i = 0; i < Lives; i++)
+            // Only draw the character if they're alive
+            if (Lives > 0)
             {
-                // Draw the PlayerToken as many times as there are lives
+                if (_strType == "player")
+                    drawingSpace.Graphics.DrawImage(Resources.PlayerToken, FloatX, FloatY, length, height);
+                else if (_strType == "zombie")
+                    drawingSpace.Graphics.DrawImage(Resources.ZombieToken, FloatX, FloatY, length, height);
+                else if (_strType == "skeleton")
+                    drawingSpace.Graphics.DrawImage(Resources.SkeletonToken, FloatX, FloatY, length, height);
+            }
 
-                drawingSpace.Graphics.DrawImage(Resources.PlayerToken, ((length / 2) * i) + (6 * i) + 6, 6, length / 2, height / 2);
+            // Only draw the lives if the character is a player
+            if (_strType == "player")
+            {
+                for (int i = 0; i < Lives; i++)
+                {
+                    // Draw the PlayerToken as many times as there are lives
+                    drawingSpace.Graphics.DrawImage(Resources.PlayerToken, (16 * i) + (6 * i) + 6, 6, 16, 16);
+                }
+            }
+            else
+            {
+                drawingSpace.Graphics.DrawString($"{this}", TextHelpers.drawFont, TextHelpers.writingBrush, X, Y - 25);
             }
         }
 
         public override string ToString()
         {
+
             return $"{((int)((double)Lives)).ToString()}HP";
         }
     }

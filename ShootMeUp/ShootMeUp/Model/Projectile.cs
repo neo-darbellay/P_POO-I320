@@ -26,6 +26,11 @@ namespace ShootMeUp.Model
         private int _intDamage;
 
         /// <summary>
+        /// Whether or not the projectile is active or not
+        /// </summary>
+        private bool _blnActive;
+
+        /// <summary>
         /// The rotation angle (in degrees)
         /// </summary>
         private float _fltRotationAngle;
@@ -55,12 +60,33 @@ namespace ShootMeUp.Model
         /// </summary>
         private int _intTargetY;
 
-        public Projectile(string strType, int X, int Y, int intLength, int intHeight, Character ShotBy, int intTargetX, int intTargetY) : base(X, Y, intLength, intHeight, true)
+        /// <summary>
+        /// A character handler to store every character
+        /// </summary>
+        private CharacterHandler _characterHandler;
+
+        /// <summary>
+        /// A collision handler to create obstacles
+        /// </summary>
+        private CollisionHandler _collisionHandler;
+
+        public bool Active
+        {
+            get { return _blnActive; }
+        }
+
+
+        public Projectile(string strType, float X, float Y, int intLength, int intHeight, Character ShotBy, int intTargetX, int intTargetY, int GAMESPEED) : base(X, Y, intLength, intHeight)
         {
             _strType = strType;
             _shotBy = ShotBy;
             _intTargetX = intTargetX;
             _intTargetY = intTargetY;
+
+            _blnActive = true;
+
+            _characterHandler = new CharacterHandler();
+            _collisionHandler = new CollisionHandler();
 
             // Define the different properties depending on the projectile type
             if (_strType == "arrow")
@@ -71,7 +97,7 @@ namespace ShootMeUp.Model
             else if (_strType == "fireball")
             {
                 _intDamage = 2;
-                _fltMovementSpeed = 1.5f;
+                _fltMovementSpeed = 1f;
             }
             else
             {
@@ -79,6 +105,9 @@ namespace ShootMeUp.Model
                 _intDamage = 0;
                 _fltMovementSpeed = 3f;
             }
+
+            // Multiply the movement speed by the game speed
+            _fltMovementSpeed *= GAMESPEED;
 
             // Calculate direction to target
             float deltaX = _intTargetX - FloatX;
@@ -106,8 +135,59 @@ namespace ShootMeUp.Model
         /// </summary>
         public void Update()
         {
-            FloatX += _fltXSpeed;
-            FloatY += _fltYSpeed;
+            // Get the current CFrame
+            CFrame currentCFrame = (CFrame)this;
+
+            // Check to see if the projectile is gonna clip in anything
+            bool[] tab_blnCharacterColliding;
+
+            if (_shotBy.Type == "player")
+            {
+                tab_blnCharacterColliding = _characterHandler.CheckForCollisions(currentCFrame, _fltXSpeed, _fltYSpeed, _shotBy);
+            }
+            else
+            {
+                tab_blnCharacterColliding = _characterHandler.CheckForCollisions(currentCFrame, _fltXSpeed, _fltYSpeed, _shotBy, "player");
+            }
+
+            bool[] tab_blnObstaclesColliding = _collisionHandler.CheckForCollisions(currentCFrame, _fltXSpeed, _fltYSpeed);
+
+            // Move the arrow if it wouldn't hit anything
+            if (!(tab_blnCharacterColliding[0] || tab_blnCharacterColliding[1] || tab_blnObstaclesColliding[0] || tab_blnObstaclesColliding[1]))
+            {
+                FloatX += _fltXSpeed;
+                FloatY += _fltYSpeed;
+            }
+            else
+            {
+                // Mark the projectile as inactive
+                _blnActive = false;
+
+                // Get the object and/or character that's been hit
+                Character? characterHit;
+
+                if (_shotBy.Type == "player")
+                {
+                    characterHit = _characterHandler.GetCollidingCharacter(currentCFrame, _fltXSpeed, _fltYSpeed, _shotBy);
+                }
+                else
+                {
+                    characterHit = _characterHandler.GetCollidingCharacter(currentCFrame, _fltXSpeed, _fltYSpeed, _shotBy, "player");
+                }
+                Obstacle? obstacleHit = _collisionHandler.GetCollidingObject(currentCFrame, _fltXSpeed, _fltYSpeed);
+
+                if (characterHit != null)
+                {
+                    // Deal damage to the character
+                    characterHit.Lives -= _intDamage;
+                }
+                else if (obstacleHit != null && !obstacleHit.Invincible)
+                {
+                    // Deal damage to the obstacle
+                    obstacleHit.Health -= _intDamage;
+                }
+            }
+
         }
 
 
