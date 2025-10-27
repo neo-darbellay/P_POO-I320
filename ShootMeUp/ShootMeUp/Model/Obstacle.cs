@@ -109,11 +109,11 @@ namespace ShootMeUp.Model
                 {
                     drawingSpace.Graphics.DrawImage(Resources.ObstacleUnbreakable, FloatX, FloatY, length, height);
                 }
-                else if (_intMaxHealth >= 10)
+                else if (_intMaxHealth > 10)
                 {
                     drawingSpace.Graphics.DrawImage(Resources.ObstacleStrong, FloatX, FloatY, length, height);
                 }
-                else if (_intMaxHealth >= 5)
+                else if (_intMaxHealth > 5)
                 {
                     drawingSpace.Graphics.DrawImage(Resources.ObstacleNormal, FloatX, FloatY, length, height);
                 }
@@ -122,7 +122,14 @@ namespace ShootMeUp.Model
                     drawingSpace.Graphics.DrawImage(Resources.ObstacleWeak, FloatX, FloatY, length, height);
                 }
 
-                drawingSpace.Graphics.DrawString($"{this}", TextHelpers.drawFont, TextHelpers.writingBrush, FloatX, FloatY - 25);
+                // Get the text's size
+                SizeF textSize = drawingSpace.Graphics.MeasureString($"{this}", TextHelpers.drawFont);
+
+                // Calculate the X coordinate to center the text
+                float centeredX = FloatX + (length / 2f) - (textSize.Width/ 2f);
+
+                // Center the text above the obstacle
+                drawingSpace.Graphics.DrawString($"{this}", TextHelpers.drawFont, TextHelpers.writingBrush, centeredX, FloatY - 16);
             }
             else if (_strType == "border")
             {
@@ -139,7 +146,7 @@ namespace ShootMeUp.Model
                 return "";
             }
 
-            return $"{((int)((double)_intHealth)).ToString()}HP";
+            return $"{((int)((double)_intHealth)).ToString()} HP";
         }
     }
 }

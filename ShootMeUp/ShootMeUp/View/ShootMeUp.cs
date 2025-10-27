@@ -24,7 +24,7 @@ namespace ShootMeUp
         /// <summary>
         /// The game's speed multiplier (movement, 
         /// </summary>
-        public static readonly int GAMESPEED = 3;
+        public static readonly int GAMESPEED = 6;
 
         /// <summary>
         /// Any character's height and length
@@ -98,7 +98,7 @@ namespace ShootMeUp
             // Creates a BufferedGraphics instance associated with this form, and with
             // dimensions the same size as the drawing surface of the form.
             playspace = currentContext.Allocate(this.CreateGraphics(), this.DisplayRectangle);
-            _player = new Character(256, 256, CHARACTER_SIZE, CHARACTER_SIZE, "player", PLAYER_MAXHP, 1f, GAMESPEED);
+            _player = new Character(512, 512, CHARACTER_SIZE, CHARACTER_SIZE, "player", PLAYER_MAXHP, 1f, GAMESPEED);
 
             // Create a new list of keys held down
             _lst_keysHeldDown = new List<Keys>();
@@ -127,7 +127,7 @@ namespace ShootMeUp
                     if (x == 0 || x == _intBorderSize || y == 0 || y == _intBorderSize)
                     {
                         // Create a border piece
-                        Obstacle obsBorder = new Obstacle(32 * (1 + x), 32 * (1 + y), 32, 32, 0, "border");
+                        Obstacle obsBorder = new Obstacle(32 * (2 + x), 32 * (2 + y), 32, 32, 0, "border");
 
 
                         // Add the border piece to the collision handler
@@ -136,45 +136,133 @@ namespace ShootMeUp
                 }
             }
 
-            // Creating the world environment
+            // Create a variable to store the border's size
+            int intBorderLength = _intBorderSize * 32 + 32;
 
-            // Top Left corner
-            _collisionHandler.AddObstacle(new Obstacle(32 * 2, 32 * 2, CHARACTER_SIZE, CHARACTER_SIZE, 0));
-            _collisionHandler.AddObstacle(new Obstacle(32 * 3, 32 * 2, CHARACTER_SIZE, CHARACTER_SIZE, 0));
-            _collisionHandler.AddObstacle(new Obstacle(32 * 2, 32 * 3, CHARACTER_SIZE, CHARACTER_SIZE, 0));
+            //// Creating the world environment ////
 
-            // Top Right corner
-            _collisionHandler.AddObstacle(new Obstacle(32 * _intBorderSize, 32 * 2, CHARACTER_SIZE, CHARACTER_SIZE, 0));
-            _collisionHandler.AddObstacle(new Obstacle(32 * _intBorderSize - 32, 32 * 2, CHARACTER_SIZE, CHARACTER_SIZE, 0));
-            _collisionHandler.AddObstacle(new Obstacle(32 * _intBorderSize, 32 * 3, CHARACTER_SIZE, CHARACTER_SIZE, 0));
+            // Top left corner
+            _collisionHandler.AddObstacle(new Obstacle(32 * 3, 32 * 3, CHARACTER_SIZE, CHARACTER_SIZE, 0));
+            _collisionHandler.AddObstacle(new Obstacle(32 * 4, 32 * 3, CHARACTER_SIZE, CHARACTER_SIZE, 0));
+            _collisionHandler.AddObstacle(new Obstacle(32 * 3, 32 * 4, CHARACTER_SIZE, CHARACTER_SIZE, 0));
 
-            // Bottom Left corner
-            _collisionHandler.AddObstacle(new Obstacle(32 * 2, 32 * _intBorderSize, CHARACTER_SIZE, CHARACTER_SIZE, 0));
-            _collisionHandler.AddObstacle(new Obstacle(32 * 3, 32 * _intBorderSize, CHARACTER_SIZE, CHARACTER_SIZE, 0));
-            _collisionHandler.AddObstacle(new Obstacle(32 * 2, 32 * _intBorderSize - 32, CHARACTER_SIZE, CHARACTER_SIZE, 0));
+            // Top right corner
+            _collisionHandler.AddObstacle(new Obstacle(intBorderLength, 32 * 3, CHARACTER_SIZE, CHARACTER_SIZE, 0));
+            _collisionHandler.AddObstacle(new Obstacle(intBorderLength - 32, 32 * 3, CHARACTER_SIZE, CHARACTER_SIZE, 0));
+            _collisionHandler.AddObstacle(new Obstacle(intBorderLength, 32 * 4, CHARACTER_SIZE, CHARACTER_SIZE, 0));
 
-            // Bottom Right corner
-            _collisionHandler.AddObstacle(new Obstacle(32 * _intBorderSize, 32 * _intBorderSize, CHARACTER_SIZE, CHARACTER_SIZE, 0));
-            _collisionHandler.AddObstacle(new Obstacle(32 * _intBorderSize - 32, 32 * _intBorderSize, CHARACTER_SIZE, CHARACTER_SIZE, 0));
-            _collisionHandler.AddObstacle(new Obstacle(32 * _intBorderSize, 32 * _intBorderSize - 32, CHARACTER_SIZE, CHARACTER_SIZE, 0));
+            // Bottom left corner
+            _collisionHandler.AddObstacle(new Obstacle(32 * 3, intBorderLength, CHARACTER_SIZE, CHARACTER_SIZE, 0));
+            _collisionHandler.AddObstacle(new Obstacle(32 * 4, intBorderLength, CHARACTER_SIZE, CHARACTER_SIZE, 0));
+            _collisionHandler.AddObstacle(new Obstacle(32 * 3, intBorderLength - 32, CHARACTER_SIZE, CHARACTER_SIZE, 0));
 
+            // Bottom right corner
+            _collisionHandler.AddObstacle(new Obstacle(intBorderLength, intBorderLength, CHARACTER_SIZE, CHARACTER_SIZE, 0));
+            _collisionHandler.AddObstacle(new Obstacle(intBorderLength   - 32, intBorderLength, CHARACTER_SIZE, CHARACTER_SIZE, 0));
+            _collisionHandler.AddObstacle(new Obstacle(intBorderLength, intBorderLength - 32, CHARACTER_SIZE, CHARACTER_SIZE, 0));
+
+
+            // The pillars' health value
+            int intPillarHealth = 25;
+
+            // Top left pillars
+            for (int x = 0; x < 2; x++)
+            {
+                for (int y = 0; y < 2; y++)
+                {
+                    _collisionHandler.AddObstacle(new Obstacle(160 + (160*x), 160 + (160*y), CHARACTER_SIZE*2, CHARACTER_SIZE*2, intPillarHealth));
+                }
+            }
+
+            // Top right pillars
+            for (int x = 0; x < 2; x++)
+            {
+                for (int y = 0; y < 2; y++)
+                {
+                    _collisionHandler.AddObstacle(new Obstacle(intBorderLength - 128 - (160 * x), 160 + (160 * y), CHARACTER_SIZE * 2, CHARACTER_SIZE * 2, intPillarHealth));
+                }
+            }
+
+            // Bottom left pillars
+            for (int x = 0; x < 2; x++)
+            {
+                for (int y = 0; y < 2; y++)
+                {
+                    _collisionHandler.AddObstacle(new Obstacle(160 + (160 * x), intBorderLength - 128 - (160 * y), CHARACTER_SIZE * 2, CHARACTER_SIZE * 2, intPillarHealth));
+                }
+            }
+
+            // Bottom right pillars
+            for (int x = 0; x < 2; x++)
+            {
+                for (int y = 0; y < 2; y++)
+                {
+                    _collisionHandler.AddObstacle(new Obstacle(intBorderLength - 128 - (160 * x), intBorderLength - 128 - (160 * y), CHARACTER_SIZE * 2, CHARACTER_SIZE * 2, intPillarHealth));
+                }
+            }
+
+
+            // The barriers' health
+            int intBarrierHealth = 10;
+
+            // Top barriers
+            for (int x = 0; x < 2; x++)
+            {
+                _collisionHandler.AddObstacle(new Obstacle(416 + (128 * x), 192, CHARACTER_SIZE * 2, CHARACTER_SIZE, intBarrierHealth));
+            }
+
+            _collisionHandler.AddObstacle(new Obstacle(480, 320, CHARACTER_SIZE * 2, CHARACTER_SIZE, intBarrierHealth));
+
+            // Left barriers
+            for (int x = 0; x < 2; x++)
+            {
+                _collisionHandler.AddObstacle(new Obstacle(192, 416 + (128 * x), CHARACTER_SIZE, CHARACTER_SIZE * 2, intBarrierHealth));
+            }
+
+            _collisionHandler.AddObstacle(new Obstacle(320, 480, CHARACTER_SIZE, CHARACTER_SIZE * 2, intBarrierHealth));
+
+            // Right barriers
+            for (int x = 0; x < 2; x++)
+            {
+                _collisionHandler.AddObstacle(new Obstacle(intBorderLength - 128, 416 + (128 * x), CHARACTER_SIZE, CHARACTER_SIZE * 2, intBarrierHealth));
+            }
+
+            _collisionHandler.AddObstacle(new Obstacle(intBorderLength - 256, 480, CHARACTER_SIZE, CHARACTER_SIZE * 2, intBarrierHealth));
+
+            // Bottom barriers
+            for (int x = 0; x < 2; x++)
+            {
+                _collisionHandler.AddObstacle(new Obstacle(416 + (128 * x), intBorderLength - 128, CHARACTER_SIZE * 2, CHARACTER_SIZE, intBarrierHealth));
+            }
+
+            _collisionHandler.AddObstacle(new Obstacle(480, intBorderLength - 256, CHARACTER_SIZE * 2, CHARACTER_SIZE, intBarrierHealth));
+
+
+            // The smaller obstacles' health
+            int intSmallObstacleHealth = 5;
+
+            // Top left small obstacle
+            _collisionHandler.AddObstacle(new Obstacle(256, 256, CHARACTER_SIZE, CHARACTER_SIZE, intSmallObstacleHealth));
+
+            // Top right small obstacle
+            _collisionHandler.AddObstacle(new Obstacle(intBorderLength - 192, 256, CHARACTER_SIZE, CHARACTER_SIZE, intSmallObstacleHealth));
+
+            // Bottom left small obstacle
+            _collisionHandler.AddObstacle(new Obstacle(256, intBorderLength - 192, CHARACTER_SIZE, CHARACTER_SIZE, intSmallObstacleHealth));
+
+            // Bottom right small obstacle
+            _collisionHandler.AddObstacle(new Obstacle(intBorderLength - 192, intBorderLength - 192, CHARACTER_SIZE, CHARACTER_SIZE, intSmallObstacleHealth));
+
+            // Middle small obstacles
+            _collisionHandler.AddObstacle(new Obstacle(416, 416, CHARACTER_SIZE, CHARACTER_SIZE, intSmallObstacleHealth));
+            _collisionHandler.AddObstacle(new Obstacle(intBorderLength - 352, 416, CHARACTER_SIZE, CHARACTER_SIZE, intSmallObstacleHealth));
+            _collisionHandler.AddObstacle(new Obstacle(416, intBorderLength - 352, CHARACTER_SIZE, CHARACTER_SIZE, intSmallObstacleHealth));
+            _collisionHandler.AddObstacle(new Obstacle(intBorderLength - 352, intBorderLength - 352, CHARACTER_SIZE, CHARACTER_SIZE, intSmallObstacleHealth));
 
 
             ////////////////// TESTING //////////////////
-
-            Enemy TESTENEMY = new Enemy(512, 512, CHARACTER_SIZE, CHARACTER_SIZE, "zombie", 3, 0.75f, GAMESPEED);
-            Enemy TESTENEMY2 = new Enemy(256, 256, CHARACTER_SIZE, CHARACTER_SIZE, "skeleton", 3, 0.5f, GAMESPEED, true, "arrow");
-            _characterHandler.AddCharacter(TESTENEMY);
-            _characterHandler.AddCharacter(TESTENEMY2);
-
-            // Create two new temporary obstacles
-            Obstacle TEST1 = new Obstacle(128, 128, CHARACTER_SIZE, CHARACTER_SIZE, 10);
-            Obstacle TEST2 = new Obstacle(128, 256, CHARACTER_SIZE, CHARACTER_SIZE, 5);
-            Obstacle TEST3 = new Obstacle(128, 384, CHARACTER_SIZE, CHARACTER_SIZE, 3);
-
-            _collisionHandler.AddObstacle(TEST1);
-            _collisionHandler.AddObstacle(TEST2);
-            _collisionHandler.AddObstacle(TEST3);
+            _characterHandler.AddCharacter(new Enemy(544, 544, CHARACTER_SIZE, CHARACTER_SIZE, "zombie", 3, 0.75f, GAMESPEED));
+            _characterHandler.AddCharacter(new Enemy(384, 384, CHARACTER_SIZE, CHARACTER_SIZE, "skeleton", 3, 0.5f, GAMESPEED, true, "arrow"));
         }
 
         /// <summary>
@@ -184,7 +272,7 @@ namespace ShootMeUp
         {
             playspace.Graphics.Clear(Color.FromArgb(217, 217, 217));
 
-            playspace.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(250, 231, 172)), new Rectangle(32, 32, 32*_intBorderSize + 32, 32*_intBorderSize + 32));
+            playspace.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(250, 231, 172)), new Rectangle(64, 64, 32 * _intBorderSize + 32, 32 * _intBorderSize + 32));
 
             // Loop through all of the obstacles and render them
             foreach (Obstacle obstacle in _collisionHandler.Obstacles)

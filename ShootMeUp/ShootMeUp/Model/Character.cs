@@ -68,8 +68,8 @@ namespace ShootMeUp.Model
         protected DateTime _lastArrowShotTime = DateTime.MinValue;
         protected DateTime _lastFireballShotTime = DateTime.MinValue;
 
-        protected TimeSpan ArrowCooldown = TimeSpan.FromSeconds(1);
-        protected TimeSpan FireballCooldown = TimeSpan.FromSeconds(3);
+        protected TimeSpan ArrowCooldown = TimeSpan.FromSeconds(3);
+        protected TimeSpan FireballCooldown = TimeSpan.FromSeconds(9);
 
 
         /// <summary>
@@ -213,14 +213,21 @@ namespace ShootMeUp.Model
             }
             else
             {
-                drawingSpace.Graphics.DrawString($"{this}", TextHelpers.drawFont, TextHelpers.writingBrush, X, Y - 25);
+                // Get the text's size
+                SizeF textSize = drawingSpace.Graphics.MeasureString($"{this}", TextHelpers.drawFont);
+
+                // Calculate the X coordinate to center the text
+                float centeredX = FloatX + (length / 2f) - (textSize.Width / 2f);
+
+                // Center the text above the obstacle
+                drawingSpace.Graphics.DrawString($"{this}", TextHelpers.drawFont, TextHelpers.writingBrush, centeredX, FloatY - 16);
             }
         }
 
         public override string ToString()
         {
 
-            return $"{((int)((double)Lives)).ToString()}HP";
+            return $"{((int)((double)Lives)).ToString()} HP";
         }
     }
 }

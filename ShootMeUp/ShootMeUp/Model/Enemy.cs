@@ -93,8 +93,8 @@ namespace ShootMeUp.Model
 
             DamageCooldown = TimeSpan.FromSeconds(DamageCooldown.TotalSeconds / GAMESPEED);
 
-            ArrowCooldown = TimeSpan.FromSeconds(10 / GAMESPEED);
-            FireballCooldown = TimeSpan.FromSeconds(15 / GAMESPEED);
+            ArrowCooldown = TimeSpan.FromSeconds(20 / GAMESPEED);
+            FireballCooldown = TimeSpan.FromSeconds(30 / GAMESPEED);
 
             _lastArrowShotTime = DateTime.Now;
             _lastFireballShotTime = DateTime.Now;

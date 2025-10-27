@@ -35,7 +35,7 @@
             // ticker
             // 
             ticker.Enabled = true;
-            ticker.Interval = 1;
+            ticker.Interval = 10;
             ticker.Tick += NewFrame;
             // 
             // ShootMeUp
