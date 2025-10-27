@@ -65,6 +65,7 @@ namespace ShootMeUp.Model
             _characterHandler = new CharacterHandler();
             _projectileHandler = new ProjectileHandler();
             DamageCooldown = TimeSpan.FromSeconds(DamageCooldown.TotalSeconds / GAMESPEED);
+            _nextUpdateTime = DateTime.Now + DamageCooldown;
         }
 
         /// <summary>
@@ -89,10 +90,14 @@ namespace ShootMeUp.Model
 
             _characterHandler = new CharacterHandler();
             _projectileHandler = new ProjectileHandler();
+
             DamageCooldown = TimeSpan.FromSeconds(DamageCooldown.TotalSeconds / GAMESPEED);
 
-            ArrowCooldown = TimeSpan.FromSeconds(2);
-            FireballCooldown = TimeSpan.FromSeconds(5);
+            ArrowCooldown = TimeSpan.FromSeconds(10 / GAMESPEED);
+            FireballCooldown = TimeSpan.FromSeconds(15 / GAMESPEED);
+
+            _lastArrowShotTime = DateTime.Now;
+            _lastFireballShotTime = DateTime.Now;
         }
 
         /// <summary>
@@ -190,11 +195,18 @@ namespace ShootMeUp.Model
                 float fltEnemyCenterY = FloatY + (height / 2f);
 
                 // The projectile should start centered on the enemy
-                fltProjectileX = fltEnemyCenterX - (intProjectileLength / 2f);
+                fltProjectileX = fltEnemyCenterX;
                 fltProjectileY = fltEnemyCenterY - (intProjectileHeight / 2f);
 
+                // Resize the projectile if the aspect ratio is different
+                if (strType == "arrow")
+                {
+                    // 8:29 aspect ratio
+                    intProjectileLength = (intProjectileHeight * 8) / 29;
+                }
+
                 // Send the corresponding projectile if the enemy is allowed to
-                return new Projectile(strType, fltProjectileX, fltProjectileY, intProjectileLength, intProjectileHeight, this, intTargetX, intTargetY, GAMESPEED);
+                return new Projectile(strType, fltProjectileX, fltProjectileY, intProjectileLength, intProjectileHeight, this, intTargetX, intTargetY, GAMESPEED/2);
             }
 
             return null;

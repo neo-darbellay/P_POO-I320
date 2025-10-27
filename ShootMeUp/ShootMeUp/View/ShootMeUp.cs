@@ -1,6 +1,8 @@
+using Accessibility;
 using ShootMeUp.Model;
 using System.Drawing;
 using System.Runtime.InteropServices;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace ShootMeUp
 {
@@ -12,12 +14,12 @@ namespace ShootMeUp
         /// <summary>
         /// Width of the game area
         /// </summary>
-        public static readonly int WIDTH = 608;
+        public static readonly int WIDTH = 1024;
         
         /// <summary>
         /// Height of the game area
         /// </summary>
-        public static readonly int HEIGHT = 608;
+        public static readonly int HEIGHT = 1024;
 
         /// <summary>
         /// The game's speed multiplier (movement, 
@@ -32,7 +34,12 @@ namespace ShootMeUp
         /// <summary>
         /// The player's max hp
         /// </summary>
-        public static readonly int PLAYER_MAXHP = 5;
+        public static readonly int PLAYER_MAXHP = 10;
+
+        /// <summary>
+        /// The number of barrier blocks shown on screen
+        /// </summary>
+        private static int _intBorderSize = 29;
 
         /// <summary>
         /// The player
@@ -80,6 +87,8 @@ namespace ShootMeUp
         // Initialisation de l'espace aérien avec un certain nombre de drones
         public ShootMeUp()
         {
+            this.WindowState = FormWindowState.Maximized;
+
             InitializeComponent();
             ClientSize = new Size(WIDTH, HEIGHT);
 
@@ -89,7 +98,7 @@ namespace ShootMeUp
             // Creates a BufferedGraphics instance associated with this form, and with
             // dimensions the same size as the drawing surface of the form.
             playspace = currentContext.Allocate(this.CreateGraphics(), this.DisplayRectangle);
-            _player = new Character(ShootMeUp.WIDTH / 2 - 16, ShootMeUp.HEIGHT / 2 - 16, CHARACTER_SIZE, CHARACTER_SIZE, "player", PLAYER_MAXHP, 1f, GAMESPEED);
+            _player = new Character(256, 256, CHARACTER_SIZE, CHARACTER_SIZE, "player", PLAYER_MAXHP, 1f, GAMESPEED);
 
             // Create a new list of keys held down
             _lst_keysHeldDown = new List<Keys>();
@@ -108,14 +117,14 @@ namespace ShootMeUp
             _characterHandler.AddCharacter(_player);
 
             // Define the play area size in increments of 32
-            int intBorderSize = 16;
+            _intBorderSize = 29;
 
             // Create a new border
-            for (int x = 0; x <= intBorderSize; x++)
+            for (int x = 0; x <= _intBorderSize; x++)
             {
-                for (int y = 0; y <= intBorderSize; y++)
+                for (int y = 0; y <= _intBorderSize; y++)
                 {
-                    if (x == 0 || x == intBorderSize || y == 0 || y == intBorderSize)
+                    if (x == 0 || x == _intBorderSize || y == 0 || y == _intBorderSize)
                     {
                         // Create a border piece
                         Obstacle obsBorder = new Obstacle(32 * (1 + x), 32 * (1 + y), 32, 32, 0, "border");
@@ -127,23 +136,45 @@ namespace ShootMeUp
                 }
             }
 
+            // Creating the world environment
+
+            // Top Left corner
+            _collisionHandler.AddObstacle(new Obstacle(32 * 2, 32 * 2, CHARACTER_SIZE, CHARACTER_SIZE, 0));
+            _collisionHandler.AddObstacle(new Obstacle(32 * 3, 32 * 2, CHARACTER_SIZE, CHARACTER_SIZE, 0));
+            _collisionHandler.AddObstacle(new Obstacle(32 * 2, 32 * 3, CHARACTER_SIZE, CHARACTER_SIZE, 0));
+
+            // Top Right corner
+            _collisionHandler.AddObstacle(new Obstacle(32 * _intBorderSize, 32 * 2, CHARACTER_SIZE, CHARACTER_SIZE, 0));
+            _collisionHandler.AddObstacle(new Obstacle(32 * _intBorderSize - 32, 32 * 2, CHARACTER_SIZE, CHARACTER_SIZE, 0));
+            _collisionHandler.AddObstacle(new Obstacle(32 * _intBorderSize, 32 * 3, CHARACTER_SIZE, CHARACTER_SIZE, 0));
+
+            // Bottom Left corner
+            _collisionHandler.AddObstacle(new Obstacle(32 * 2, 32 * _intBorderSize, CHARACTER_SIZE, CHARACTER_SIZE, 0));
+            _collisionHandler.AddObstacle(new Obstacle(32 * 3, 32 * _intBorderSize, CHARACTER_SIZE, CHARACTER_SIZE, 0));
+            _collisionHandler.AddObstacle(new Obstacle(32 * 2, 32 * _intBorderSize - 32, CHARACTER_SIZE, CHARACTER_SIZE, 0));
+
+            // Bottom Right corner
+            _collisionHandler.AddObstacle(new Obstacle(32 * _intBorderSize, 32 * _intBorderSize, CHARACTER_SIZE, CHARACTER_SIZE, 0));
+            _collisionHandler.AddObstacle(new Obstacle(32 * _intBorderSize - 32, 32 * _intBorderSize, CHARACTER_SIZE, CHARACTER_SIZE, 0));
+            _collisionHandler.AddObstacle(new Obstacle(32 * _intBorderSize, 32 * _intBorderSize - 32, CHARACTER_SIZE, CHARACTER_SIZE, 0));
+
+
 
             ////////////////// TESTING //////////////////
 
-            Enemy TESTENEMY = new Enemy(ShootMeUp.WIDTH - 256, ShootMeUp.HEIGHT - 256, CHARACTER_SIZE, CHARACTER_SIZE, "zombie", 3, 0.75f, GAMESPEED);
-            Enemy TESTENEMY2 = new Enemy(ShootMeUp.WIDTH - 256, ShootMeUp.HEIGHT - 256, CHARACTER_SIZE, CHARACTER_SIZE, "skeleton", 3, 0.75f, GAMESPEED, true, "arrow");
+            Enemy TESTENEMY = new Enemy(512, 512, CHARACTER_SIZE, CHARACTER_SIZE, "zombie", 3, 0.75f, GAMESPEED);
+            Enemy TESTENEMY2 = new Enemy(256, 256, CHARACTER_SIZE, CHARACTER_SIZE, "skeleton", 3, 0.5f, GAMESPEED, true, "arrow");
             _characterHandler.AddCharacter(TESTENEMY);
             _characterHandler.AddCharacter(TESTENEMY2);
 
             // Create two new temporary obstacles
-            Obstacle TEST1 = new Obstacle(150, 100, CHARACTER_SIZE, CHARACTER_SIZE, 0, "default");
-            Obstacle TEST2 = new Obstacle(150, 250, CHARACTER_SIZE, CHARACTER_SIZE, 5, "default");
-            Obstacle TEST3 = new Obstacle(150, 400, CHARACTER_SIZE, CHARACTER_SIZE, 3, "default");
+            Obstacle TEST1 = new Obstacle(128, 128, CHARACTER_SIZE, CHARACTER_SIZE, 10);
+            Obstacle TEST2 = new Obstacle(128, 256, CHARACTER_SIZE, CHARACTER_SIZE, 5);
+            Obstacle TEST3 = new Obstacle(128, 384, CHARACTER_SIZE, CHARACTER_SIZE, 3);
 
             _collisionHandler.AddObstacle(TEST1);
             _collisionHandler.AddObstacle(TEST2);
             _collisionHandler.AddObstacle(TEST3);
-
         }
 
         /// <summary>
@@ -153,7 +184,7 @@ namespace ShootMeUp
         {
             playspace.Graphics.Clear(Color.FromArgb(217, 217, 217));
 
-            playspace.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(250, 231, 172)), new Rectangle(32, 32, 544, 544));
+            playspace.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(250, 231, 172)), new Rectangle(32, 32, 32*_intBorderSize + 32, 32*_intBorderSize + 32));
 
             // Loop through all of the obstacles and render them
             foreach (Obstacle obstacle in _collisionHandler.Obstacles)
@@ -161,7 +192,7 @@ namespace ShootMeUp
                 obstacle.Render(playspace);
             }
 
-            // Render all characters
+            // Render all the enemies
             foreach (Character character in _characterHandler.Characters)
             {
                 if (character.Type == "player")
@@ -172,14 +203,15 @@ namespace ShootMeUp
                 character.Render(playspace);
             }
 
+            // Render the player
+            _player.Render(playspace);
+
+
             // Render the projectiles if they are active
             foreach (Projectile projectile in _projectileHandler.Projectiles)
             {
                 projectile.Render(playspace);
             }
-
-            // Render the player
-            _player.Render(playspace);
 
             playspace.Render();
         }

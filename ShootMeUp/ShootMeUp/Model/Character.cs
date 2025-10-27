@@ -68,7 +68,7 @@ namespace ShootMeUp.Model
         protected DateTime _lastArrowShotTime = DateTime.MinValue;
         protected DateTime _lastFireballShotTime = DateTime.MinValue;
 
-        protected TimeSpan ArrowCooldown = TimeSpan.FromSeconds(0.5);
+        protected TimeSpan ArrowCooldown = TimeSpan.FromSeconds(1);
         protected TimeSpan FireballCooldown = TimeSpan.FromSeconds(3);
 
 
@@ -161,8 +161,15 @@ namespace ShootMeUp.Model
                 float fltCharacterCenterY = FloatY + (height / 2f);
 
                 // The projectile should start centered on the character
-                fltProjectileX = fltCharacterCenterX - (intProjectileLength / 2f);
+                fltProjectileX = fltCharacterCenterX;
                 fltProjectileY = fltCharacterCenterY - (intProjectileHeight / 2f);
+
+                // Resize the projectile if the aspect ratio is different
+                if (strType == "arrow")
+                {
+                    // 8:29 aspect ratio
+                    intProjectileLength = (intProjectileHeight * 8) / 29;
+                }
 
                 // Send the corresponding projectile if the character is allowed to
                 if (strType == "arrow" && now - _lastArrowShotTime >= ArrowCooldown)

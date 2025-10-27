@@ -14,7 +14,7 @@ namespace ShootMeUp
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
 
-            // Démarrage
+            // Startup
             Application.Run(new ShootMeUp());
         }
     }

@@ -96,7 +96,7 @@ namespace ShootMeUp.Model
             }
             else if (_strType == "fireball")
             {
-                _intDamage = 2;
+                _intDamage = 3;
                 _fltMovementSpeed = 1f;
             }
             else

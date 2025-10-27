@@ -50,7 +50,40 @@ namespace ShootMeUp.Model
             get { return _blnInvincible; }
         }
 
+        /// <summary>
+        /// The obstacle constructor
+        /// </summary>
+        /// <param name="x">The obstacle's X pos</param>
+        /// <param name="y">The obstacle's Y pos</param>
+        /// <param name="intLength">The obstacle's Length</param>
+        /// <param name="intHeight">The obstacle's height</param>
+        /// <param name="intHealth">The obstacle's max health</param>
+        public Obstacle(int x, int y, int intLength, int intHeight, int intHealth) : base(x, y, intLength, intHeight)
+        {
+            if (intHealth == 0)
+            {
+                _blnInvincible = true;
+                _intHealth = int.MaxValue;
+            }
+            else
+            {
+                _blnInvincible = false;
+                _intHealth = intHealth;
+            }
 
+            _intMaxHealth = _intHealth;
+            _strType = "default";
+        }
+
+        /// <summary>
+        /// The obstacle constructor
+        /// </summary>
+        /// <param name="x">The obstacle's X pos</param>
+        /// <param name="y">The obstacle's Y pos</param>
+        /// <param name="intLength">The obstacle's Length</param>
+        /// <param name="intHeight">The obstacle's height</param>
+        /// <param name="intHealth">The obstacle's max health</param>
+        /// <param name="strType">The obstacle's type (border/default)</param>
         public Obstacle(int x, int y, int intLength, int intHeight, int intHealth, string strType) : base(x, y, intLength, intHeight)
         {
             if (intHealth == 0)
@@ -76,9 +109,13 @@ namespace ShootMeUp.Model
                 {
                     drawingSpace.Graphics.DrawImage(Resources.ObstacleUnbreakable, FloatX, FloatY, length, height);
                 }
-                else if (_intMaxHealth >= 5)
+                else if (_intMaxHealth >= 10)
                 {
                     drawingSpace.Graphics.DrawImage(Resources.ObstacleStrong, FloatX, FloatY, length, height);
+                }
+                else if (_intMaxHealth >= 5)
+                {
+                    drawingSpace.Graphics.DrawImage(Resources.ObstacleNormal, FloatX, FloatY, length, height);
                 }
                 else
                 {
