@@ -225,7 +225,7 @@ namespace ShootMeUp
 
             // Calculate the bottom-center, related to the player
             float fltLeftBound = 32;
-            float fltRightBound = (_intBorderSize + 2) * 32;
+            float fltRightBound = (_intBorderSize + 4) * 32;
 
             float fltAreaCenterX = (fltLeftBound + fltRightBound) / 2.0f;
 
@@ -377,10 +377,21 @@ namespace ShootMeUp
         /// </summary>
         private async Task StartWaves()
         {
-            for (;; _intWaveNumber++)
+            for (_intWaveNumber = 1; ; _intWaveNumber++)
             {
+                // End the wave system if the game stopped
+                if (!_blnInGame)
+                    return;
+
+                // Add a small wait before starting the current wave
+                await Task.Delay(8000 / GAMESPEED);
+
                 foreach (Enemy enemy in _waveData.GetWaveEnemies(_intWaveNumber))
                 {
+                    // End the wave system if the game stopped
+                    if (!_blnInGame)
+                        return;
+
                     // Put the enemy in the right spot
                     enemy.FloatX = 512 + OBSTACLE_SIZE/2 + enemy.length/4;
                     enemy.FloatY = 512 + OBSTACLE_SIZE/2 + enemy.length/4;
@@ -395,6 +406,10 @@ namespace ShootMeUp
 
                 while (_characterHandler.Characters.Count != 1)
                 {
+                    // End the wave system if the game stopped
+                    if (!_blnInGame)
+                        return;
+
                     await Task.Delay(25);
                 }
             }
@@ -439,7 +454,7 @@ namespace ShootMeUp
                 }
 
                 // Draw the score in the top left
-                playspace.Graphics.DrawString($"Score: {Score}", TextHelpers.drawFont, TextHelpers.writingBrush, 8, 8);
+                playspace.Graphics.DrawString($"Wave {_intWaveNumber} | Score: {Score} | Lives remaining: {_player.Lives}", TextHelpers.drawFont, TextHelpers.writingBrush, 8, 8);
 
                 playspace.Render();
             }

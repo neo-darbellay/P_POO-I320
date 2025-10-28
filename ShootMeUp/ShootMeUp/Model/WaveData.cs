@@ -41,7 +41,7 @@ namespace ShootMeUp.Model
             new Enemy(0, 0, _DEFAULT_CHARACTER_SIZE, "zombie", _GAMESPEED)
             new Enemy(0, 0, _DEFAULT_CHARACTER_SIZE, "skeleton", _GAMESPEED)
             new Enemy(0, 0, (int)(_DEFAULT_CHARACTER_SIZE * 0.75), "babyzombie", _GAMESPEED)
-            new Enemy(0, 0, _DEFAULT_CHARACTER_SIZE, "blaze", -GAMESPEED)
+            new Enemy(0, 0, _DEFAULT_CHARACTER_SIZE, "blaze", _GAMESPEED)
             new Enemy(0, 0, _DEFAULT_CHARACTER_SIZE, "zombiepigman", _GAMESPEED)
             */
 
@@ -49,20 +49,18 @@ namespace ShootMeUp.Model
 
             switch (intWaveNumber)
             {
+                case 0:
                 case 1:
-                    WaveEnemies.Add(new Enemy(0, 0, _DEFAULT_CHARACTER_SIZE, "zombie", _GAMESPEED));
-                    WaveEnemies.Add(new Enemy(0, 0, _DEFAULT_CHARACTER_SIZE, "zombie", _GAMESPEED));
                     WaveEnemies.Add(new Enemy(0, 0, _DEFAULT_CHARACTER_SIZE, "zombie", _GAMESPEED));
 
                     break;
                 case 2:
                     WaveEnemies.Add(new Enemy(0, 0, _DEFAULT_CHARACTER_SIZE, "zombie", _GAMESPEED));
-                    WaveEnemies.Add(new Enemy(0, 0, _DEFAULT_CHARACTER_SIZE, "skeleton", _GAMESPEED));
+                    WaveEnemies.Add(new Enemy(0, 0, _DEFAULT_CHARACTER_SIZE, "zombie", _GAMESPEED));
                     WaveEnemies.Add(new Enemy(0, 0, _DEFAULT_CHARACTER_SIZE, "zombie", _GAMESPEED));
 
                     break;
                 case 3:
-                    WaveEnemies.Add(new Enemy(0, 0, _DEFAULT_CHARACTER_SIZE, "skeleton", _GAMESPEED));
                     WaveEnemies.Add(new Enemy(0, 0, _DEFAULT_CHARACTER_SIZE, "zombie", _GAMESPEED));
                     WaveEnemies.Add(new Enemy(0, 0, _DEFAULT_CHARACTER_SIZE, "skeleton", _GAMESPEED));
                     WaveEnemies.Add(new Enemy(0, 0, _DEFAULT_CHARACTER_SIZE, "zombie", _GAMESPEED));
@@ -70,16 +68,56 @@ namespace ShootMeUp.Model
                     break;
                 case 4:
                     WaveEnemies.Add(new Enemy(0, 0, _DEFAULT_CHARACTER_SIZE, "skeleton", _GAMESPEED));
-                    WaveEnemies.Add(new Enemy(0, 0, (int)(_DEFAULT_CHARACTER_SIZE * 0.75), "babyzombie", _GAMESPEED));
+                    WaveEnemies.Add(new Enemy(0, 0, _DEFAULT_CHARACTER_SIZE, "zombie", _GAMESPEED));
+                    WaveEnemies.Add(new Enemy(0, 0, _DEFAULT_CHARACTER_SIZE, "skeleton", _GAMESPEED));
                     WaveEnemies.Add(new Enemy(0, 0, _DEFAULT_CHARACTER_SIZE, "zombie", _GAMESPEED));
 
                     break;
                 case 5:
+                    WaveEnemies.Add(new Enemy(0, 0, _DEFAULT_CHARACTER_SIZE, "skeleton", _GAMESPEED));
+                    WaveEnemies.Add(new Enemy(0, 0, (int)(_DEFAULT_CHARACTER_SIZE * 0.75), "babyzombie", _GAMESPEED));
+                    WaveEnemies.Add(new Enemy(0, 0, _DEFAULT_CHARACTER_SIZE, "zombie", _GAMESPEED));
+
+                    break;
+                case 6:
+                    WaveEnemies.Add(new Enemy(0, 0, _DEFAULT_CHARACTER_SIZE, "zombie", _GAMESPEED));
+                    WaveEnemies.Add(new Enemy(0, 0, _DEFAULT_CHARACTER_SIZE, "zombie", _GAMESPEED));
                     WaveEnemies.Add(new Enemy(0, 0, (int)(_DEFAULT_CHARACTER_SIZE * 0.75), "babyzombie", _GAMESPEED));
                     WaveEnemies.Add(new Enemy(0, 0, (int)(_DEFAULT_CHARACTER_SIZE * 0.75), "babyzombie", _GAMESPEED));
+                    WaveEnemies.Add(new Enemy(0, 0, _DEFAULT_CHARACTER_SIZE, "skeleton", _GAMESPEED));
+
+                    break;
+                case 7:
+                    WaveEnemies.Add(new Enemy(0, 0, _DEFAULT_CHARACTER_SIZE, "zombie", _GAMESPEED));
+                    WaveEnemies.Add(new Enemy(0, 0, _DEFAULT_CHARACTER_SIZE, "skeleton", _GAMESPEED));
                     WaveEnemies.Add(new Enemy(0, 0, (int)(_DEFAULT_CHARACTER_SIZE * 0.75), "babyzombie", _GAMESPEED));
+                    WaveEnemies.Add(new Enemy(0, 0, _DEFAULT_CHARACTER_SIZE, "zombie", _GAMESPEED));
+                    WaveEnemies.Add(new Enemy(0, 0, _DEFAULT_CHARACTER_SIZE, "skeleton", _GAMESPEED));
                     WaveEnemies.Add(new Enemy(0, 0, (int)(_DEFAULT_CHARACTER_SIZE * 0.75), "babyzombie", _GAMESPEED));
+
+                    break;
+                case 8:
+                    WaveEnemies.Add(new Enemy(0, 0, _DEFAULT_CHARACTER_SIZE, "zombie", _GAMESPEED));
+                    WaveEnemies.Add(new Enemy(0, 0, _DEFAULT_CHARACTER_SIZE, "zombie", _GAMESPEED));
+                    WaveEnemies.Add(new Enemy(0, 0, _DEFAULT_CHARACTER_SIZE, "zombie", _GAMESPEED));
+                    WaveEnemies.Add(new Enemy(0, 0, _DEFAULT_CHARACTER_SIZE, "skeleton", _GAMESPEED));
+                    WaveEnemies.Add(new Enemy(0, 0, _DEFAULT_CHARACTER_SIZE, "blaze", _GAMESPEED));
+
+                    break;
+                case 9:
+                    WaveEnemies.Add(new Enemy(0, 0, _DEFAULT_CHARACTER_SIZE, "zombie", _GAMESPEED));
+                    WaveEnemies.Add(new Enemy(0, 0, _DEFAULT_CHARACTER_SIZE, "skeleton", _GAMESPEED));
                     WaveEnemies.Add(new Enemy(0, 0, (int)(_DEFAULT_CHARACTER_SIZE * 0.75), "babyzombie", _GAMESPEED));
+                    WaveEnemies.Add(new Enemy(0, 0, _DEFAULT_CHARACTER_SIZE, "blaze", _GAMESPEED));
+                    WaveEnemies.Add(new Enemy(0, 0, (int)(_DEFAULT_CHARACTER_SIZE * 0.75), "babyzombie", _GAMESPEED));
+
+                    break;
+                case 10:
+                    WaveEnemies.Add(new Enemy(0, 0, _DEFAULT_CHARACTER_SIZE, "zombiepigman", _GAMESPEED));
+                    WaveEnemies.Add(new Enemy(0, 0, _DEFAULT_CHARACTER_SIZE, "zombiepigman", _GAMESPEED));
+                    WaveEnemies.Add(new Enemy(0, 0, _DEFAULT_CHARACTER_SIZE, "zombiepigman", _GAMESPEED));
+                    WaveEnemies.Add(new Enemy(0, 0, _DEFAULT_CHARACTER_SIZE, "blaze", _GAMESPEED));
+                    WaveEnemies.Add(new Enemy(0, 0, _DEFAULT_CHARACTER_SIZE, "blaze", _GAMESPEED));
 
                     break;
 
