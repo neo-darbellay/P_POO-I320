@@ -29,9 +29,14 @@ namespace ShootMeUp.Model
         private bool _blnInvincible;
 
         /// <summary>
-        /// The object's type (border, ...)
+        /// The obstacle's type (border, ...)
         /// </summary>
         private string _strType;
+
+        /// <summary>
+        /// Whether the obstacle has collisions or not
+        /// </summary>
+        private bool _blnCanCollide;
 
         /// <summary>
         /// The obstacle's health (set to int.MaxValue if invincible)
@@ -41,6 +46,15 @@ namespace ShootMeUp.Model
             get { return _intHealth; }
             set { _intHealth = value; }
         }
+
+        /// <summary>
+        /// Whether the obstacle has collisions or not
+        /// </summary>
+        public bool HasCollisions
+        {
+            get { return _blnCanCollide; }
+        }
+
 
         /// <summary>
         /// Whether the obstacle is invincible or not
@@ -73,6 +87,7 @@ namespace ShootMeUp.Model
 
             _intMaxHealth = _intHealth;
             _strType = "default";
+            _blnCanCollide = true;
         }
 
         /// <summary>
@@ -97,6 +112,7 @@ namespace ShootMeUp.Model
 
             _intMaxHealth = _intHealth;
             _strType = "default";
+            _blnCanCollide = true;
         }
 
 
@@ -125,6 +141,41 @@ namespace ShootMeUp.Model
 
             _intMaxHealth = _intHealth;
             _strType = strType;
+
+            if (strType == "spawner")
+                _blnCanCollide = false;
+            else
+                _blnCanCollide = true;
+        }
+
+        /// <summary>
+        /// The obstacle constructor
+        /// </summary>
+        /// <param name="x">The obstacle's X pos</param>
+        /// <param name="y">The obstacle's Y pos</param>
+        /// <param name="intLength">The obstacle's Length</param>
+        /// <param name="intHealth">The obstacle's max health</param>
+        /// <param name="strType">The obstacle's type (border/default)</param>
+        public Obstacle(int x, int y, int intLength, int intHealth, string strType) : base(x, y, intLength)
+        {
+            if (intHealth == 0)
+            {
+                _blnInvincible = true;
+                _intHealth = int.MaxValue;
+            }
+            else
+            {
+                _blnInvincible = false;
+                _intHealth = intHealth;
+            }
+
+            _intMaxHealth = _intHealth;
+            _strType = strType;
+
+            if (strType == "spawner")
+                _blnCanCollide = false;
+            else
+                _blnCanCollide = true;
         }
 
         public void Render(BufferedGraphics drawingSpace)
@@ -134,6 +185,7 @@ namespace ShootMeUp.Model
                 if (_blnInvincible)
                 {
                     drawingSpace.Graphics.DrawImage(Resources.ObstacleUnbreakable, FloatX, FloatY, length, height);
+                    _intHealth = int.MaxValue;
                 }
                 else if (_intMaxHealth > 10)
                 {
@@ -156,6 +208,11 @@ namespace ShootMeUp.Model
 
                 // Center the text above the obstacle
                 drawingSpace.Graphics.DrawString($"{this}", TextHelpers.drawFont, TextHelpers.writingBrush, centeredX, FloatY - 16);
+            }
+            else if (_strType == "spawner")
+            {
+                drawingSpace.Graphics.DrawImage(Resources.ObstacleSpawner, FloatX, FloatY, length, height);
+                _intHealth = int.MaxValue;
             }
             else if (_strType == "border")
             {

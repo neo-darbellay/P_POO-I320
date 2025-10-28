@@ -70,6 +70,10 @@ namespace ShootMeUp.Model
 
             foreach (Obstacle obstacle in _lst_Obstacles)
             {
+                // Skip the current obstacle if it has no collisions
+                if (!obstacle.HasCollisions)
+                    continue;
+                
                 if (IsOverlapping(cfrX, obstacle))
                 {
                     blnColliding[0] = true; // Collision if moved along X axis
@@ -103,6 +107,10 @@ namespace ShootMeUp.Model
 
             foreach (Obstacle obstacle in _lst_Obstacles)
             {
+                // Skip the current obstacle if it has no collisions
+                if (!obstacle.HasCollisions)
+                    continue;
+
                 if (IsOverlapping(cfrX, obstacle))
                 {
                     return obstacle;

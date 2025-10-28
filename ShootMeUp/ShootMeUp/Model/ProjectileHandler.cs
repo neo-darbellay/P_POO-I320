@@ -9,7 +9,7 @@ namespace ShootMeUp.Model
     /// <summary>
     /// This class is used to store every projectile
     /// </summary>
-    public class ProjectileHandler : Handler
+    public class ProjectileHandler
     {
         /// <summary>
         /// The list of all the projectiles

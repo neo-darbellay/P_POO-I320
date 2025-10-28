@@ -37,7 +37,7 @@ namespace ShootMeUp.Model
         /// <summary>
         /// How long the cooldown lasts after damaging a player
         /// </summary>
-        private readonly TimeSpan DamageCooldown = TimeSpan.FromSeconds(5);
+        private TimeSpan DamageCooldown = TimeSpan.FromSeconds(5);
 
         /// <summary>
         /// A player handler to check for collisions
@@ -84,7 +84,7 @@ namespace ShootMeUp.Model
             
             DamageCooldown = TimeSpan.FromSeconds(DamageCooldown.TotalSeconds / GAMESPEED);
             ArrowCooldown = TimeSpan.FromSeconds(20 / GAMESPEED);
-            FireballCooldown = TimeSpan.FromSeconds(30 / GAMESPEED);
+            FireballCooldown = TimeSpan.FromSeconds(20 / GAMESPEED);
             _lastArrowShotTime = DateTime.Now;
             _lastFireballShotTime = DateTime.Now;
         }
@@ -100,19 +100,41 @@ namespace ShootMeUp.Model
                 case "zombie":
                     _intScore = 1;
                     _intHealth = 10;
-                    _fltBaseSpeed = 1f / 3f;
+                    _fltBaseSpeed = 2f / 5f;
 
                     break;
-
                 case "skeleton":
-                    _intScore = 2;
-                    _intHealth = 3;
+                    _intScore = 3;
+                    _intHealth = 5;
                     _fltBaseSpeed = -0.5f;
                     _blnShoots = true;
                     _strProjectileType = "arrow";
+                    
+                    break;
+                case "babyzombie":
+                    _intScore = 2;
+                    _intHealth = 3;
+                    _fltBaseSpeed = 1.5f;
+
+                    DamageCooldown = TimeSpan.FromSeconds(3);
 
                     break;
+                case "blaze":
+                    _intScore = 5;
+                    _intHealth = 10;
+                    _fltBaseSpeed = -0.25f;
+                    _blnShoots = true;
+                    _strProjectileType = "fireball";
 
+                    break;
+                case "zombiepigman":
+                    _intScore = 5;
+                    _intHealth = 20;
+                    _fltBaseSpeed = 1f / 5f;
+
+                    DamageCooldown = TimeSpan.FromSeconds(8);
+
+                    break;
                 default:
                     break;
             }
@@ -123,9 +145,6 @@ namespace ShootMeUp.Model
         /// </summary>
         override public void Update()
         {
-            // Skip the update if the enemy is on damage cooldown
-            if (DateTime.Now < _nextUpdateTime && !_blnShoots)
-                return;
 
             // Add the base class' update
             base.Update();
@@ -133,11 +152,15 @@ namespace ShootMeUp.Model
             // Only deal contact damage if the enemy isn't a shooter
             if (!_blnShoots)
             {
+                // Skip the attack check if the enemy is on damage cooldown
+                if (DateTime.Now < _nextUpdateTime && !_blnShoots)
+                    return;
+
                 // Get the current CFrame
                 CFrame currentCFrame = (CFrame)this;
 
                 // Get the character or obstacle in front of the enemy
-                Character? characterHit = _characterHandler.GetCollidingCharacter(currentCFrame, _fltXSpeed, _fltYSpeed, this, "player");
+                Character? characterHit = _characterHandler.GetCollidingCharacter(currentCFrame, 0, 0, this, "player");
                 Obstacle? obstacleHit = _colCollisionHandler.GetCollidingObject(currentCFrame, _fltXSpeed, _fltYSpeed);
 
                 // Set the cooldown to the next update if there's anything in front of the enemy
@@ -251,9 +274,18 @@ namespace ShootMeUp.Model
                     // 8:29 aspect ratio
                     intProjectileLength = (intProjectileHeight * 8) / 29;
                 }
+                else if (strType == "fireball")
+                {
+                    // Make the fireball smaller
+                    intProjectileHeight /= 2;
+                    intProjectileLength /= 2;
+                }
 
-                // Send the corresponding projectile
-                return new Projectile(strType, fltProjectileX, fltProjectileY, intProjectileLength, intProjectileHeight, this, intTargetX, intTargetY, GAMESPEED/2);
+                // Slow the projectile down by dividing its GAMESPEED reference by 2
+                int intFakeGameSpeed = GAMESPEED/2;
+
+                // Fire a new projectile if possible
+                return new Projectile(strType, fltProjectileX, fltProjectileY, intProjectileLength, intProjectileHeight, this, intTargetX, intTargetY, intFakeGameSpeed);
             }
 
             return null;
@@ -285,12 +317,23 @@ namespace ShootMeUp.Model
                 switch (_strType)
                 {
                     case "skeleton":
-                        drawingSpace.Graphics.DrawImage(Resources.SkeletonToken, FloatX, FloatY, length, height);
-                        break;
+                        drawingSpace.Graphics.DrawImage(Resources.EnemySkeleton, FloatX, FloatY, length, height);
 
+                        break;
+                    case "babyzombie":
                     case "zombie":
+                        drawingSpace.Graphics.DrawImage(Resources.EnemyZombie, FloatX, FloatY, length, height);
+
+                        break;
+                    case "blaze":
+                        drawingSpace.Graphics.DrawImage(Resources.EnemyBlaze, FloatX, FloatY, length, height);
+
+                        break;
+                    case "zombiepigman":
+                        drawingSpace.Graphics.DrawImage(Resources.EnemyZombiePigman, FloatX, FloatY, length, height);
+
+                        break;
                     default:
-                        drawingSpace.Graphics.DrawImage(Resources.ZombieToken, FloatX, FloatY, length, height);
                         break;
                 }
 

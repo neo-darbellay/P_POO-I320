@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace ShootMeUp.Model
 {
     /// <summary>
-    /// This class is used to store every character
+    /// This class is used as a base for every handler to use if they need to check if two CFrames are overlapping
     /// </summary>
     public class Handler
     {

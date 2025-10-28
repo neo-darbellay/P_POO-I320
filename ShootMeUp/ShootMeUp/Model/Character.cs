@@ -191,14 +191,14 @@ namespace ShootMeUp.Model
             // Only draw the character if they're alive
             if (Lives > 0)
             {
-                drawingSpace.Graphics.DrawImage(Resources.PlayerToken, FloatX, FloatY, length, height);
+                drawingSpace.Graphics.DrawImage(Resources.CharacterPlayer, FloatX, FloatY, length, height);
             }
 
             // Draw the lives of the character
             for (int i = 0; i < Lives; i++)
             {
                 // Draw the PlayerToken as many times as there are lives
-                drawingSpace.Graphics.DrawImage(Resources.PlayerToken, (16 * i) + (8 * i) + 8, 32, 16, 16);
+                drawingSpace.Graphics.DrawImage(Resources.CharacterPlayer, (16 * i) + (8 * i) + 8, 32, 16, 16);
             }
         }
 

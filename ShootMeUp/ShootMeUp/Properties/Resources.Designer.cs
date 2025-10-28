@@ -63,6 +63,56 @@ namespace ShootMeUp.Properties {
         /// <summary>
         ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap CharacterPlayer {
+            get {
+                object obj = ResourceManager.GetObject("CharacterPlayer", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap EnemyBlaze {
+            get {
+                object obj = ResourceManager.GetObject("EnemyBlaze", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap EnemySkeleton {
+            get {
+                object obj = ResourceManager.GetObject("EnemySkeleton", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap EnemyZombie {
+            get {
+                object obj = ResourceManager.GetObject("EnemyZombie", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap EnemyZombiePigman {
+            get {
+                object obj = ResourceManager.GetObject("EnemyZombiePigman", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap ObstacleBorder {
             get {
                 object obj = ResourceManager.GetObject("ObstacleBorder", resourceCulture);
@@ -76,6 +126,16 @@ namespace ShootMeUp.Properties {
         internal static System.Drawing.Bitmap ObstacleNormal {
             get {
                 object obj = ResourceManager.GetObject("ObstacleNormal", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ObstacleSpawner {
+            get {
+                object obj = ResourceManager.GetObject("ObstacleSpawner", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -113,16 +173,6 @@ namespace ShootMeUp.Properties {
         /// <summary>
         ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap PlayerToken {
-            get {
-                object obj = ResourceManager.GetObject("PlayerToken", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap ProjectileArrow {
             get {
                 object obj = ResourceManager.GetObject("ProjectileArrow", resourceCulture);
@@ -136,26 +186,6 @@ namespace ShootMeUp.Properties {
         internal static System.Drawing.Bitmap ProjectileFireball {
             get {
                 object obj = ResourceManager.GetObject("ProjectileFireball", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap SkeletonToken {
-            get {
-                object obj = ResourceManager.GetObject("SkeletonToken", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap ZombieToken {
-            get {
-                object obj = ResourceManager.GetObject("ZombieToken", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

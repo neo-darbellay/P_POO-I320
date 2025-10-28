@@ -133,7 +133,7 @@
   <data name="ObstacleWeak" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ObstacleWeak.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="PlayerToken" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="CharacterPlayer" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\PlayerToken.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ProjectileArrow" type="System.Resources.ResXFileRef, System.Windows.Forms">
@@ -142,10 +142,19 @@
   <data name="ProjectileFireball" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ProjectileFireball.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="SkeletonToken" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="EnemySkeleton" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SkeletonToken.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ZombieToken" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="EnemyZombie" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ZombieToken.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="EnemyBlaze" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BlazeToken.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="EnemyZombiePigman" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ZombiePigmanToken.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ObstacleSpawner" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ObstacleSpawner.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
