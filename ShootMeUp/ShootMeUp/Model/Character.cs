@@ -78,17 +78,14 @@ namespace ShootMeUp.Model
         /// <param name="x">Its starting X position</param>
         /// <param name="y">Its starting Y position</param>
         /// <param name="length">The length of the character</param>
-        /// <param name="height">The height of the character</param>
         /// <param name="strType">The character's type (player, zombie, skeleton, ...)</param>
-        /// <param name="intHealth">The character's HP / lives</param>
-        /// <param name="fltBaseSpeed">The base character speed</param>
         /// <param name="GAMESPEED">The game's speed</param>
-        public Character(int x, int y, int length, int height, string strType, int intHealth, float fltBaseSpeed, int GAMESPEED) : base(x, y, length, height)
+        public Character(int x, int y, int length, string strType, int GAMESPEED) : base(x, y, length)
         {
-            _intHealth = intHealth;
+            _intHealth = 10;
             _colCollisionHandler = new CollisionHandler();
             _strType = strType;
-            _fltBaseSpeed = fltBaseSpeed;
+            _fltBaseSpeed = 1f;
 
             ArrowCooldown = TimeSpan.FromSeconds(ArrowCooldown.TotalSeconds / GAMESPEED);
             FireballCooldown = TimeSpan.FromSeconds(FireballCooldown.TotalSeconds / GAMESPEED);
@@ -207,8 +204,10 @@ namespace ShootMeUp.Model
 
         public override string ToString()
         {
-
-            return $"{((int)((double)Lives)).ToString()} HP";
+            if (Lives > 0)
+                return $"{((int)((double)Lives)).ToString()} HP";
+            else
+                return "";
         }
     }
 }

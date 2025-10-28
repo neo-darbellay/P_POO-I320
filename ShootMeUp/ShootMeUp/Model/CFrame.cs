@@ -90,6 +90,24 @@ namespace ShootMeUp.Model
             _intHeight = intHeight;
         }
 
+        public CFrame(int X, int Y, int intLength)
+        {
+            this.X = X;
+            this.Y = Y;
+
+            _intLength = intLength;
+            _intHeight = intLength;
+        }
+
+        public CFrame(float X, float Y, int intLength)
+        {
+            FloatX = X;
+            FloatY = Y;
+
+            _intLength = intLength;
+            _intHeight = intLength;
+        }
+
         public override string ToString()
         {
             return $"{{{FloatX},{FloatY}}},{{{length},{height}}}";

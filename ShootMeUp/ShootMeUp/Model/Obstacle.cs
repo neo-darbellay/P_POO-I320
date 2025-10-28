@@ -81,6 +81,32 @@ namespace ShootMeUp.Model
         /// <param name="x">The obstacle's X pos</param>
         /// <param name="y">The obstacle's Y pos</param>
         /// <param name="intLength">The obstacle's Length</param>
+        /// <param name="intHealth">The obstacle's max health</param>
+        public Obstacle(int x, int y, int intLength, int intHealth) : base(x, y, intLength)
+        {
+            if (intHealth == 0)
+            {
+                _blnInvincible = true;
+                _intHealth = int.MaxValue;
+            }
+            else
+            {
+                _blnInvincible = false;
+                _intHealth = intHealth;
+            }
+
+            _intMaxHealth = _intHealth;
+            _strType = "default";
+        }
+
+
+
+        /// <summary>
+        /// The obstacle constructor
+        /// </summary>
+        /// <param name="x">The obstacle's X pos</param>
+        /// <param name="y">The obstacle's Y pos</param>
+        /// <param name="intLength">The obstacle's Length</param>
         /// <param name="intHeight">The obstacle's height</param>
         /// <param name="intHealth">The obstacle's max health</param>
         /// <param name="strType">The obstacle's type (border/default)</param>
@@ -146,7 +172,10 @@ namespace ShootMeUp.Model
                 return "";
             }
 
-            return $"{((int)((double)_intHealth)).ToString()} HP";
+            if (_intHealth > 0)
+                return $"{((int)((double)_intHealth)).ToString()} HP";
+            else
+                return "";
         }
     }
 }

@@ -57,57 +57,27 @@ namespace ShootMeUp.Model
             get { return _intScore; }
         }
 
-
         /// <summary>
         /// The shooting enemy's constructor
         /// </summary>
         /// <param name="x">Its starting X position</param>
         /// <param name="y">Its starting Y position</param>
         /// <param name="length">The length of the character</param>
-        /// <param name="height">The height of the character</param>
         /// <param name="strType">The character's type (player, zombie, skeleton, ...)</param>
-        /// <param name="intHealth">The character's HP / lives</param>
-        /// <param name="fltBaseSpeed">The base character speed</param>
         /// <param name="GAMESPEED">The game's speed</param>
-        public Enemy(int x, int y, int length, int height, string strType, int intHealth, float fltBaseSpeed, int GAMESPEED) : base(x, y, length, height, strType, intHealth, fltBaseSpeed, GAMESPEED)
+        public Enemy(int x, int y, int length, string strType, int GAMESPEED) : base(x, y, length, strType, GAMESPEED)
         {
             _GAMESPEED = GAMESPEED;
 
-            _blnShoots = false;
+            // Set the default values up, before changing them depending on the enemy type
+            _intScore = 0;
+            _intHealth = 0;
+            _fltBaseSpeed = 0;
             _strProjectileType = "";
+            _blnShoots = false;
 
-            // Set the enemy's score
-            SetScore(strType);
-
-            _characterHandler = new CharacterHandler();
-            _projectileHandler = new ProjectileHandler();
-
-            DamageCooldown = TimeSpan.FromSeconds(DamageCooldown.TotalSeconds / GAMESPEED);
-            _nextUpdateTime = DateTime.Now + DamageCooldown;
-        }
-
-        /// <summary>
-        /// The shooting enemy's constructor
-        /// </summary>
-        /// <param name="x">Its starting X position</param>
-        /// <param name="y">Its starting Y position</param>
-        /// <param name="length">The length of the character</param>
-        /// <param name="height">The height of the character</param>
-        /// <param name="strType">The character's type (player, zombie, skeleton, ...)</param>
-        /// <param name="intHealth">The character's HP / lives</param>
-        /// <param name="fltBaseSpeed">The base character speed</param>
-        /// <param name="GAMESPEED">The game's speed</param>
-        /// <param name="blnShoots">Whether or not the enemy shoots</param>
-        /// <param name="strProjectileType">The projectile's type</param>
-        public Enemy(int x, int y, int length, int height, string strType, int intHealth, float fltBaseSpeed, int GAMESPEED, bool blnShoots, string strProjectileType) : base(x, y, length, height, strType, intHealth, -fltBaseSpeed, GAMESPEED)
-        {
-            _GAMESPEED = GAMESPEED;
-
-            _blnShoots = blnShoots;
-            _strProjectileType = strProjectileType;
-
-            // Set the enemy's score
-            SetScore(strType);
+            // Set up the enemy depending on the current type
+            SetupEnemy(strType);
 
             _characterHandler = new CharacterHandler();
             _projectileHandler = new ProjectileHandler();
@@ -120,23 +90,30 @@ namespace ShootMeUp.Model
         }
 
         /// <summary>
-        /// Sets the enemy's score
+        /// Sets up the current enemy
         /// </summary>
         /// <param name="strType"></param>
-        private void SetScore(string strType)
+        private void SetupEnemy(string strType)
         {
             switch (strType)
             {
                 case "zombie":
                     _intScore = 1;
+                    _intHealth = 10;
+                    _fltBaseSpeed = 1f / 3f;
+
                     break;
 
                 case "skeleton":
                     _intScore = 2;
+                    _intHealth = 3;
+                    _fltBaseSpeed = -0.5f;
+                    _blnShoots = true;
+                    _strProjectileType = "arrow";
+
                     break;
 
                 default:
-                    _intScore = 0;
                     break;
             }
         }
