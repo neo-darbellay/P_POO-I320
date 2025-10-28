@@ -25,6 +25,11 @@ namespace ShootMeUp.Model
         private string _strProjectileType;
 
         /// <summary>
+        /// The score that the enemy gives when it dies
+        /// </summary>
+        private int _intScore;
+
+        /// <summary>
         /// The time until the enemy's next update
         /// </summary>
         private DateTime _nextUpdateTime = DateTime.MinValue;
@@ -37,12 +42,21 @@ namespace ShootMeUp.Model
         /// <summary>
         /// A player handler to check for collisions
         /// </summary>
-        public CharacterHandler _characterHandler;
+        private CharacterHandler _characterHandler;
 
         /// <summary>
         /// A projectile handler to store every projectile
         /// </summary>
         private ProjectileHandler _projectileHandler;
+
+        /// <summary>
+        /// The score that the enemy gives when it dies
+        /// </summary>
+        public int Score
+        {
+            get { return _intScore; }
+        }
+
 
         /// <summary>
         /// The shooting enemy's constructor
@@ -62,8 +76,12 @@ namespace ShootMeUp.Model
             _blnShoots = false;
             _strProjectileType = "";
 
+            // Set the enemy's score
+            SetScore(strType);
+
             _characterHandler = new CharacterHandler();
             _projectileHandler = new ProjectileHandler();
+
             DamageCooldown = TimeSpan.FromSeconds(DamageCooldown.TotalSeconds / GAMESPEED);
             _nextUpdateTime = DateTime.Now + DamageCooldown;
         }
@@ -88,16 +106,39 @@ namespace ShootMeUp.Model
             _blnShoots = blnShoots;
             _strProjectileType = strProjectileType;
 
+            // Set the enemy's score
+            SetScore(strType);
+
             _characterHandler = new CharacterHandler();
             _projectileHandler = new ProjectileHandler();
-
+            
             DamageCooldown = TimeSpan.FromSeconds(DamageCooldown.TotalSeconds / GAMESPEED);
-
             ArrowCooldown = TimeSpan.FromSeconds(20 / GAMESPEED);
             FireballCooldown = TimeSpan.FromSeconds(30 / GAMESPEED);
-
             _lastArrowShotTime = DateTime.Now;
             _lastFireballShotTime = DateTime.Now;
+        }
+
+        /// <summary>
+        /// Sets the enemy's score
+        /// </summary>
+        /// <param name="strType"></param>
+        private void SetScore(string strType)
+        {
+            switch (strType)
+            {
+                case "zombie":
+                    _intScore = 1;
+                    break;
+
+                case "skeleton":
+                    _intScore = 2;
+                    break;
+
+                default:
+                    _intScore = 0;
+                    break;
+            }
         }
 
         /// <summary>
@@ -205,7 +246,7 @@ namespace ShootMeUp.Model
                     intProjectileLength = (intProjectileHeight * 8) / 29;
                 }
 
-                // Send the corresponding projectile if the enemy is allowed to
+                // Send the corresponding projectile
                 return new Projectile(strType, fltProjectileX, fltProjectileY, intProjectileLength, intProjectileHeight, this, intTargetX, intTargetY, GAMESPEED/2);
             }
 
@@ -229,5 +270,34 @@ namespace ShootMeUp.Model
         {
             obstacle.Health -= 1;
         }
+
+
+        public override void Render(BufferedGraphics drawingSpace)
+        {
+            if (Lives > 0)
+            {
+                switch (_strType)
+                {
+                    case "skeleton":
+                        drawingSpace.Graphics.DrawImage(Resources.SkeletonToken, FloatX, FloatY, length, height);
+                        break;
+
+                    case "zombie":
+                    default:
+                        drawingSpace.Graphics.DrawImage(Resources.ZombieToken, FloatX, FloatY, length, height);
+                        break;
+                }
+
+                // Get the text's size
+                SizeF textSize = drawingSpace.Graphics.MeasureString($"{this}", TextHelpers.drawFont);
+
+                // Calculate the X coordinate to center the text
+                float centeredX = FloatX + (length / 2f) - (textSize.Width / 2f);
+
+                // Center the text above the obstacle
+                drawingSpace.Graphics.DrawString($"{this}", TextHelpers.drawFont, TextHelpers.writingBrush, centeredX, FloatY - 16);
+            }
+        }
+
     }
 }

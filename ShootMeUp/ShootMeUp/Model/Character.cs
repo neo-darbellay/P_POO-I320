@@ -12,7 +12,7 @@ namespace ShootMeUp.Model
         /// <summary>
         /// The character's health
         /// </summary>
-        private int _intHealth;
+        protected int _intHealth;
 
         /// <summary>
         /// The character's speed in the X direction
@@ -27,7 +27,7 @@ namespace ShootMeUp.Model
         /// <summary>
         /// The character's type (player, ...)
         /// </summary>
-        private string _strType;
+        protected string _strType;
 
         /// <summary>
         /// The character's base speed
@@ -189,38 +189,19 @@ namespace ShootMeUp.Model
             return null;
         }
 
-        public void Render(BufferedGraphics drawingSpace)
+        public virtual void Render(BufferedGraphics drawingSpace)
         {
             // Only draw the character if they're alive
             if (Lives > 0)
             {
-                if (_strType == "player")
-                    drawingSpace.Graphics.DrawImage(Resources.PlayerToken, FloatX, FloatY, length, height);
-                else if (_strType == "zombie")
-                    drawingSpace.Graphics.DrawImage(Resources.ZombieToken, FloatX, FloatY, length, height);
-                else if (_strType == "skeleton")
-                    drawingSpace.Graphics.DrawImage(Resources.SkeletonToken, FloatX, FloatY, length, height);
+                drawingSpace.Graphics.DrawImage(Resources.PlayerToken, FloatX, FloatY, length, height);
             }
 
-            // Only draw the lives if the character is a player
-            if (_strType == "player")
+            // Draw the lives of the character
+            for (int i = 0; i < Lives; i++)
             {
-                for (int i = 0; i < Lives; i++)
-                {
-                    // Draw the PlayerToken as many times as there are lives
-                    drawingSpace.Graphics.DrawImage(Resources.PlayerToken, (16 * i) + (6 * i) + 6, 6, 16, 16);
-                }
-            }
-            else
-            {
-                // Get the text's size
-                SizeF textSize = drawingSpace.Graphics.MeasureString($"{this}", TextHelpers.drawFont);
-
-                // Calculate the X coordinate to center the text
-                float centeredX = FloatX + (length / 2f) - (textSize.Width / 2f);
-
-                // Center the text above the obstacle
-                drawingSpace.Graphics.DrawString($"{this}", TextHelpers.drawFont, TextHelpers.writingBrush, centeredX, FloatY - 16);
+                // Draw the PlayerToken as many times as there are lives
+                drawingSpace.Graphics.DrawImage(Resources.PlayerToken, (16 * i) + (8 * i) + 8, 32, 16, 16);
             }
         }
 
