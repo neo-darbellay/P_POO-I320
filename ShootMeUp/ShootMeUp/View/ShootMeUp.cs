@@ -16,7 +16,7 @@ namespace ShootMeUp
         /// Width of the game area
         /// </summary>
         public static readonly int WIDTH = 1024;
-        
+
         /// <summary>
         /// Height of the game area
         /// </summary>
@@ -45,7 +45,7 @@ namespace ShootMeUp
         /// <summary>
         /// The player
         /// </summary>
-        private Character _player;
+        private Character? _player;
 
         /// <summary>
         /// The list of keys currently held down
@@ -68,6 +68,11 @@ namespace ShootMeUp
         private ProjectileHandler _projectileHandler;
 
         /// <summary>
+        /// Whether the player is in game or not
+        /// </summary>
+        private bool _blnInGame;
+
+        /// <summary>
         /// The player's score
         /// </summary>
         private int _intScore;
@@ -81,11 +86,19 @@ namespace ShootMeUp
             set { _intScore = value; }
         }
 
+        /// <summary>
+        /// The game's title screen
+        /// </summary>
+        private Label? _titleLabel;
 
-        BufferedGraphicsContext currentContext;
-        BufferedGraphics playspace;
+        /// <summary>
+        /// The game's play button
+        /// </summary>
+        private Button? _playButton;
 
-        // Initialisation de l'espace aérien avec un certain nombre de drones
+        private BufferedGraphicsContext currentContext;
+        private BufferedGraphics playspace;
+
         public ShootMeUp()
         {
             this.WindowState = FormWindowState.Maximized;
@@ -99,10 +112,89 @@ namespace ShootMeUp
             // Creates a BufferedGraphics instance associated with this form, and with
             // dimensions the same size as the drawing surface of the form.
             playspace = currentContext.Allocate(this.CreateGraphics(), this.DisplayRectangle);
-            _player = new Character(512, 512, DEFAULT_CHARACTER_SIZE, "player", GAMESPEED);
+
+            _characterHandler = new CharacterHandler();
+            _collisionHandler = new CollisionHandler();
+            _projectileHandler = new ProjectileHandler();
 
             // Create a new list of keys held down
             _lst_keysHeldDown = new List<Keys>();
+
+            // Show the game's title screen
+            ShowTitle();
+        }
+
+        /// <summary>
+        /// Shows the game's title screen
+        /// </summary>
+        private void ShowTitle()
+        {
+            // Clear playspace background
+            playspace.Graphics.Clear(Color.FromArgb(217, 217, 217));
+            playspace.Render();
+
+            // Remove any previous controls
+            this.Controls.Clear();
+
+            // Create the text and add some style to it
+            _titleLabel = new Label();
+            _titleLabel.Text = "Craft Me Up";
+            _titleLabel.Font = new Font("Consolas", 48, FontStyle.Bold);
+            _titleLabel.ForeColor = Color.Black;
+            _titleLabel.AutoSize = true;
+            _titleLabel.BackColor = Color.Transparent;
+
+            // Force layout so PreferredSize is accurate
+            _titleLabel.CreateControl();
+            _titleLabel.Left = (ClientSize.Width - _titleLabel.PreferredSize.Width) / 2;
+            _titleLabel.Top = ClientSize.Height / 3 - _titleLabel.PreferredSize.Height / 2;
+
+            // Create and style Play button
+            _playButton = new Button();
+            _playButton.Text = "Play the game";
+            _playButton.Font = new Font("Consolas", 24, FontStyle.Bold);
+            _playButton.AutoSize = true;
+
+            // Measure size automatically
+            _playButton.CreateControl();
+            _playButton.Size = _playButton.PreferredSize;
+
+            // Center below the title
+            _playButton.Left = (ClientSize.Width - _playButton.Width) / 2;
+            _playButton.Top = _titleLabel.Bottom + 256;
+
+            // Add event handling
+            _playButton.Click += (s, e) => StartGame();
+
+            // Add controls to the form
+            this.Controls.Add(_titleLabel);
+            this.Controls.Add(_playButton);
+        }
+
+        /// <summary>
+        /// Start the game up
+        /// </summary>
+        private void StartGame()
+        {
+            // Remove title screen controls
+            this.Controls.Remove(_titleLabel);
+            this.Controls.Remove(_playButton);
+
+            // Remove the title screen
+            _titleLabel = null;
+            _playButton = null;
+
+            // Start the game
+            GenerateGame();
+        }
+
+        /// <summary>
+        /// Generate the game itself
+        /// </summary>
+        private void GenerateGame()
+        {
+            // Set the game state to true
+            _blnInGame = true;
 
             // Create a new CharacterHandler, CollisionHandler and ProjectileHandler
             _characterHandler = new CharacterHandler();
@@ -112,9 +204,11 @@ namespace ShootMeUp
             // Reset the game
             _characterHandler.RemoveAllCharacters();
             _collisionHandler.RemoveAllObstacles();
+            _projectileHandler.RemoveAllProjectiles();
             Score = 0;
 
-            // Add the player to the character handler
+            // Create a new player
+            _player = new Character(512, 512, DEFAULT_CHARACTER_SIZE, "player", GAMESPEED);
             _characterHandler.AddCharacter(_player);
 
             // Define the play area size in increments of 32
@@ -159,7 +253,7 @@ namespace ShootMeUp
 
             // Bottom right corner
             _collisionHandler.AddObstacle(new Obstacle(intBorderLength, intBorderLength, OBSTACLE_SIZE, 0));
-            _collisionHandler.AddObstacle(new Obstacle(intBorderLength   - 32, intBorderLength, OBSTACLE_SIZE, 0));
+            _collisionHandler.AddObstacle(new Obstacle(intBorderLength - 32, intBorderLength, OBSTACLE_SIZE, 0));
             _collisionHandler.AddObstacle(new Obstacle(intBorderLength, intBorderLength - 32, OBSTACLE_SIZE, 0));
 
 
@@ -171,7 +265,7 @@ namespace ShootMeUp
             {
                 for (int y = 0; y < 2; y++)
                 {
-                    _collisionHandler.AddObstacle(new Obstacle(160 + (160*x), 160 + (160*y), OBSTACLE_SIZE*2, intPillarHealth));
+                    _collisionHandler.AddObstacle(new Obstacle(160 + (160 * x), 160 + (160 * y), OBSTACLE_SIZE * 2, intPillarHealth));
                 }
             }
 
@@ -266,145 +360,138 @@ namespace ShootMeUp
             _characterHandler.AddCharacter(new Enemy(384, 384, DEFAULT_CHARACTER_SIZE, "skeleton", GAMESPEED));
         }
 
+
         /// <summary>
         /// Render the playspace along with the player
         /// </summary>
         private void Render()
         {
-            playspace.Graphics.Clear(Color.FromArgb(217, 217, 217));
-
-            playspace.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(250, 231, 172)), new Rectangle(64, 64, 32 * _intBorderSize + 32, 32 * _intBorderSize + 32));
-
-            // Loop through all of the obstacles and render them
-            foreach (Obstacle obstacle in _collisionHandler.Obstacles)
+            // Render the playspace if the player is in game
+            if (_blnInGame && _player != null)
             {
-                obstacle.Render(playspace);
-            }
+                playspace.Graphics.Clear(Color.FromArgb(217, 217, 217));
 
-            // Render all the enemies
-            foreach (Character character in _characterHandler.Characters)
-            {
-                if (character.Type == "player")
+                playspace.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(250, 231, 172)), new Rectangle(64, 64, 32 * _intBorderSize + 32, 32 * _intBorderSize + 32));
+
+                // Loop through all of the obstacles and render them
+                foreach (Obstacle obstacle in _collisionHandler.Obstacles)
                 {
-                    continue;    
+                    obstacle.Render(playspace);
                 }
 
-                character.Render(playspace);
+                // Render all the enemies
+                foreach (Character character in _characterHandler.Characters)
+                {
+                    if (character.Type == "player")
+                    {
+                        continue;
+                    }
+
+                    character.Render(playspace);
+                }
+
+                // Render the player
+                _player.Render(playspace);
+
+
+                // Render the projectiles if they are active
+                foreach (Projectile projectile in _projectileHandler.Projectiles)
+                {
+                    projectile.Render(playspace);
+                }
+
+                // Draw the score in the top left
+                playspace.Graphics.DrawString($"Score: {Score}", TextHelpers.drawFont, TextHelpers.writingBrush, 8, 8);
+
+                playspace.Render();
             }
-
-            // Render the player
-            _player.Render(playspace);
-
-
-            // Render the projectiles if they are active
-            foreach (Projectile projectile in _projectileHandler.Projectiles)
-            {
-                projectile.Render(playspace);
-            }
-
-            // Draw the score in the top left
-            playspace.Graphics.DrawString($"Score: {Score}", TextHelpers.drawFont, TextHelpers.writingBrush, 8, 8);
-
-            playspace.Render();
         }
 
         // Calcul du nouvel état après que 'interval' millisecondes se sont écoulées
         private void Update(int interval)
         {
-            // Remove any inactive projectiles/obstacles
-            _projectileHandler.Projectiles.RemoveAll(projectile => !projectile.Active);
-            _collisionHandler.Obstacles.RemoveAll(obstacle => obstacle.Health <= 0);
-
-            // Change the score if there's a dead enemy
-            foreach (Character character in _characterHandler.Characters)
+            // Update the playspace if the player is in game
+            if (_blnInGame && _player != null)
             {
-                if (character.Lives <= 0 && character is Enemy enemy)
+                // Remove any inactive projectiles/obstacles
+                _projectileHandler.Projectiles.RemoveAll(projectile => !projectile.Active);
+                _collisionHandler.Obstacles.RemoveAll(obstacle => obstacle.Health <= 0);
+
+                // Change the score if there's a dead enemy
+                // Also restart the game if the player died
+                foreach (Character character in _characterHandler.Characters)
                 {
-                    Score += enemy.Score;
+                    if (character.Lives <= 0 && character is Enemy enemy)
+                    {
+                        Score += enemy.Score;
+                    }
+                    else if (character.Type == "player" && character.Lives <= 0)
+                    {
+                        _blnInGame = false;
+
+                        ShowTitle();
+
+                        break;
+                    }
+                }
+
+                _characterHandler.Characters.RemoveAll(character => character.Lives <= 0);
+
+                // Create movement-related boolean variables
+                bool blnLeftHeld = _lst_keysHeldDown.Contains(Keys.A) || _lst_keysHeldDown.Contains(Keys.Left);
+                bool blnRightHeld = _lst_keysHeldDown.Contains(Keys.D) || _lst_keysHeldDown.Contains(Keys.Right);
+                bool blnUpHeld = _lst_keysHeldDown.Contains(Keys.W) || _lst_keysHeldDown.Contains(Keys.Up);
+                bool blnDownHeld = _lst_keysHeldDown.Contains(Keys.S) || _lst_keysHeldDown.Contains(Keys.Down);
+
+                // Create movement-related int variables
+                int intMoveX = 0;
+                int intMoveY = 0;
+
+                // Increment/decrement the movement-related int variables based off of the boolean variables
+                if (blnLeftHeld)
+                {
+                    intMoveX -= 1;
+                }
+
+                if (blnRightHeld)
+                {
+                    intMoveX += 1;
+                }
+
+                if (blnUpHeld)
+                {
+                    intMoveY -= 1;
+                }
+
+                if (blnDownHeld)
+                {
+                    intMoveY += 1;
+                }
+
+                // Multiple the movement-related int variables by the game speed
+                intMoveX *= GAMESPEED;
+                intMoveY *= GAMESPEED;
+
+                // Move the player
+                _player.Move(intMoveX, intMoveY);
+                _player.Update();
+
+                // Update the projectiles
+                foreach (Projectile projectile in _projectileHandler.Projectiles)
+                {
+                    projectile.Update();
+                }
+
+                // Update the enemies
+                foreach (Character character in _characterHandler.Characters)
+                {
+                    if (character.Type != "player" && character is Enemy enemy)
+                    {
+                        enemy.Move(_player);
+                        enemy.Update();
+                    }
                 }
             }
-
-            _characterHandler.Characters.RemoveAll(character => character.Lives <= 0);
-
-            // Create movement-related boolean variables
-            bool blnLeftHeld = _lst_keysHeldDown.Contains(Keys.A) || _lst_keysHeldDown.Contains(Keys.Left);
-            bool blnRightHeld = _lst_keysHeldDown.Contains(Keys.D) || _lst_keysHeldDown.Contains(Keys.Right);
-            bool blnUpHeld = _lst_keysHeldDown.Contains(Keys.W) || _lst_keysHeldDown.Contains(Keys.Up);
-            bool blnDownHeld = _lst_keysHeldDown.Contains(Keys.S) || _lst_keysHeldDown.Contains(Keys.Down);
-
-            // Create movement-related int variables
-            int intMoveX = 0;
-            int intMoveY = 0;
-
-            // Increment/decrement the movement-related int variables based off of the boolean variables
-            if (blnLeftHeld)
-            {
-                intMoveX -= 1;
-            }
-
-            if (blnRightHeld)
-            {
-                intMoveX += 1;
-            }
-
-            if (blnUpHeld)
-            {
-                intMoveY -= 1;
-            }
-
-            if (blnDownHeld)
-            {
-                intMoveY += 1;
-            }
-
-            // Multiple the movement-related int variables by the game speed
-            intMoveX *= GAMESPEED;
-            intMoveY *= GAMESPEED;
-
-            // Move the player
-            _player.Move(intMoveX, intMoveY);
-
-
-            _player.Update();
-
-            // Update the projectiles
-            foreach (Projectile projectile in _projectileHandler.Projectiles)
-            {
-                projectile.Update();
-            }
-
-            // Update the enemies
-            foreach (Character enemy in _characterHandler.Characters)
-            {
-                if (enemy.Type != "player")
-                {
-                    MoveEnemy(enemy);
-                    enemy.Update();
-                }
-            }
-        }
-
-        private void MoveEnemy(Character enemy)
-        {
-            // Calculate direction to target
-            float deltaX = _player.FloatX - enemy.FloatX;
-            float deltaY = _player.FloatY - enemy.FloatY;
-
-            // Normalize direction
-            float length = (float)Math.Sqrt(deltaX * deltaX + deltaY * deltaY);
-
-            // Divide the delta positions by the length if it isn't equal to 0
-            if (length != 0)
-            {
-                deltaX /= length;
-                deltaY /= length;
-            }
-
-            // Multiply the movement variables to match the game speed
-            deltaX *= GAMESPEED;
-            deltaY *= GAMESPEED;
-
-            enemy.Move(deltaX, deltaY);
         }
 
         // Méthode appelée à chaque frame
@@ -439,20 +526,24 @@ namespace ShootMeUp
 
         private void ShootMeUp_MouseClick(object sender, MouseEventArgs e)
         {
-            string strType = "";
-
-            // If it's a left click, strType is "arrow". if its a right click, strType is "fireball".
-            if (e.Button == MouseButtons.Left)
-                strType = "arrow";
-            else if (e.Button == MouseButtons.Right)
-                strType = "fireball";
-
-            // Shoot an arrow using the player's shoot method and add it to the projetile list
-            Projectile? possibleProjectile = _player.Shoot(this.PointToClient(Cursor.Position), strType, GAMESPEED);
-
-            if (possibleProjectile != null)
+            // Only try and shoot something if the player is in game
+            if (_blnInGame && _player != null)
             {
-                _projectileHandler.Projectiles.Add(possibleProjectile);
+                string strType = "";
+
+                // If it's a left click, strType is "arrow". if its a right click, strType is "fireball".
+                if (e.Button == MouseButtons.Left)
+                    strType = "arrow";
+                else if (e.Button == MouseButtons.Right)
+                    strType = "fireball";
+
+                // Shoot an arrow using the player's shoot method and add it to the projetile list
+                Projectile? possibleProjectile = _player.Shoot(this.PointToClient(Cursor.Position), strType, GAMESPEED);
+
+                if (possibleProjectile != null)
+                {
+                    _projectileHandler.Projectiles.Add(possibleProjectile);
+                }
             }
         }
     }

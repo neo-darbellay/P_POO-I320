@@ -190,6 +190,35 @@ namespace ShootMeUp.Model
                 }
             }
         }
+
+        /// <summary>
+        /// Move the enemy to the player
+        /// </summary>
+        /// <param name="player"></param>
+        public void Move(Character player)
+        {
+            // Calculate direction to target
+            float deltaX = player.FloatX - FloatX;
+            float deltaY = player.FloatY - FloatY;
+
+            // Normalize direction
+            float length = (float)Math.Sqrt(deltaX * deltaX + deltaY * deltaY);
+
+            // Divide the delta positions by the length if it isn't equal to 0
+            if (length != 0)
+            {
+                deltaX /= length;
+                deltaY /= length;
+            }
+
+            // Multiply the movement variables to match the game speed
+            deltaX *= _GAMESPEED;
+            deltaY *= _GAMESPEED;
+
+            base.Move(deltaX, deltaY);
+        }
+
+
         override public Projectile? Shoot(Point clientPos, string strType, int GAMESPEED)
         {
             // Store the current time
