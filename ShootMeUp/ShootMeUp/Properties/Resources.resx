@@ -118,43 +118,82 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="ObstacleBorder" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ObstacleBorder.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Character_Blaze" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Character_Blaze.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ObstacleNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ObstacleNormal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Character_Dragon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Character_Dragon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ObstacleStrong" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ObstacleStrong.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Character_Player" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Character_Player.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ObstacleUnbreakable" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ObstacleUnbreakable.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Character_Skeleton" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Character_Skeleton.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ObstacleWeak" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ObstacleWeak.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Character_SpiderJockey" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Character_SpiderJockey.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="CharacterPlayer" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\PlayerToken.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Character_Wither" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Character_Wither.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ProjectileArrow" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ProjectileArrow.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Character_Zombie" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Character_Zombie.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ProjectileFireball" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ProjectileFireball.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Character_Zombie_Pigman" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Character_Zombie_Pigman.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="EnemySkeleton" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SkeletonToken.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Floor_Grass" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Floor_Grass.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="EnemyZombie" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ZombieToken.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Floor_Sand" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Floor_Sand.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="EnemyBlaze" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\BlazeToken.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Floor_Stone" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Floor_Stone.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="EnemyZombiePigman" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ZombiePigmanToken.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Misc_BossHeart" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Misc_BossHeart.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ObstacleSpawner" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ObstacleSpawner.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Misc_EmptyHeart" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Misc_EmptyHeart.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Misc_EnemyHeart" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Misc_EnemyHeart.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Misc_PlayerHeart" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Misc_PlayerHeart.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Obstacle_Barrier" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Obstacle_Barrier.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Obstacle_Bedrock" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Obstacle_Bedrock.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Obstacle_Bush" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Obstacle_Bush.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Obstacle_Cobblestone" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Obstacle_Cobblestone.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Obstacle_Dirt" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Obstacle_Dirt.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Obstacle_Spawner" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Obstacle_Spawner.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Obstacle_WoodPlanks" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Obstacle_WoodPlanks.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Projectile_Arrow" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Projectile_Arrow.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Projectile_DragonFireball" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Projectile_DragonFireball.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Projectile_Fireball" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Projectile_Fireball.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Projectile_WitherSkull" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Projectile_WitherSkull.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

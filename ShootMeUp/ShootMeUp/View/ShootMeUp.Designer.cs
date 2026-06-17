@@ -35,7 +35,7 @@
             // ticker
             // 
             ticker.Enabled = true;
-            ticker.Interval = 10;
+            ticker.Interval = 16;
             ticker.Tick += NewFrame;
             // 
             // ShootMeUp
@@ -45,8 +45,8 @@
             ClientSize = new Size(528, 505);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             Name = "ShootMeUp";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Shoot Me Up";
-            Load += ShootMeUp_Load;
             KeyDown += ShootMeUp_KeyDown;
             KeyUp += ShootMeUp_KeyUp;
             MouseClick += ShootMeUp_MouseClick;

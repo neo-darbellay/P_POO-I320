@@ -1,4 +1,6 @@
-﻿using ShootMeUp.Helpers;
+﻿///ETML
+///10.11.2025
+///This is the obstacle class
 using ShootMeUp.Properties;
 using System;
 using System.Collections.Generic;
@@ -14,55 +16,44 @@ namespace ShootMeUp.Model
     public class Obstacle : CFrame
     {
         /// <summary>
-        /// The obstacle's max health
+        /// The obstacle's type (Barrier, ...)
         /// </summary>
-        private int _intMaxHealth;
+        public enum Type
+        {
+            Dirt,
+            Wood,
+            CobbleStone,
 
-        /// <summary>
-        /// The obstacle's health
-        /// </summary>
-        private int _intHealth;
+            Barrier,
+            Bedrock,
 
-        /// <summary>
-        /// Whether the obstacle is invincible or not
-        /// </summary>
-        private bool _blnInvincible;
+            Spawner,
+            Bush,
+            Grass,
+            Stone,
+            Sand,
 
-        /// <summary>
-        /// The obstacle's type (border, ...)
-        /// </summary>
-        private string _strType;
-
-        /// <summary>
-        /// Whether the obstacle has collisions or not
-        /// </summary>
-        private bool _blnCanCollide;
+            Undefined
+        }
 
         /// <summary>
         /// The obstacle's health (set to int.MaxValue if invincible)
         /// </summary>
-        public int Health
-        {
-            get { return _intHealth; }
-            set { _intHealth = value; }
-        }
-
-        /// <summary>
-        /// Whether the obstacle has collisions or not
-        /// </summary>
-        public bool HasCollisions
-        {
-            get { return _blnCanCollide; }
-        }
-
+        public int Health { get; set; }
 
         /// <summary>
         /// Whether the obstacle is invincible or not
         /// </summary>
+        private readonly bool _invincible;
         public bool Invincible
         {
-            get { return _blnInvincible; }
+            get { return _invincible; }
         }
+
+        // <summary>
+        /// The obstacle's current type
+        /// </summary>
+        public Type ObstType { get; private set; }
 
         /// <summary>
         /// The obstacle constructor
@@ -70,167 +61,73 @@ namespace ShootMeUp.Model
         /// <param name="x">The obstacle's X pos</param>
         /// <param name="y">The obstacle's Y pos</param>
         /// <param name="intLength">The obstacle's Length</param>
-        /// <param name="intHeight">The obstacle's height</param>
-        /// <param name="intHealth">The obstacle's max health</param>
-        public Obstacle(int x, int y, int intLength, int intHeight, int intHealth) : base(x, y, intLength, intHeight)
+        /// <param name="type">The obstacle's type (Bush, Barrier, ...)</param>
+        public Obstacle(float x, float y, int intLength, Obstacle.Type type) : base(x, y, intLength)
         {
-            if (intHealth == 0)
+            switch (type)
             {
-                _blnInvincible = true;
-                _intHealth = int.MaxValue;
-            }
-            else
-            {
-                _blnInvincible = false;
-                _intHealth = intHealth;
-            }
+                case Type.Dirt:
+                    Health = 5;
+                    break;
+                case Type.Wood:
+                    Health = 10;
+                    break;
+                case Type.CobbleStone:
+                    Health = 25;
+                    break;
 
-            _intMaxHealth = _intHealth;
-            _strType = "default";
-            _blnCanCollide = true;
+                case Type.Barrier:
+                    _invincible = true;
+                    Health = int.MaxValue;
+                    break;
+                case Type.Bedrock:
+                    _invincible = true;
+                    break;
+
+                case Type.Spawner:
+                    _invincible = true;
+                    CanCollide = false;
+                    break;
+                case Type.Bush:
+                    _invincible = true;
+                    CanCollide = false;
+                    Health = int.MaxValue;
+                    break;
+
+                case Type.Grass:
+                    CanCollide = false;
+                    _invincible = true;
+                    break;
+                case Type.Stone:
+                    CanCollide = false;
+                    _invincible = true;
+                    break;
+                case Type.Sand:
+                    CanCollide = false;
+                    _invincible = true;
+                    break;
+                default:
+                    CanCollide = false;
+                    _invincible = true;
+                    break;
+            }            
+
+            ObstType = type;
         }
 
         /// <summary>
-        /// The obstacle constructor
+        /// Permit to get the dispayed status
         /// </summary>
-        /// <param name="x">The obstacle's X pos</param>
-        /// <param name="y">The obstacle's Y pos</param>
-        /// <param name="intLength">The obstacle's Length</param>
-        /// <param name="intHealth">The obstacle's max health</param>
-        public Obstacle(int x, int y, int intLength, int intHealth) : base(x, y, intLength)
-        {
-            if (intHealth == 0)
-            {
-                _blnInvincible = true;
-                _intHealth = int.MaxValue;
-            }
-            else
-            {
-                _blnInvincible = false;
-                _intHealth = intHealth;
-            }
-
-            _intMaxHealth = _intHealth;
-            _strType = "default";
-            _blnCanCollide = true;
-        }
-
-
-
-        /// <summary>
-        /// The obstacle constructor
-        /// </summary>
-        /// <param name="x">The obstacle's X pos</param>
-        /// <param name="y">The obstacle's Y pos</param>
-        /// <param name="intLength">The obstacle's Length</param>
-        /// <param name="intHeight">The obstacle's height</param>
-        /// <param name="intHealth">The obstacle's max health</param>
-        /// <param name="strType">The obstacle's type (border/default)</param>
-        public Obstacle(int x, int y, int intLength, int intHeight, int intHealth, string strType) : base(x, y, intLength, intHeight)
-        {
-            if (intHealth == 0)
-            {
-                _blnInvincible = true;
-                _intHealth = int.MaxValue;
-            }
-            else
-            {
-                _blnInvincible = false;
-                _intHealth = intHealth;
-            }
-
-            _intMaxHealth = _intHealth;
-            _strType = strType;
-
-            if (strType == "spawner")
-                _blnCanCollide = false;
-            else
-                _blnCanCollide = true;
-        }
-
-        /// <summary>
-        /// The obstacle constructor
-        /// </summary>
-        /// <param name="x">The obstacle's X pos</param>
-        /// <param name="y">The obstacle's Y pos</param>
-        /// <param name="intLength">The obstacle's Length</param>
-        /// <param name="intHealth">The obstacle's max health</param>
-        /// <param name="strType">The obstacle's type (border/default)</param>
-        public Obstacle(int x, int y, int intLength, int intHealth, string strType) : base(x, y, intLength)
-        {
-            if (intHealth == 0)
-            {
-                _blnInvincible = true;
-                _intHealth = int.MaxValue;
-            }
-            else
-            {
-                _blnInvincible = false;
-                _intHealth = intHealth;
-            }
-
-            _intMaxHealth = _intHealth;
-            _strType = strType;
-
-            if (strType == "spawner")
-                _blnCanCollide = false;
-            else
-                _blnCanCollide = true;
-        }
-
-        public void Render(BufferedGraphics drawingSpace)
-        {
-            if (_strType == "default")
-            {
-                if (_blnInvincible)
-                {
-                    drawingSpace.Graphics.DrawImage(Resources.ObstacleUnbreakable, FloatX, FloatY, length, height);
-                    _intHealth = int.MaxValue;
-                }
-                else if (_intMaxHealth > 10)
-                {
-                    drawingSpace.Graphics.DrawImage(Resources.ObstacleStrong, FloatX, FloatY, length, height);
-                }
-                else if (_intMaxHealth > 5)
-                {
-                    drawingSpace.Graphics.DrawImage(Resources.ObstacleNormal, FloatX, FloatY, length, height);
-                }
-                else
-                {
-                    drawingSpace.Graphics.DrawImage(Resources.ObstacleWeak, FloatX, FloatY, length, height);
-                }
-
-                // Get the text's size
-                SizeF textSize = drawingSpace.Graphics.MeasureString($"{this}", TextHelpers.drawFont);
-
-                // Calculate the X coordinate to center the text
-                float centeredX = FloatX + (length / 2f) - (textSize.Width/ 2f);
-
-                // Center the text above the obstacle
-                drawingSpace.Graphics.DrawString($"{this}", TextHelpers.drawFont, TextHelpers.writingBrush, centeredX, FloatY - 16);
-            }
-            else if (_strType == "spawner")
-            {
-                drawingSpace.Graphics.DrawImage(Resources.ObstacleSpawner, FloatX, FloatY, length, height);
-                _intHealth = int.MaxValue;
-            }
-            else if (_strType == "border")
-            {
-                drawingSpace.Graphics.DrawImage(Resources.ObstacleBorder, FloatX, FloatY, length, height);
-                _intHealth = int.MaxValue;
-            }
-
-        }
-
+        /// <returns></returns>
         public override string ToString()
         {
-            if (_blnInvincible)
+            if (_invincible)
             {
                 return "";
             }
 
-            if (_intHealth > 0)
-                return $"{((int)((double)_intHealth)).ToString()} HP";
+            if (Health > 0)
+                return $"{Health} HP";
             else
                 return "";
         }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ShootMeUp.Properties;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,106 +12,61 @@ namespace ShootMeUp.Model
     /// </summary>
     public class CFrame
     {
-        private int _intX;
-        private int _intY;
+        /// <summary>
+        /// The current object's position
+        /// </summary>
+        public (float X, float Y) Position;
 
-        private float _fltX;
-        private float _fltY;
+        /// <summary>
+        /// The current object's size
+        /// </summary>
+        public (int Width, int Height) Size;
 
-        private int _intLength;
-        private int _intHeight;
-
-        public float FloatX
+        /// <summary>
+        /// Whether the current CFrame has obstacle collisions or not
+        /// </summary>
+        private bool _canCollide;
+        public bool CanCollide
         {
-            get { return _fltX; }
-            set
-            {
-                _fltX = value;
-                _intX = (int)value;
-            }
+            get { return _canCollide; }
+            protected set { _canCollide = value; }
         }
 
-        public float FloatY
+        /// <summary>
+        /// Create a new CFrame
+        /// </summary>
+        /// <param name="X">The x pos</param>
+        /// <param name="Y">The y pos</param>
+        public CFrame(float X, float Y) : this(X, Y, 0, 0) { }
+
+        /// <summary>
+        /// Create a new CFrame
+        /// </summary>
+        /// <param name="X">The x pos</param>
+        /// <param name="Y">The y pos</param>
+        /// <param name="intSize">The x/y size</param>
+        public CFrame(float X, float Y, int intSize) : this(X, Y, intSize, intSize) { }
+
+        /// <summary>
+        /// Create a new CFrame
+        /// </summary>
+        /// <param name="X">The x pos</param>
+        /// <param name="Y">The y pos</param>
+        /// <param name="intWidth">The width</param>
+        /// <param name="intHeight">The height</param>
+        public CFrame(float X, float Y, int intWidth, int intHeight)
         {
-            get { return _fltY; }
-            set
-            {
-                _fltY = value;
-                _intY = (int)value;
-            }
-        }
+            CanCollide = true;
 
-        public int X
-        {
-            get { return _intX; }
-            set
-            {
-                _intX = value;
-                _fltX = value;
-            }
-        }
-
-        public int Y
-        {
-            get { return _intY; }
-            set
-            {
-                _intY = value;
-                _fltY = value;
-            }
-        }
-
-        public int length
-        {
-            get { return _intLength; }
-            set { _intLength = value; }
-        }
-
-        public int height
-        {
-            get { return _intHeight; }
-            set { _intHeight = value; }
-        }
-
-        public CFrame(int X, int Y, int intLength, int intHeight)
-        {
-            this.X = X;
-            this.Y = Y;
-
-            _intLength = intLength;
-            _intHeight = intHeight;
-        }
-
-        public CFrame(float X, float Y, int intLength, int intHeight)
-        {
-            FloatX = X;
-            FloatY = Y;
-
-            _intLength = intLength;
-            _intHeight = intHeight;
-        }
-
-        public CFrame(int X, int Y, int intLength)
-        {
-            this.X = X;
-            this.Y = Y;
-
-            _intLength = intLength;
-            _intHeight = intLength;
-        }
-
-        public CFrame(float X, float Y, int intLength)
-        {
-            FloatX = X;
-            FloatY = Y;
-
-            _intLength = intLength;
-            _intHeight = intLength;
+            Position.X = X;
+            Position.Y = Y;
+            Size.Width = intWidth;
+            Size.Height = intHeight;
         }
 
         public override string ToString()
         {
-            return $"{{{FloatX},{FloatY}}},{{{length},{height}}}";
+            return $"{{{Position.X},{Position.Y}}},{{{Size.Height},{Size.Width}}}";
         }
     }
 }

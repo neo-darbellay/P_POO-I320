@@ -1,2 +1,2 @@
-# P_POO Shoot Me Up "Craft Me Up" Néo Darbellay
-This projet was made during the first trimester for the 2025-2026 academic year, from September 29 to October 28, 2025, at ETML.
+# P_Prod Craft Me Up Néo & Jonathan
+This project was made during the second trimester for the 2025-2026 academic year, from the third of November 2025 to the 9th of January 2026, at ETML.

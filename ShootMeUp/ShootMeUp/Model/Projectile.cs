@@ -3,119 +3,164 @@ using System;
 using System.Collections.Generic;
 using System.Drawing.Drawing2D;
 using System.Linq;
+using System.Net.Security;
+using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
 namespace ShootMeUp.Model
 {
     public class Projectile : CFrame
     {
         /// <summary>
-        /// The projectile's type (arrow, ...)
-        /// </summary>
-        private string _strType;
-
-        /// <summary>
         /// The character that shot the projectile
         /// </summary>
-        private Character _shotBy;
+        private readonly Character _shotBy;
 
         /// <summary>
         /// The amount of damage the projectile deals (in HP)
         /// </summary>
-        private int _intDamage;
-
-        /// <summary>
-        /// Whether or not the projectile is active or not
-        /// </summary>
-        private bool _blnActive;
-
-        /// <summary>
-        /// The rotation angle (in degrees)
-        /// </summary>
-        private float _fltRotationAngle;
+        private readonly int _intDamage;
 
         /// <summary>
         /// The projectile's movement speed
         /// </summary>
-        private float _fltMovementSpeed;
+        private readonly float _fltMovementSpeed;
 
         /// <summary>
-        ///  The projectile's speed in the X axis
+        ///  The projectile's speed in the X and Y axis
         /// </summary>
-        private float _fltXSpeed;
+        private (float X, float Y) _fltSpeed;
 
         /// <summary>
-        /// The projectile's speed in the Y axis
+        /// The X and Y position of the target
         /// </summary>
-        private float _fltYSpeed;
+        private (float X, float Y) _fltTarget;
 
         /// <summary>
-        /// The X position of the target
+        /// The projectile's type (arrow, ...)
         /// </summary>
-        private int _intTargetX;
-
-        /// <summary>
-        /// The Y position of the target
-        /// </summary>
-        private int _intTargetY;
-
-        /// <summary>
-        /// A character handler to store every character
-        /// </summary>
-        private CharacterHandler _characterHandler;
-
-        /// <summary>
-        /// A collision handler to create obstacles
-        /// </summary>
-        private CollisionHandler _collisionHandler;
-
-        public bool Active
+        public enum Type
         {
-            get { return _blnActive; }
+            Arrow_Small,
+            Arrow_Big,
+            Arrow_Jockey,
+            Fireball_Small,
+            Fireball_Big,
+            WitherSkull,
+            DragonFireball,
+            Undefined
         }
 
+        /// <summary>
+        /// Whether or not the projectile is active or not
+        /// </summary>
+        public bool Active { get; set; }
 
-        public Projectile(string strType, float X, float Y, int intLength, int intHeight, Character ShotBy, int intTargetX, int intTargetY, int GAMESPEED) : base(X, Y, intLength, intHeight)
+        // <summary>
+        /// The Projectile's current type
+        /// </summary>
+        public Type ProjType { get; private set; }
+
+        /// <summary>
+        /// The rotation angle (in degrees)
+        /// </summary>
+        public float RotationAngle { get; private set; }
+
+        public Projectile(Type type, Character ShotBy, float fltTargetX, float fltTargetY, int GAMESPEED): base(0, 0)
         {
-            _strType = strType;
+            ProjType = type;
             _shotBy = ShotBy;
-            _intTargetX = intTargetX;
-            _intTargetY = intTargetY;
+            _fltTarget.X = fltTargetX;
+            _fltTarget.Y = fltTargetY;
 
-            _blnActive = true;
-
-            _characterHandler = new CharacterHandler();
-            _collisionHandler = new CollisionHandler();
+            Active = true;
+            CanCollide = true;
 
             // Define the different properties depending on the projectile type
-            if (_strType == "arrow")
+            switch (type)
             {
-                _intDamage = 1;
-                _fltMovementSpeed = 3f;
+                case Type.Arrow_Big:
+                    Size.Width = ShotBy.Size.Width;
+                    Size.Height = ShotBy.Size.Height;
+                    _intDamage = 2;
+                    _fltMovementSpeed = 3;
+
+                    break;
+                case Type.Arrow_Small:
+                    Size.Width = ShotBy.Size.Width;
+                    Size.Height = ShotBy.Size.Height;
+                    _intDamage = 1;
+                    _fltMovementSpeed = 2;
+
+                    break;
+                case Type.Arrow_Jockey:
+                    Size.Width = ShotBy.Size.Width / 2;
+                    Size.Height = ShotBy.Size.Height / 2;
+                    _intDamage = 2;
+                    _fltMovementSpeed = 1.8f;
+
+                    break;
+                case Type.Fireball_Big:
+                    Size.Width = ShotBy.Size.Width;
+                    Size.Height = ShotBy.Size.Height;
+                    _intDamage = 5;
+                    _fltMovementSpeed = 1;
+
+                    break;
+                case Type.Fireball_Small:
+                    Size.Width = ShotBy.Size.Width;
+                    Size.Height = ShotBy.Size.Height;
+                    _intDamage = 2;
+                    _fltMovementSpeed = 0.75f;
+
+                    break;
+                case Type.WitherSkull:
+                    Size.Width = ShotBy.Size.Width / 4;
+                    Size.Height = ShotBy.Size.Height / 4;
+                    _intDamage = 3;
+                    _fltMovementSpeed = 1f;
+
+                    break;
+                case Type.DragonFireball:
+                    Size.Width = ShotBy.Size.Width / 4;
+                    Size.Height = ShotBy.Size.Height / 4;
+                    _intDamage = 5;
+                    _fltMovementSpeed = 1;
+
+                    CanCollide = false;
+
+                    break;
+                default:
+                    Size.Width = ShotBy.Size.Width;
+                    Size.Height = ShotBy.Size.Height;
+                    _intDamage = 0;
+                    _fltMovementSpeed = -1;
+                    break;
             }
-            else if (_strType == "fireball")
-            {
-                _intDamage = 3;
-                _fltMovementSpeed = 1f;
-            }
-            else
-            {
-                // Default
-                _intDamage = 0;
-                _fltMovementSpeed = 3f;
-            }
+
+            // Center projectile on shooter
+            float shooterCenterX = ShotBy.Position.X + ShotBy.Size.Width / 2f;
+            float shooterCenterY = ShotBy.Position.Y + ShotBy.Size.Height / 2f;
+
+            Position.X = shooterCenterX - Size.Width / 2f;
+            Position.Y = shooterCenterY - Size.Height / 2f;
 
             // Multiply the movement speed by the game speed
             _fltMovementSpeed *= GAMESPEED;
 
             // Calculate direction to target
-            float deltaX = _intTargetX - FloatX;
-            float deltaY = _intTargetY - FloatY;
+            float projCenterX = Position.X + Size.Width / 2f;
+            float projCenterY = Position.Y + Size.Height / 2f;
+
+            float deltaX = _fltTarget.X - projCenterX;
+            float deltaY = _fltTarget.Y - projCenterY;
 
             // Calculate rotation angle in degrees
             // We add 90 here because the image faces upwards
-            _fltRotationAngle = (float)(Math.Atan2(deltaY, deltaX) * (180.0 / Math.PI)) + 90;
+            RotationAngle = (float)(Math.Atan2(deltaY, deltaX) * (180.0 / Math.PI)) + 90;
 
             // Normalize direction
             float length = (float)Math.Sqrt(deltaX * deltaX + deltaY * deltaY);
@@ -126,8 +171,8 @@ namespace ShootMeUp.Model
             }
 
             // Store movement speed in X/Y components
-            _fltXSpeed = (deltaX * _fltMovementSpeed);
-            _fltYSpeed = (deltaY * _fltMovementSpeed);
+            _fltSpeed.X = (deltaX * _fltMovementSpeed);
+            _fltSpeed.Y = (deltaY * _fltMovementSpeed);
         }
 
         /// <summary>
@@ -135,88 +180,93 @@ namespace ShootMeUp.Model
         /// </summary>
         public void Update()
         {
-            // Get the current CFrame
-            CFrame currentCFrame = (CFrame)this;
+            float moveX = _fltSpeed.X * ShootMeUp.DeltaTime;
+            float moveY = _fltSpeed.Y * ShootMeUp.DeltaTime;
 
-            // Check to see if the projectile is gonna clip in anything
-            bool[] tab_blnCharacterColliding;
+            int steps = (int)Math.Ceiling(Math.Max(Math.Abs(moveX), Math.Abs(moveY)));
+            steps = Math.Min(Math.Max(steps, 1), 10);
 
-            if (_shotBy.Type == "player")
+            if (steps < 1)
+                steps = 1;
+
+            float stepX = moveX / steps;
+            float stepY = moveY / steps;
+
+            // Check step by step if the arrow will hit anything
+            for (int i = 0; i < steps; i++)
             {
-                tab_blnCharacterColliding = _characterHandler.CheckForCollisions(currentCFrame, _fltXSpeed, _fltYSpeed, _shotBy);
-            }
-            else
-            {
-                tab_blnCharacterColliding = _characterHandler.CheckForCollisions(currentCFrame, _fltXSpeed, _fltYSpeed, _shotBy, "player");
-            }
+                Position.X += stepX;
+                Position.Y += stepY;
 
-            bool[] tab_blnObstaclesColliding = _collisionHandler.CheckForCollisions(currentCFrame, _fltXSpeed, _fltYSpeed);
+                CFrame? hit = GetColliding();
 
-            // Move the arrow if it wouldn't hit anything
-            if (!(tab_blnCharacterColliding[0] || tab_blnCharacterColliding[1] || tab_blnObstaclesColliding[0] || tab_blnObstaclesColliding[1]))
-            {
-                FloatX += _fltXSpeed;
-                FloatY += _fltYSpeed;
-            }
-            else
-            {
-                // Mark the projectile as inactive
-                _blnActive = false;
-
-                // Get the object and/or character that's been hit
-                Character? characterHit;
-
-                if (_shotBy.Type == "player")
+                if (hit != null)
                 {
-                    characterHit = _characterHandler.GetCollidingCharacter(currentCFrame, _fltXSpeed, _fltYSpeed, _shotBy);
-                }
-                else
-                {
-                    characterHit = _characterHandler.GetCollidingCharacter(currentCFrame, _fltXSpeed, _fltYSpeed, _shotBy, "player");
-                }
-                Obstacle? obstacleHit = _collisionHandler.GetCollidingObject(currentCFrame, _fltXSpeed, _fltYSpeed);
+                    Active = false;
 
-                if (characterHit != null)
-                {
-                    // Deal damage to the character
-                    characterHit.Lives -= _intDamage;
-                }
-                else if (obstacleHit != null && !obstacleHit.Invincible)
-                {
-                    // Deal damage to the obstacle
-                    obstacleHit.Health -= _intDamage;
+                    if (hit is Character characterHit)
+                        characterHit.Lives -= _intDamage;
+                    else if (hit is Obstacle obstacleHit)
+                        obstacleHit.Health -= _intDamage;
+
+                    return;
                 }
             }
-
         }
 
-
-        public void Render(BufferedGraphics drawingSpace)
+        public CFrame? GetColliding()
         {
-            Image? imgProjectile = null;
+            float stepX = _fltSpeed.X * ShootMeUp.DeltaTime;
+            float stepY = _fltSpeed.Y * ShootMeUp.DeltaTime;
 
-            if (_strType == "arrow")
-                imgProjectile = Resources.ProjectileArrow;
-            else if (_strType == "fireball")
-                imgProjectile = Resources.ProjectileFireball;
+            foreach (CFrame singularCFrame in ShootMeUp.Characters)
+            {
+                // Skip the ignored character
+                if (singularCFrame == (CFrame)_shotBy)
+                    continue;
 
-            if (imgProjectile == null)
-                return;
+                // Skip no collision obstacles
+                if (singularCFrame is Obstacle obstacle && !obstacle.CanCollide)
+                    continue;
 
-            // Save current transform
-            GraphicsState state = drawingSpace.Graphics.Save();
 
-            // Move origin to center of projectile
-            drawingSpace.Graphics.TranslateTransform(FloatX + length / 2f, FloatY + height / 2f);
+                if (ShootMeUp.IsOverlapping(singularCFrame, Position.X + stepX, Position.Y, Size.Width, Size.Height))
+                {
+                    return singularCFrame;
+                }
 
-            // Rotate around center
-            drawingSpace.Graphics.RotateTransform(_fltRotationAngle);
+                if (ShootMeUp.IsOverlapping(singularCFrame, Position.X, Position.Y + stepY, Size.Width, Size.Height))
+                {
+                    return singularCFrame;
+                }
+            }
 
-            // Draw image centered at new origin
-            drawingSpace.Graphics.DrawImage(imgProjectile, -length / 2f, -height / 2f, length, height);
+            if (!CanCollide) return null;
 
-            // Restore transform
-            drawingSpace.Graphics.Restore(state);
+            // Query only nearby chunks for better performance
+            foreach (CFrame singularCFrame in ShootMeUp.GetObstaclesNear(Position.X, Position.Y, Size.Width, Size.Height, expandChunks: 1))
+            {
+                // Skip the ignored character
+                if (singularCFrame == (CFrame)_shotBy)
+                    continue;
+
+                // Skip no collision obstacles
+                if (singularCFrame is Obstacle obstacle && !obstacle.CanCollide)
+                    continue;
+
+
+                if (ShootMeUp.IsOverlapping(singularCFrame, Position.X + stepX, Position.Y, Size.Width, Size.Height))
+                {
+                    return singularCFrame;
+                }
+
+                if (ShootMeUp.IsOverlapping(singularCFrame, Position.X, Position.Y + stepY, Size.Width, Size.Height))
+                {
+                    return singularCFrame;
+                }
+            }
+            
+            return null;
         }
     }
 }

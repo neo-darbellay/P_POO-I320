@@ -1,6 +1,6 @@
-﻿using ShootMeUp.Helpers;
-using ShootMeUp.Properties;
+﻿using ShootMeUp.Properties;
 using System.Numerics;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace ShootMeUp.Model
 {
@@ -10,52 +10,39 @@ namespace ShootMeUp.Model
     public class Enemy : Character
     {
         /// <summary>
-        /// A reference to the GAMESPEED readonly variable
-        /// </summary>
-        private int _GAMESPEED;
-
-        /// <summary>
         /// Whether or not the enemy can shoot
         /// </summary>
-        private bool _blnShoots;
+        private readonly bool _blnShoots;
 
         /// <summary>
         /// The enemy's projectile type
         /// </summary>
-        private string _strProjectileType;
+        private readonly Projectile.Type _ProjectileType;
+
+        /// <summary>
+        /// The enemy's target
+        /// </summary>
+        private readonly Character _Target;
+
+        /// <summary>
+        /// The cooldown that is used to check if enemies can attack or not (in seconds)
+        /// </summary>
+        private readonly float DamageCooldown;
+
+        /// <summary>
+        /// A timer used to determine if the enemy can attack
+        /// </summary>
+        public float LastDamageTimer;
+
+        /// <summary>
+        /// The enemy's max distance value to the player
+        /// </summary>
+        public float? MaxDistance;
 
         /// <summary>
         /// The score that the enemy gives when it dies
         /// </summary>
-        private int _intScore;
-
-        /// <summary>
-        /// The time until the enemy's next update
-        /// </summary>
-        private DateTime _nextUpdateTime = DateTime.MinValue;
-
-        /// <summary>
-        /// How long the cooldown lasts after damaging a player
-        /// </summary>
-        private TimeSpan DamageCooldown = TimeSpan.FromSeconds(5);
-
-        /// <summary>
-        /// A player handler to check for collisions
-        /// </summary>
-        private CharacterHandler _characterHandler;
-
-        /// <summary>
-        /// A projectile handler to store every projectile
-        /// </summary>
-        private ProjectileHandler _projectileHandler;
-
-        /// <summary>
-        /// The score that the enemy gives when it dies
-        /// </summary>
-        public int Score
-        {
-            get { return _intScore; }
-        }
+        public int ScoreValue { get; private set; }
 
         /// <summary>
         /// The shooting enemy's constructor
@@ -63,290 +50,302 @@ namespace ShootMeUp.Model
         /// <param name="x">Its starting X position</param>
         /// <param name="y">Its starting Y position</param>
         /// <param name="length">The length of the character</param>
-        /// <param name="strType">The character's type (player, zombie, skeleton, ...)</param>
-        /// <param name="GAMESPEED">The game's speed</param>
-        public Enemy(int x, int y, int length, string strType, int GAMESPEED) : base(x, y, length, strType, GAMESPEED)
+        /// <param name="type">The enemy's type (zombie, skeleton, ...)</param>
+        /// <param name="GameSettings.Current.GameSpeedValue">The game's speed</param>
+        /// <param name="Target">The enemy's target</param>
+        public Enemy(float x, float y, int length, Type type, int GAMESPEED, Character Target) : base(x, y, length, type, GAMESPEED)
         {
-            _GAMESPEED = GAMESPEED;
+            _Target = Target;
 
-            // Set the default values up, before changing them depending on the enemy type
-            _intScore = 0;
-            _intHealth = 0;
-            _fltBaseSpeed = 0;
-            _strProjectileType = "";
-            _blnShoots = false;
+            Position.X = x;
+            Position.Y = y;
 
             // Set up the enemy depending on the current type
-            SetupEnemy(strType);
-
-            _characterHandler = new CharacterHandler();
-            _projectileHandler = new ProjectileHandler();
-            
-            DamageCooldown = TimeSpan.FromSeconds(DamageCooldown.TotalSeconds / GAMESPEED);
-            ArrowCooldown = TimeSpan.FromSeconds(20 / GAMESPEED);
-            FireballCooldown = TimeSpan.FromSeconds(20 / GAMESPEED);
-            _lastArrowShotTime = DateTime.Now;
-            _lastFireballShotTime = DateTime.Now;
-        }
-
-        /// <summary>
-        /// Sets up the current enemy
-        /// </summary>
-        /// <param name="strType"></param>
-        private void SetupEnemy(string strType)
-        {
-            switch (strType)
+            switch (type)
             {
-                case "zombie":
-                    _intScore = 1;
-                    _intHealth = 10;
-                    _fltBaseSpeed = 2f / 5f;
+                case Type.Zombie:
+                    ScoreValue = 1;
+                    Lives = 10;
 
+                    _fltBaseSpeed = 0.4f;
                     break;
-                case "skeleton":
-                    _intScore = 3;
-                    _intHealth = 5;
-                    _fltBaseSpeed = -0.5f;
+                case Type.Skeleton:
+                    ScoreValue = 3;
+                    Lives = 5;
+
+                    _fltBaseSpeed = 0.5f;
+
+                    MaxDistance = 8 * ShootMeUp.DEFAULT_CHARACTER_SIZE;
+
                     _blnShoots = true;
-                    _strProjectileType = "arrow";
-                    
+                    _ProjectileType = Projectile.Type.Arrow_Small;
                     break;
-                case "babyzombie":
-                    _intScore = 2;
-                    _intHealth = 3;
+                case Type.Baby_Zombie:
+                    ScoreValue = 4;
+                    Lives = 3;
+
                     _fltBaseSpeed = 1.5f;
 
-                    DamageCooldown = TimeSpan.FromSeconds(3);
-
                     break;
-                case "blaze":
-                    _intScore = 5;
-                    _intHealth = 10;
-                    _fltBaseSpeed = -0.25f;
+                case Type.Blaze:
+                    ScoreValue = 6;
+                    Lives = 10;
+
+                    _fltBaseSpeed = 0.25f;
+
+                    MaxDistance = 12 * ShootMeUp.DEFAULT_CHARACTER_SIZE;
+
                     _blnShoots = true;
-                    _strProjectileType = "fireball";
+                    _ProjectileType = Projectile.Type.Fireball_Small;
+                    break;
+                case Type.Zombie_Pigman:
+                    ScoreValue = 5;
+                    Lives = 20;
+
+                    _fltBaseSpeed = 0.2f;
 
                     break;
-                case "zombiepigman":
-                    _intScore = 5;
-                    _intHealth = 20;
-                    _fltBaseSpeed = 1f / 5f;
+                case Type.SpiderJockey:
+                    ScoreValue = 20;
+                    Lives = 25;
 
-                    DamageCooldown = TimeSpan.FromSeconds(8);
+                    _fltBaseSpeed = 0.75f;
+
+                    CanCollide = false;
+                    _blnShoots = true;
+                    _ProjectileType = Projectile.Type.Arrow_Jockey;
+                    break;
+                case Type.WitherSkeleton:
+                    ScoreValue = 50;
+                    Lives = 35;
+
+                    _fltBaseSpeed = 0.5f;
+                    break;
+                case Type.Wither:
+                    ScoreValue = 100;
+                    Lives = 50;
+
+                    _fltBaseSpeed = 0.2f;
+
+                    CanCollide = false;
+                    _blnShoots = true;
+                    _ProjectileType = Projectile.Type.WitherSkull;
+                    break;
+                case Type.Dragon:
+                    ScoreValue = 250;
+                    Lives = 100;
+
+                    _fltBaseSpeed = 0.5f;
+
+                    CanCollide = false;
+                    _blnShoots = true;
+                    _ProjectileType = Projectile.Type.DragonFireball;
 
                     break;
                 default:
+                    _ProjectileType = Projectile.Type.Undefined;
                     break;
             }
+
+            // Change the damage cooldown depending on the projectile type
+            DamageCooldown = _ProjectileType switch
+            {
+                Projectile.Type.Arrow_Small or Projectile.Type.Arrow_Big or Projectile.Type.Arrow_Jockey => 6f / GameSettings.Current.GameSpeedValue,
+                Projectile.Type.Fireball_Small or Projectile.Type.Fireball_Big => 12f / GameSettings.Current.GameSpeedValue,
+                Projectile.Type.WitherSkull => 4f / GameSettings.Current.GameSpeedValue,
+                Projectile.Type.DragonFireball => 10f / GameSettings.Current.GameSpeedValue,
+                _ => type switch
+                {
+                    Type.Baby_Zombie => 3f,
+                    Type.Zombie_Pigman => 8f,
+                    _ => 5,
+                },// No projectile, check the enemy type
+            };
+
+            // Add 60 to the cooldown
+            DamageCooldown *= 60;
+
+            LastDamageTimer = 0;
         }
 
-        /// <summary>
-        /// Update the enemy's position
-        /// </summary>
-        override public void Update()
+        public bool CheckPlayerCollision()
         {
+            bool blnColliding = false;
 
-            // Add the base class' update
-            base.Update();
 
-            // Only deal contact damage if the enemy isn't a shooter
-            if (!_blnShoots)
+            // Collision checks that simulate movement
+            if (ShootMeUp.IsOverlapping(_Target, Position.X + _fltSpeed.X, Position.Y, Size.Width, Size.Height))
             {
-                // Skip the attack check if the enemy is on damage cooldown
-                if (DateTime.Now < _nextUpdateTime && !_blnShoots)
-                    return;
-
-                // Get the current CFrame
-                CFrame currentCFrame = (CFrame)this;
-
-                // Get the character or obstacle in front of the enemy
-                Character? characterHit = _characterHandler.GetCollidingCharacter(currentCFrame, 0, 0, this, "player");
-                Obstacle? obstacleHit = _colCollisionHandler.GetCollidingObject(currentCFrame, _fltXSpeed, _fltYSpeed);
-
-                // Set the cooldown to the next update if there's anything in front of the enemy
-                if (characterHit != null || (obstacleHit != null && !obstacleHit.Invincible))
-                {
-                    // Set the cooldown to the next update
-                    _nextUpdateTime = DateTime.Now + DamageCooldown;
-                }
-
-                // Deal damage to the player or the obstacle in front of the enemy
-                if (characterHit != null)
-                {
-                    // Damage the player
-                    DamagePlayer(characterHit);
-
-                }
-                else if (obstacleHit != null && !obstacleHit.Invincible)
-                {
-                    DamageObstacle(obstacleHit);
-
-                    // Set the cooldown to the next update
-                    _nextUpdateTime = DateTime.Now + DamageCooldown;
-                }
+                blnColliding = true;
             }
-            else
+
+            if (ShootMeUp.IsOverlapping(_Target, Position.X, Position.Y + _fltSpeed.Y, Size.Width, Size.Height))
             {
-                // Skip the update if the enemy is on damage cooldown
-                if ((_strProjectileType == "arrow" && DateTime.Now - _lastArrowShotTime < ArrowCooldown) || (_strProjectileType == "fireball" && DateTime.Now - _lastFireballShotTime < FireballCooldown))
-                    return;
-
-                // Get the player
-                Character? player = _characterHandler.Characters.Find(character => character.Type == "player");
-
-                // Stop trying to shoot if the player doesn't exist
-                if (player == null)
-                    return;
-
-                // Shoot an arrow using the enemy's shoot method and add it to the projetile list
-                Projectile? possibleProjectile = Shoot(new Point(player.X, player.Y), _strProjectileType, _GAMESPEED);
-                //
-                if (possibleProjectile != null)
-                {
-                    _projectileHandler.Projectiles.Add(possibleProjectile);
-
-                    // Record the shot time
-                    if (_strProjectileType == "arrow")
-                        _lastArrowShotTime = DateTime.Now;
-                    else if (_strProjectileType == "fireball")
-                        _lastFireballShotTime = DateTime.Now;
-                }
+                blnColliding = true;
             }
+
+            return blnColliding;
         }
 
-        /// <summary>
-        /// Move the enemy to the player
-        /// </summary>
-        /// <param name="player"></param>
-        public void Move(Character player)
+        public Obstacle? GetCollidingObstacle()
         {
-            // Calculate direction to target
-            float deltaX = player.FloatX - FloatX;
-            float deltaY = player.FloatY - FloatY;
+            foreach (Obstacle obstacle in ShootMeUp.GetObstaclesNear(Position.X, Position.Y, Size.Width, Size.Height, expandChunks: 1))
 
-            // Normalize direction
-            float length = (float)Math.Sqrt(deltaX * deltaX + deltaY * deltaY);
-
-            // Divide the delta positions by the length if it isn't equal to 0
-            if (length != 0)
             {
-                deltaX /= length;
-                deltaY /= length;
-            }
-
-            // Multiply the movement variables to match the game speed
-            deltaX *= _GAMESPEED;
-            deltaY *= _GAMESPEED;
-
-            base.Move(deltaX, deltaY);
-        }
+                // Skip the current obstacle if it has no collisions or is invincible
+                if (!obstacle.CanCollide || obstacle.Invincible)
+                    continue;
 
 
-        override public Projectile? Shoot(Point clientPos, string strType, int GAMESPEED)
-        {
-            // Store the current time
-            DateTime now = DateTime.Now;
-
-            // Shoot an arrow from the player's position to the cursor's position if they are alive
-            if (Lives > 0)
-            {
-                // Create variables used for the projectile's generation
-                float fltProjectileX = FloatX;
-                float fltProjectileY = FloatY;
-
-                int intTargetX = clientPos.X;
-                int intTargetY = clientPos.Y;
-
-                int intProjectileLength = length;
-                int intProjectileHeight = height;
-
-                // Get the enemy's center
-                float fltEnemyCenterX = FloatX + (length / 2f);
-                float fltEnemyCenterY = FloatY + (height / 2f);
-
-                // The projectile should start centered on the enemy
-                fltProjectileX = fltEnemyCenterX;
-                fltProjectileY = fltEnemyCenterY - (intProjectileHeight / 2f);
-
-                // Resize the projectile if the aspect ratio is different
-                if (strType == "arrow")
+                if (ShootMeUp.IsOverlapping(obstacle, Position.X + _fltSpeed.X, Position.Y, Size.Width, Size.Height))
                 {
-                    // 8:29 aspect ratio
-                    intProjectileLength = (intProjectileHeight * 8) / 29;
-                }
-                else if (strType == "fireball")
-                {
-                    // Make the fireball smaller
-                    intProjectileHeight /= 2;
-                    intProjectileLength /= 2;
+                    return obstacle;
                 }
 
-                // Slow the projectile down by dividing its GAMESPEED reference by 2
-                int intFakeGameSpeed = GAMESPEED/2;
-
-                // Fire a new projectile if possible
-                return new Projectile(strType, fltProjectileX, fltProjectileY, intProjectileLength, intProjectileHeight, this, intTargetX, intTargetY, intFakeGameSpeed);
+                if (ShootMeUp.IsOverlapping(obstacle, Position.X, Position.Y + _fltSpeed.Y, Size.Width, Size.Height))
+                {
+                    return obstacle;
+                }
             }
 
             return null;
         }
 
         /// <summary>
-        /// Damages the player
+        /// Move the enemy to the player
         /// </summary>
-        /// <param name="player">The player</param>
-        public void DamagePlayer(Character player)
+        public void Move()
         {
-            player.Lives -= 1;
+            if (Lives <= 0) return;
+
+            LastDamageTimer += ShootMeUp.DeltaTime;
+
+            // Calculate direction to target
+            float deltaX = (_Target.Position.X + _Target.Size.Width / 2) - (Position.X + Size.Width / 2);
+            float deltaY = (_Target.Position.Y + _Target.Size.Height / 2) - (Position.Y + Size.Height / 2);
+
+            float distanceToPlayer = MathF.Sqrt(deltaX * deltaX + deltaY * deltaY);
+
+            // add a negative if closer to player than distance, add positive if closer to distance
+
+            float fltDirection = 1f;
+
+            // Decide whether or not the enemy should move backwards/forwards if the MaxDistance value is set
+            if (MaxDistance.HasValue)
+            {
+                float distanceToMax = distanceToPlayer - MaxDistance.Value;
+
+                // Smoothly scale direction (-1 to +1)
+                fltDirection = Math.Clamp(distanceToMax / MaxDistance.Value, -1f, 1f);
+            }
+
+            if (distanceToPlayer != 0 && fltDirection != 0)
+            {
+                deltaX /= distanceToPlayer;
+                deltaY /= distanceToPlayer;
+            }
+
+            // Apply game speed and base speed
+            float speedX = deltaX * _GAMESPEED * _fltBaseSpeed * ShootMeUp.DeltaTime * fltDirection;
+            float speedY = deltaY * _GAMESPEED * _fltBaseSpeed * ShootMeUp.DeltaTime * fltDirection;
+
+            // Move smoothly along X and Y axes
+            Position.X = MoveAxis(Position.X, Position.Y, speedX, true);
+            Position.Y = MoveAxis(Position.X, Position.Y, speedY, false);
+
+            // Store the current speed for reference
+            _fltSpeed.X = speedX;
+            _fltSpeed.Y = speedY;
+
+            // Handle attacking the player or obstacle
+            HandleAttackOrShoot();
         }
 
         /// <summary>
-        /// Damage an obstacle
+        /// Handles damage and shooting logic after movement
         /// </summary>
-        /// <param name="obstacle">The obstacle</param>
-        public void DamageObstacle(Obstacle obstacle)
+        private void HandleAttackOrShoot()
         {
-            obstacle.Health -= 1;
-        }
-
-
-        public override void Render(BufferedGraphics drawingSpace)
-        {
-            if (Lives > 0)
+            if (!_blnShoots)
             {
-                switch (_strType)
+                if (LastDamageTimer < DamageCooldown) return;
+
+                bool blnPlayerCollision = CheckPlayerCollision();
+                Obstacle? obstacleHit = GetCollidingObstacle();
+
+                if (blnPlayerCollision || (obstacleHit != null && !obstacleHit.Invincible))
                 {
-                    case "skeleton":
-                        drawingSpace.Graphics.DrawImage(Resources.EnemySkeleton, FloatX, FloatY, length, height);
+                    if (blnPlayerCollision)
+                        Damage((CFrame)_Target);
+                    else if (obstacleHit != null && !obstacleHit.Invincible)
+                        Damage((CFrame)obstacleHit);
 
-                        break;
-                    case "babyzombie":
-                    case "zombie":
-                        drawingSpace.Graphics.DrawImage(Resources.EnemyZombie, FloatX, FloatY, length, height);
-
-                        break;
-                    case "blaze":
-                        drawingSpace.Graphics.DrawImage(Resources.EnemyBlaze, FloatX, FloatY, length, height);
-
-                        break;
-                    case "zombiepigman":
-                        drawingSpace.Graphics.DrawImage(Resources.EnemyZombiePigman, FloatX, FloatY, length, height);
-
-                        break;
-                    default:
-                        break;
+                    LastDamageTimer = 0;
                 }
+            }
+            else
+            {
+                if (LastDamageTimer < DamageCooldown)
+                    return;
 
-                // Get the text's size
-                SizeF textSize = drawingSpace.Graphics.MeasureString($"{this}", TextHelpers.drawFont);
+                if (_Target.Lives <= 0)
+                    return;
 
-                // Calculate the X coordinate to center the text
-                float centeredX = FloatX + (length / 2f) - (textSize.Width / 2f);
+                Projectile? proj = Shoot();
+                if (proj != null)
+                {
+                    ShootMeUp.Projectiles.Add(proj);
 
-                // Center the text above the obstacle
-                drawingSpace.Graphics.DrawString($"{this}", TextHelpers.drawFont, TextHelpers.writingBrush, centeredX, FloatY - 16);
+                    LastDamageTimer = 0;
+                }
             }
         }
 
+        /// <summary>
+        /// Shoot a projectile
+        /// </summary>
+        public Projectile? Shoot()
+        {
+            // Shoot an arrow from the player's position to the cursor's position if they are alive
+            if (Lives > 0)
+            {
+                float fltTargetX = _Target.Position.X + _Target.Size.Width/2;
+                float fltTargetY = _Target.Position.Y + _Target.Size.Height/2;
+
+                // Slow the projectile down by dividing its GameSettings.Current.GameSpeedValue reference by 2
+                int intFakeGameSpeed = GameSettings.Current.GameSpeedValue/2;
+
+                // Fire a new projectile if possible
+                return new(_ProjectileType, this, fltTargetX, fltTargetY, intFakeGameSpeed);
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Damage the given CFrame if it's a character or an obstacle
+        /// </summary>
+        /// <param name="singularCFrame">The given CFrame</param>
+        public void Damage(CFrame singularCFrame)
+        {
+            // Get the enemy's damage
+            int intDamage = 1;
+            switch (CharType)
+            {
+                case Type.WitherSkeleton:
+                    intDamage = 3;
+                    break;
+            }
+
+            if (singularCFrame is Character player)
+            {
+                player.Lives -= intDamage;
+            }
+            else if (singularCFrame is Obstacle obstacle)
+            {
+                obstacle.Health -= intDamage;
+
+            }
+        }
     }
 }
